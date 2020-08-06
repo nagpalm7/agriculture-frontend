@@ -1,4 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Setup Instructions
+
+### Clone and change directory
+#### `git clone https://github.com/nagpalm7/agriculture-frontend.git && cd agriculture-frontend`
+
+### Install Libraries using yarn or npm (preferred yarn)
+
+#### `yarn install` or `npm install`
+
+## Run project
+
+#### `yarn start` or `npm start`
+
+<br/>
+
+------------------------------------------------------------------------------------------
 
 ## Available Scripts
 
