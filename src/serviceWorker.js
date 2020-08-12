@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-/*const isLocalhost = Boolean(
+const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
     window.location.hostname === '[::1]' ||
@@ -18,9 +18,9 @@
     window.location.hostname.match(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
     ),
-);*/
+);
 
-/*export function register(config) {
+export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -31,7 +31,7 @@
       return;
     }
 
-     window.addEventListener('load', () => {
+    window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
@@ -52,9 +52,9 @@
       }
     });
   }
-}*/
+}
 
-/*function registerValidSW(swUrl, config) {
+function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -96,9 +96,9 @@
     .catch((error) => {
       console.error('Error during service worker registration:', error);
     });
-}*/
+}
 
-/*function checkValidServiceWorker(swUrl, config) {
+function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' },
@@ -126,9 +126,9 @@
         'No internet connection found. App is running in offline mode.',
       );
     });
-}*/
+}
 
-/*export function unregister() {
+export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready
       .then((registration) => {
@@ -138,4 +138,4 @@
         console.error(error.message);
       });
   }
-}*/
+}
