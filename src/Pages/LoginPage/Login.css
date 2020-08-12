@@ -1,0 +1,143 @@
+.image {
+  width: 35vw;
+  height: 100vh;
+  background-color: #f5f3ff;
+  padding: 20%;
+  text-align: center;
+  justify-content: center;
+  transform: scaleX(-1);
+}
+.heading {
+  color: #000000;
+  font-weight: 600;
+  font-size: 40px;
+}
+.ant-form {
+  margin-left: 41%;
+  margin-top: 31%;
+  margin-right: 1%;
+}
+.align {
+  text-align: left;
+}
+.ant-btn-primary {
+  background-color: #8555da;
+  border-color: #8555da;
+  color: #ffffff;
+  width: 11vw;
+  margin: -1px;
+  border-radius: 5px;
+}
+.container input:checked ~ .ant-checkbox-input {
+  background-color: #8555da;
+}
+.ant-input {
+  width: 41%;
+  border-radius: 7px;
+  border-color: #707070;
+}
+input[type='text'] {
+  color: #000000;
+}
+.ant-input:hover {
+  background-color: #f6f6f6;
+  border-color: #707070;
+}
+.ant-input:focus {
+  background-color: #f6f6f6;
+  border-color: #707070;
+}
+.ant-form-item-label > label {
+  font-weight: 600;
+  font-size: 18px;
+  background-color: #f6f6f6;
+}
+a {
+  color: #8555da;
+  line-height: 3.5em;
+}
+.ant-form-item {
+  margin-bottom: 1px;
+}
+h1 {
+  font-size: 25px;
+  color: #000000;
+  font-weight: 950;
+}
+h2 {
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+  margin-bottom: 0em;
+}
+h5 {
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 1px;
+  margin-top: 4px;
+  line-height: 23px;
+}
+.ant-form label {
+  font-size: 12px;
+  color: #000000;
+  font-weight: 500;
+}
+#components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+#components-form-demo-normal-login .login-form-forgot {
+  float: right;
+}
+#components-form-demo-normal-login .ant-col-rtl .login-form-forgot {
+  float: left;
+}
+#components-form-demo-normal-login .login-form-button {
+  width: 100%;
+}
+.top-left {
+  position: absolute;
+  top: 22px;
+  left: 115px;
+  text-align: center;
+}
+.ant-checkbox + span {
+  padding-right: 8px;
+  padding-left: 3px;
+}
+@media screen and (min-device-width: 320px) and (max-device-width: 640px) {
+  .ant-form {
+    margin-top: 164%;
+    margin-left: -33%;
+    width: 186vw;
+  }
+  .image {
+    width: 100vw;
+    padding: 76%;
+    height: 148vh;
+    overflow: hidden;
+    margin-top: -349px;
+  }
+  .top-left {
+    left: 28px;
+    width: 85vw;
+    top: 12px;
+  }
+  .ant-btn-primary {
+    width: 45vw;
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+  .h2 {
+    font-size: 27px;
+    margin-bottom: -1%;
+  }
+  .size {
+    font-size: 26px;
+    margin-bottom: -1%;
+  }
+}
+@media screen and (min-device-width: 641px) and (-webkit-min-device-pixel-ratio: 2) {
+  .h1 {
+    text-align: center;
+  }
+}
