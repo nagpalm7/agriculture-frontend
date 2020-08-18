@@ -10,6 +10,7 @@
     "antd": "^4.5.2",
     "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
+    "bootstrap": "^4.5.2",
     "craco-less": "^1.17.0",
     "customize-cra": "^1.0.0",
     "less": "^3.12.2",
@@ -19,7 +20,8 @@
     "react-dom": "^16.13.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "reactstrap": "^8.5.1"
   },
   "scripts": {
     "start": "craco start",
