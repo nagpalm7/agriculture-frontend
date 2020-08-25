@@ -13,12 +13,16 @@ const onFinishFailed = (errorInfo) => {
 };
 
 class Login extends Component {
+  token;
+  documentData;
   constructor(props) {
     super(props);
 
     this.state = {
       email: '',
       password: '',
+      loadings: false,
+      checked: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,18 +34,53 @@ class Login extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleSubmit(event) {
-    const { email, password } = this.state;
+  onCheckboxChange = (e) => {
+    console.log('checked = ', e.target.checked);
+    this.setState({
+      checked: e.target.checked,
+    });
+  };
 
+  /* valid() {
+    if (!this.state.email.length = 0 && this.state.password = 0) {
+      this.setState(
+        { emailError: invalid email, passwordError: incorrect password }
+      )
+    }
+    if (!this.state.email.length = 0) {
+      this.setState(
+        { emailError: invalid email}
+      )
+    }
+    if (!this.state.password = 0) {
+      this.setState(
+        { passwordError: incorrect password }
+      )
+    }
+    else {
+      return true;
+    }
+  }*/
+
+  handleSubmit(event) {
+    this.enterLoading();
+    const { email, password } = this.state;
     axios
       .post('http://18.224.202.135:8000/rest-auth/login/', {
         email: email,
         password: password,
       })
+
       .then((response) => {
         console.log(response);
-        console.log(response.status);
-
+        this.token = response.data.key;
+        localStorage.setItem('Token', this.token);
+        if (this.state.checked == true) {
+          console.log('authorised user');
+          this.props.history.push('/Dashboard');
+        } else {
+          this.props.history.push('/');
+        }
         if (response.status == 200) {
           console.log(this.props.history);
           this.props.history.push('/Dashboard');
@@ -55,8 +94,31 @@ class Login extends Component {
 
     event.preventDefault();
   }
+  componentDidMount() {
+    this.documentData = JSON.parse(localStorage.getItem('document'));
+
+    if (localStorage.getItem('document')) {
+      this.setState({
+        email: this.documentData.email,
+        password: this.documentData.password,
+      });
+    } else {
+      this.setState({
+        email: '',
+        password: '',
+      });
+    }
+  }
+
+  enterLoading = () => {
+    this.setState({ ...this.state, loadings: true });
+    setTimeout(() => {
+      this.setState({ ...this.state, loadings: false });
+    }, 6000);
+  };
 
   render() {
+    const { loadings } = this.state;
     return (
       <div>
         <Row>
@@ -70,7 +132,7 @@ class Login extends Component {
           </Col>
           <Col span={16}>
             <Form
-              name="normal_login"
+              name="dynamic_rule"
               className="login-form"
               initialValues={{
                 remember: true,
@@ -78,6 +140,7 @@ class Login extends Component {
               onFinish={onFinish}>
               <Form.Item
                 name="email"
+                label="Name"
                 rules={[
                   {
                     required: true,
@@ -108,14 +171,21 @@ class Login extends Component {
                 />
               </Form.Item>
               <Form.Item name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox
+                  name="checkbox"
+                  checked={this.state.checked}
+                  onChange={this.onCheckboxChange}>
+                  Remember me
+                </Checkbox>
               </Form.Item>
               <Form.Item>
                 <Form.Item>
                   <Button
                     type="primary"
-                    htmlType="submit"
-                    onClick={this.handleSubmit}>
+                    size="small"
+                    loading={loadings}
+                    onClick={this.handleSubmit}
+                    htmlType="submit">
                     Login
                   </Button>
                 </Form.Item>
