@@ -89,7 +89,7 @@ class Login extends Component {
     this.setState({ ...this.state, loadings: true });
     setTimeout(() => {
       this.setState({ ...this.state, loadings: false });
-    }, 1000);
+    }, 2000);
   };
 
   onFinish = (values) => {
