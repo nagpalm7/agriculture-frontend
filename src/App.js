@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from './Pages/LoginPage/Login';
 import Dashboard from './Pages/LoginPage/Dashboard';
+import Error from './Pages/LoginPage/Error';
 //import isAuthenticated from './Pages/LoginPage/auth';
 
 export default function App() {
@@ -10,6 +11,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route component={Error} />
       </Switch>
     </BrowserRouter>
   );

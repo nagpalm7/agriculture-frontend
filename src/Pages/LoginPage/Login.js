@@ -5,11 +5,7 @@ import loginImage from './loginImage.svg';
 import './Login.css';
 
 const onFinish = (values) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
+  console.log('Received values of form: ', values);
 };
 
 class Login extends Component {
@@ -40,27 +36,6 @@ class Login extends Component {
       checked: e.target.checked,
     });
   };
-
-  /* valid() {
-    if (!this.state.email.length = 0 && this.state.password = 0) {
-      this.setState(
-        { emailError: invalid email, passwordError: incorrect password }
-      )
-    }
-    if (!this.state.email.length = 0) {
-      this.setState(
-        { emailError: invalid email}
-      )
-    }
-    if (!this.state.password = 0) {
-      this.setState(
-        { passwordError: incorrect password }
-      )
-    }
-    else {
-      return true;
-    }
-  }*/
 
   handleSubmit(event) {
     this.enterLoading();
@@ -117,8 +92,17 @@ class Login extends Component {
     }, 6000);
   };
 
+  onFinish = (values) => {
+    console.log('Success:', values);
+  };
+
+  onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   render() {
     const { loadings } = this.state;
+
     return (
       <div>
         <Row>
@@ -139,20 +123,14 @@ class Login extends Component {
               }}
               onFinish={onFinish}>
               <Form.Item
-                name="email"
+                name="username"
                 rules={[
                   {
                     required: true,
                     message: 'Please input your Username!',
                   },
                 ]}>
-                <h2 className="size">LogIn</h2>
-                <h5>User ID</h5>
-                <Input
-                  type="text"
-                  onChange={(event) => this.handleChange(event)}
-                  name="email"
-                />
+                <Input placeholder="Username" />
               </Form.Item>
               <Form.Item
                 name="password"
@@ -162,34 +140,23 @@ class Login extends Component {
                     message: 'Please input your Password!',
                   },
                 ]}>
-                <h5>Password</h5>
-                <Input
-                  type="password"
-                  onChange={(event) => this.handleChange(event)}
-                  name="password"
-                />
+                <Input type="password" placeholder="Password" />
               </Form.Item>
-              <Form.Item name="remember" valuePropName="checked">
-                <Checkbox
-                  name="checkbox"
-                  checked={this.state.checked}
-                  onChange={this.onCheckboxChange}>
-                  Remember me
-                </Checkbox>
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>Remember me</Checkbox>
               </Form.Item>
               <Form.Item>
                 <Form.Item>
                   <Button
                     type="primary"
-                    size="small"
-                    loading={loadings}
-                    onClick={this.handleSubmit}
-                    htmlType="submit">
-                    Login
+                    htmlType="submit"
+                    className="login-form-button"
+                    onClick={this.handleSubmit}>
+                    Log in
                   </Button>
                 </Form.Item>
                 <a className="login-form-forgot" href="">
-                  Forgot password?
+                  Forgot Password?
                 </a>
               </Form.Item>
             </Form>
