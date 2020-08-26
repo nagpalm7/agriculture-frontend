@@ -89,7 +89,7 @@ class Login extends Component {
     this.setState({ ...this.state, loadings: true });
     setTimeout(() => {
       this.setState({ ...this.state, loadings: false });
-    }, 6000);
+    }, 1000);
   };
 
   onFinish = (values) => {
@@ -150,6 +150,7 @@ class Login extends Component {
                   <Button
                     type="primary"
                     htmlType="submit"
+                    loading={loadings}
                     className="login-form-button"
                     onClick={this.handleSubmit}>
                     Log in
