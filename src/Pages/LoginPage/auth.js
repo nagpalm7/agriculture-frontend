@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 
 const isAuthenticated = () => {
   if (
@@ -11,4 +11,4 @@ const isAuthenticated = () => {
   }
 };
 
-export default isAuthenticated;
+export default isAuthenticated;*/

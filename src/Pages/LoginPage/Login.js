@@ -74,8 +74,8 @@ class Login extends Component {
       .then((response) => {
         console.log(response);
         this.token = response.data.key;
-        localStorage.setItem('Token', this.token);
         if (this.state.checked == true) {
+          localStorage.setItem('Token', this.token);
           console.log('authorised user');
           this.props.history.push('/Dashboard');
         } else {
@@ -132,7 +132,7 @@ class Login extends Component {
           </Col>
           <Col span={16}>
             <Form
-              name="dynamic_rule"
+              name="normal_login"
               className="login-form"
               initialValues={{
                 remember: true,
@@ -140,7 +140,6 @@ class Login extends Component {
               onFinish={onFinish}>
               <Form.Item
                 name="email"
-                label="Name"
                 rules={[
                   {
                     required: true,
