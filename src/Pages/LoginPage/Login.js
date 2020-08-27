@@ -41,7 +41,7 @@ class Login extends Component {
     this.enterLoading();
     const { email, password } = this.state;
     axios
-      .post('http://18.224.202.135:8000/rest-auth/login/', {
+      .post('http://3.22.182.90:8000/rest-auth/login/', {
         email: email,
         password: password,
       })
@@ -49,6 +49,7 @@ class Login extends Component {
       .then((response) => {
         console.log(response);
         this.token = response.data.key;
+        this.setState({ ...this.state, loadings: false });
         if (this.state.checked == true) {
           localStorage.setItem('Token', this.token);
           console.log('authorised user');
@@ -87,9 +88,6 @@ class Login extends Component {
 
   enterLoading = () => {
     this.setState({ ...this.state, loadings: true });
-    setTimeout(() => {
-      this.setState({ ...this.state, loadings: false });
-    }, 2000);
   };
 
   onFinish = (values) => {
@@ -122,6 +120,8 @@ class Login extends Component {
                 remember: true,
               }}
               onFinish={onFinish}>
+              <h2>Log In</h2>
+              <h5>Username</h5>
               <Form.Item
                 name="username"
                 rules={[
@@ -132,6 +132,7 @@ class Login extends Component {
                 ]}>
                 <Input placeholder="Username" />
               </Form.Item>
+              <h5>Password</h5>
               <Form.Item
                 name="password"
                 rules={[
@@ -142,8 +143,12 @@ class Login extends Component {
                 ]}>
                 <Input type="password" placeholder="Password" />
               </Form.Item>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
+              <Form.Item name="remember" valuePropName="unchecked" noStyle>
+                <Checkbox
+                  checked={this.state.checked}
+                  onChange={this.onCheckboxChange}>
+                  Remember me
+                </Checkbox>
               </Form.Item>
               <Form.Item>
                 <Form.Item>

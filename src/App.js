@@ -10,6 +10,11 @@ export default function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Login} />
+        {/*isAuthenticated() ? (
+          <Route exact path="/dashboard" component={Dashboard} />
+        ) : (
+          <Redirect to="/" />
+        )*/}
         <Route path="/dashboard" component={Dashboard} />
         <Route component={Error} />
       </Switch>
