@@ -6,10 +6,11 @@ import { Button } from 'antd';
 class Dashboard extends Component {
   render() {
     const logoutUser = () => {
-      localStorage.removeItem('token');
+      localStorage.removeItem('Token');
+      sessionStorage.removeItem('Token');
       this.props.history.push('/');
     };
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('Token') || sessionStorage.getItem('Token')) {
       return (
         <>
           <h1>Dashboard</h1>
