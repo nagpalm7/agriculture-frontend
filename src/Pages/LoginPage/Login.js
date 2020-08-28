@@ -41,7 +41,7 @@ class Login extends Component {
     this.enterLoading();
     const { email, password } = this.state;
     axios
-      .post('http://3.22.182.90:8000/rest-auth/login/', {
+      .post('http://api.aflmonitoring.com/rest-auth/login/', {
         email: email,
         password: password,
       })
@@ -100,7 +100,7 @@ class Login extends Component {
 
   render() {
     const { loadings } = this.state;
-
+    console.log(this.state);
     return (
       <div>
         <Row>
@@ -124,6 +124,7 @@ class Login extends Component {
               <h5>Username</h5>
               <Form.Item
                 name="username"
+                onChange={this.handleChange}
                 rules={[
                   {
                     required: true,
@@ -135,6 +136,7 @@ class Login extends Component {
               <h5>Password</h5>
               <Form.Item
                 name="password"
+                onChange={this.handleChange}
                 rules={[
                   {
                     required: true,

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './Dashboard.css';
 import { Button } from 'antd';
 
@@ -8,14 +9,18 @@ class Dashboard extends Component {
       localStorage.removeItem('token');
       this.props.history.push('/');
     };
-    return (
-      <>
-        <h1>Dashboard</h1>
-        <Button htmlType="submit" onClick={logoutUser}>
-          log out
-        </Button>
-      </>
-    );
+    if (localStorage.getItem('token')) {
+      return (
+        <>
+          <h1>Dashboard</h1>
+          <Button htmlType="submit" onClick={logoutUser}>
+            log out
+          </Button>
+        </>
+      );
+    } else {
+      return <Redirect to="/" />;
+    }
   }
 }
 
