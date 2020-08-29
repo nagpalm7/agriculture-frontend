@@ -21,15 +21,15 @@
   text-align: left;
 }
 .ant-btn-primary {
-  background-color: #8555da;
-  border-color: #8555da;
+  background-color: #3d0098;
+  border-color: #3d0098;
   color: #ffffff;
   width: 11vw;
   margin: -1px;
   border-radius: 5px;
 }
 .container input:checked ~ .ant-checkbox-input {
-  background-color: #8555da;
+  background-color: #3d0098;
 }
 .ant-input {
   width: 41%;
@@ -53,7 +53,7 @@ input[type='text'] {
   background-color: #f6f6f6;
 }
 a {
-  color: #8555da;
+  color: #3d0098;
   line-height: 3.5em;
 }
 .ant-form-item {
@@ -218,7 +218,7 @@ h5 {
   }
   .ant-form {
     margin-left: 33%;
-    margin-top: 58%;
+    margin-top: 20%;
     margin-right: 11%;
   }
   .top-left {
