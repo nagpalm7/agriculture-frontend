@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
-import loginImage from './loginImage.svg';
+import loginImage from '../../assets/images/loginImage.svg';
 import './Login.css';
 import { Redirect } from 'react-router-dom';
 
