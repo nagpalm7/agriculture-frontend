@@ -1,13 +1,71 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from './Pages/LoginPage/Login';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import Login from './Pages/Login/Login';
+import AdminDashboard from './Layouts/AdminDashboard/AdminDashboard';
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={Login} />
-      </Switch>
-    </BrowserRouter>
-  );
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+    };
+  }
+
+  componentDidMount() {
+    let isLoggedIn =
+      localStorage.getItem('Token') || sessionStorage.getItem('Token');
+    this.setState({
+      isLoggedIn: isLoggedIn,
+    });
+  }
+
+  toggleIsLoggedIn = () => {
+    const { isLoggedIn } = this.state;
+    this.setState({
+      isLoggedIn: !isLoggedIn,
+    });
+  };
+
+  logout = () => {
+    delete localStorage.Token;
+    delete sessionStorage.Token;
+    this.toggleIsLoggedIn();
+  };
+
+  render() {
+    const { isLoggedIn } = this.state;
+
+    if (isLoggedIn) {
+      return (
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path="/"
+              render={(props) => (
+                <AdminDashboard history={props.history} logout={this.logout} />
+              )}
+            />
+          </Switch>
+        </BrowserRouter>
+      );
+    } else {
+      return (
+        <BrowserRouter>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <Login
+                  history={props.history}
+                  toggleIsLoggedIn={this.toggleIsLoggedIn}
+                />
+              )}
+            />
+            <Redirect from="/" to="/" />
+          </Switch>
+        </BrowserRouter>
+      );
+    }
+  }
 }
