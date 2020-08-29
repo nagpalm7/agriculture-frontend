@@ -85,7 +85,7 @@ class Login extends Component {
       return (
         <div>
           <Row>
-            <Col span={8}>
+            <Col xs={2} sm={4} md={6} lg={8} xl={10}>
               <div>
                 <img src={loginImage} alt="login page" className="image" />
                 <div className="top-left">
@@ -93,7 +93,7 @@ class Login extends Component {
                 </div>
               </div>
             </Col>
-            <Col span={16}>
+            <Col xs={22} sm={20} md={18} lg={16} xl={14}>
               <Form
                 onValuesChange={this.handleChange}
                 name="normal_login"

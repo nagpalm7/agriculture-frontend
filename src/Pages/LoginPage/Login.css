@@ -104,7 +104,7 @@ h5 {
   padding-right: 8px;
   padding-left: 3px;
 }
-@media screen and (min-device-width: 320px) and (max-device-width: 370px) {
+/*@media screen and (min-device-width: 320px) and (max-device-width: 370px) {
   .ant-form {
     margin-top: 134%;
     margin-left: -33%;
@@ -136,8 +136,8 @@ h5 {
     font-size: 26px;
     margin-bottom: -1%;
   }
-}
-@media screen and (min-device-width: 371px) and (max-device-width: 640px) {
+}*/
+@media screen and (min-device-width: 320px) and (max-device-width: 640px) {
   .ant-form {
     margin-top: 164%;
     margin-left: -33%;
@@ -169,7 +169,7 @@ h5 {
     margin-bottom: -1%;
   }
 }
-@media screen and (min-device-width: 765px) and (max-device-width: 1020px) {
+/*@media screen and (min-device-width: 765px) and (max-device-width: 1020px) {
   .image {
     width: 35vw;
     height: 100vh;
@@ -231,4 +231,4 @@ h5 {
     border-radius: 7px;
     border-color: #707070;
   }
-}
+}*/
