@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Home from '../../Pages/Home/Home';
-import District from '../../Pages/District/District';
-import Villages from '../../Pages/Villages/Villages';
-import DDA from '../../Pages/DDA/DDA';
-import ADO from '../../Pages/ADO/ADO';
-import Locations from '../../Pages/Locations/Locations';
-import { Layout, Menu, Dropdown, Button, PageHeader, Row, Col } from 'antd';
+import { Layout, Menu, Button, PageHeader, Dropdown } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  HomeFilled,
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
   DownOutlined,
 } from '@ant-design/icons';
 import './AdminDashboard.css';
+import dashboard_routes from '../../routes/dashboard_routes';
+import { BrowserRouter, Link } from 'react-router-dom';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { SubMenu } = Menu;
+const { Header, Sider, Content, Footer } = Layout;
 
 const menu = (
   <Menu>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="">
+      <a target="_blank" href="">
         Pending
       </a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="">
+      <a target="_blank" href="">
         Ongoing
       </a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="">
+      <a target="_blank" href="">
         Completed
       </a>
     </Menu.Item>
@@ -46,128 +47,98 @@ class AdminDashboard extends Component {
       collapsed: !this.state.collapsed,
     });
   };
+
   render() {
     return (
-      <div>
-        <Col>
-          <Row span={24}>
-            <Layout>
-              <Sider
-                trigger={null}
-                collapsible
-                collapsed={this.state.collapsed}>
-                <div className="logo" />
+      <BrowserRouter>
+        <Layout>
+          <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+            <div className="logo">
+              {this.state.collapsed ? 'AFL' : 'AFL Monitoring'}
+            </div>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+              <Menu.Item key="1" icon={<HomeFilled />}>
+                <Link to="/">Home</Link>
+              </Menu.Item>
+              <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+                <Link to="/district"> District</Link>
+              </Menu.Item>
+              <Menu.Item key="3" icon={<UploadOutlined />}>
+                <Link to="/villages">Villages</Link>
+              </Menu.Item>
+              <Menu.Item key="4" icon={<UserOutlined />}>
+                <Link to="/dda">DDA</Link>
+              </Menu.Item>
+              <Menu.Item key="5" icon={<UserOutlined />}>
+                <Link to="/ado">ADO</Link>
+              </Menu.Item>
+              <Menu.Item key="6" icon={<UserOutlined />}>
+                <Link to="/locations">
+                  {' '}
+                  Locations
+                  <Dropdown overlay={menu}>
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={(e) => e.preventDefault()}>
+                      <DownOutlined />
+                    </a>
+                  </Dropdown>
+                </Link>
+              </Menu.Item>
+            </Menu>
+          </Sider>
+          <Layout className="site-layout">
+            <Header className="site-layout-background" style={{ padding: 0 }}>
+              <PageHeader
+                ghost={false}
+                title=""
+                subTitle=""
+                extra={[
+                  <>
+                    <Button shape="round">Analysis</Button>
+                    <Button
+                      shape="round"
+                      htmlType="submit"
+                      onClick={() => this.props.logout()}>
+                      Logout
+                    </Button>
+                  </>,
+                ]}
+              />
+              {React.createElement(
+                this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                  className: 'trigger',
+                  onClick: this.toggle,
+                },
+              )}
+            </Header>
 
-                <br />
-                <br />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                  <h1 className="heading">AFL Monitoring</h1>
-                  <Menu.Item key="1">Home</Menu.Item>
-                  <Menu.Item key="2">District</Menu.Item>
-                  <Menu.Item key="3">Villages</Menu.Item>
-                  <Menu.Item key="4">DDA</Menu.Item>
-                  <Menu.Item key="5">ADO</Menu.Item>
-                  <Menu.Item key="6">
-                    <Dropdown overlay={menu}>
-                      <a
-                        className="ant-dropdown-link"
-                        onClick={(e) => e.preventDefault()}>
-                        Locations <DownOutlined />
-                      </a>
-                    </Dropdown>
-                  </Menu.Item>
-                </Menu>
-              </Sider>
-              <Layout>
-                <>
-                  <Header
-                    className="site-layout-background"
-                    style={{ padding: 0 }}>
-                    <PageHeader
-                      ghost={false}
-                      title=""
-                      subTitle=""
-                      extra={[
-                        <>
-                          <Button shape="round">Analysis</Button>
-                          <Button
-                            shape="round"
-                            htmlType="submit"
-                            onClick={() => this.props.logout()}>
-                            Logout
-                          </Button>
-                        </>,
-                      ]}
+            <Content
+              className="site-layout-background"
+              style={{
+                margin: '24px 16px',
+                padding: 24,
+                minHeight: 280,
+              }}>
+              <div style={{ flex: 1, padding: '10px' }}>
+                <Switch>
+                  {dashboard_routes.map((route, index) => (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      children={<route.component />}
                     />
-                    {React.createElement(
-                      this.state.collapsed
-                        ? MenuUnfoldOutlined
-                        : MenuFoldOutlined,
-                      {
-                        className: 'trigger',
-                        onClick: this.toggle,
-                      },
-                    )}
-                  </Header>
-                  <Content
-                    className="site-layout-background"
-                    style={{
-                      margin: '24px 16px',
-                      padding: 24,
-                      minHeight: 280,
-                    }}>
-                    <Switch>
-                      <Route
-                        path="/home"
-                        render={(props) => (
-                          <Home {...props} logout={this.props.logout} />
-                        )}
-                      />
-                      <Route
-                        path="/district"
-                        render={(props) => (
-                          <District {...props} logout={this.props.logout} />
-                        )}
-                      />
-                      <Route
-                        path="/villages"
-                        render={(props) => (
-                          <Villages {...props} logout={this.props.logout} />
-                        )}
-                      />
-                      <Route
-                        path="/dda"
-                        render={(props) => (
-                          <DDA {...props} logout={this.props.logout} />
-                        )}
-                      />
-                      <Route
-                        path="ado"
-                        render={(props) => (
-                          <ADO {...props} logout={this.props.logout} />
-                        )}
-                      />
-                      <Route
-                        path="/locations"
-                        render={(props) => (
-                          <Locations {...props} logout={this.props.logout} />
-                        )}
-                      />
-                      <Route
-                        path="/xyz"
-                        render={(props) => <Home {...props} />}
-                        logout={this.props.logout}
-                      />
-                      <Redirect from="/" to="/home" />
-                    </Switch>
-                  </Content>
-                  <Footer>Footer</Footer>
-                </>
-              </Layout>
-            </Layout>
-          </Row>
-        </Col>
-      </div>
+                  ))}
+                </Switch>
+              </div>
+            </Content>
+
+            <Footer>footer</Footer>
+          </Layout>
+        </Layout>
+      </BrowserRouter>
     );
   }
 }

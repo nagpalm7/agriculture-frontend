@@ -1,18 +1,8 @@
-import React, { Component } from 'react';
-import { Button } from 'antd';
-import './Home.css';
+import React from 'react';
 
-class Home extends Component {
-  render() {
-    return (
-      <>
-        <h1>Home</h1>
-        <Button htmlType="submit" onClick={()=>this.props.logout()}>
-          log out
-        </Button>
-      </>
-    );
-  }
-}
+const Villages = (props) => {
+  console.log('props', props);
+  return <div>Home</div>;
+};
 
-export default Home;
+export default Villages;
