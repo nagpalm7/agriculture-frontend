@@ -9,6 +9,7 @@ import {
   VideoCameraOutlined,
   UploadOutlined,
   DownOutlined,
+  TeamOutlined,
 } from '@ant-design/icons';
 import './AdminDashboard.css';
 import dashboard_routes from '../../routes/dashboard_routes';
@@ -66,7 +67,7 @@ class AdminDashboard extends Component {
               <Menu.Item key="3" icon={<UploadOutlined />}>
                 <Link to="/villages">Villages</Link>
               </Menu.Item>
-              <Menu.Item key="4" icon={<UserOutlined />}>
+              <Menu.Item key="4" icon={<TeamOutlined />}>
                 <Link to="/dda">DDA</Link>
               </Menu.Item>
               <Menu.Item key="5" icon={<UserOutlined />}>
