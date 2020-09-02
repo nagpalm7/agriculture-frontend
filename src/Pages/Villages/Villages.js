@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Input, Table, Tag, Space } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { PageHeader, Button, Input, Table, Space } from 'antd';
+import edit from '../../assets/images/edit.svg';
+import garbage from '../../assets/images/garbage.svg';
+import './Villages.css';
 
 const { Search } = Input;
 
 const columns = [
   {
-    title: 'Villages',
+    title: 'VILLAGES',
     dataIndex: 'village',
     key: 'name',
   },
   {
-    title: 'Option',
+    title: 'OPTIONS',
     key: 'operation',
     render: (text, record) => (
-      <Space size="small">
+      <Space size="large">
         <a>
-          <EditOutlined />
+          <img src={edit} className="icons" />
         </a>
         <a>
-          <DeleteOutlined />
+          <img src={garbage} className="icons" />
         </a>
       </Space>
     ),
@@ -78,7 +80,7 @@ class Villages extends Component {
                 Add Bulk
               </Button>,
               <Search
-                placeholder="input search text"
+                placeholder="Search"
                 onSearch={(value) => console.log(value)}
                 style={{ width: 200 }}
               />,
