@@ -24,9 +24,9 @@ class Headers extends Component {
           subTitle=""
           extra={[
             <>
-              <Button shape="round">Analysis</Button>
+              <Button className="headerButton">Analysis</Button>
               <Button
-                shape="round"
+                className="headerButton"
                 htmlType="submit"
                 onClick={() => this.props.logout()}>
                 Logout
