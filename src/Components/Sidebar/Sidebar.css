@@ -29,3 +29,15 @@ a {
   left: -18px;
   top: 17px;
 }
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: white;
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected .inside{
+  color : black;
+}
+
+.ant-menu-dark .ant-menu-item-selected .anticon + span {
+  color: black;
+}
