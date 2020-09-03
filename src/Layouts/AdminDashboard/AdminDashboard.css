@@ -22,8 +22,6 @@
 
 .ant-layout-sider-children {
   height: 100vh;
-  width: 228px;
-  background-color: #3d0098;
 }
 
 .logo {
@@ -44,10 +42,10 @@
 }
 
 .headerButton {
-  border-radius: 10px;
+  border-radius: 14px;
   opacity: 1;
-  width: 116px;
-  height: 28px;
+  width: 107px;
+  height: 22px;
   text-align: center;
   justify-content: center;
   line-height: 3px;
@@ -65,7 +63,8 @@
   line-height: 3px;
 }
 
-.ant-btn:hover {
+.ant-btn:hover,
+.ant-btn:active {
   color: #ffffff;
   background: #3d0098;
   border-color: #3d0098;
@@ -73,7 +72,6 @@
 
 .ant-menu-dark.ant-menu-inline {
   border-right: 0;
-  background-color: #3d0098;
   color: #ffffff;
   text-align: left;
   margin-top: 80px;
@@ -85,6 +83,19 @@
 .ant-menu-dark.ant-menu-inline .ant-menu-item {
   width: 73%;
   margin-top: 24px;
-  margin-left: 24px;
+  margin-left: 9px;
   border-radius: 25px;
+}
+
+.ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
+  width: 80%;
+  margin-left: -10px;
+  margin-top: 34px;
+  border-radius: 25px;
+}
+.ant-menu.ant-menu-dark {
+  background: #3d0098;
+}
+.ant-menu-dark.ant-menu-vertical {
+  margin-top: 101px;
 }

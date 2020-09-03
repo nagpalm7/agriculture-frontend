@@ -1,0 +1,31 @@
+.sidebar {
+  width: 228px;
+  background: #3d0098;
+}
+.submenu {
+  margin-left: 18px;
+  border-radius: 25px;
+  text-align: center;
+  margin-top: -12px;
+  height: 200px;
+}
+.select {
+  margin-bottom: -26px;
+  margin-top: -13px;
+}
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #ffffff;
+  width: 88%;
+  border-radius: 24px;
+  text-align: center;
+  margin-left: 2px;
+  height: 42%;
+  margin-top: -12px;
+}
+a {
+  color: #000000;
+}
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  left: -18px;
+  top: 17px;
+}

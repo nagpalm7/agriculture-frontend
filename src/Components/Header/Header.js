@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import { Layout, Button, PageHeader } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import './Header.css';
 
 const { Header } = Layout;
 
 class Headers extends Component {
-  state = {
-    collapsed: false,
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (
@@ -35,10 +30,10 @@ class Headers extends Component {
           ]}
         />
         {React.createElement(
-          this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+          this.props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
           {
             className: 'trigger',
-            onClick: this.toggle,
+            onClick: this.props.toggle,
           },
         )}
       </Header>

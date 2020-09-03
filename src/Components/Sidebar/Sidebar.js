@@ -8,47 +8,46 @@ import {
   DownOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
+import './Sidebar.css';
 import dashboard_routes from '../../routes/dashboard_routes';
 import { Link } from 'react-router-dom';
 import '../../Layouts/AdminDashboard/AdminDashboard.css';
 
 const { Sider } = Layout;
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" href="">
-        Pending
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" href="">
-        Ongoing
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" href="">
-        Completed
-      </a>
-    </Menu.Item>
-  </Menu>
-);
+const { SubMenu } = Menu;
 
 class Sidebar extends Component {
-  state = {
-    collapsed: false,
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <a target="_blank" href="">
+            Pending
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a target="_blank" href="">
+            Ongoing
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a target="_blank" href="">
+            Completed
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
     return (
-      <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={this.props.collapsed}
+        className="sidebar">
         <div className="logo">
-          {this.state.collapsed ? 'AFL' : 'AFL Monitoring'}
+          {this.props.collapsed ? 'AFL' : 'AFL Monitoring'}
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item key="1" icon={<HomeFilled />}>
@@ -66,19 +65,23 @@ class Sidebar extends Component {
           <Menu.Item key="5" icon={<UserOutlined />}>
             <Link to="/ado">ADO</Link>
           </Menu.Item>
-          <Menu.Item key="6" icon={<UserOutlined />}>
+          <SubMenu
+            key="sub1"
+            icon={<UserOutlined />}
+            title="Locations"
+            className="submenu">
             <Link to="/locations">
-              {' '}
-              Locations
-              <Dropdown overlay={menu}>
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => e.preventDefault()}>
-                  <DownOutlined />
-                </a>
-              </Dropdown>
+              <Menu.Item key="7" className="select">
+                Pending
+              </Menu.Item>
+              <Menu.Item key="8" className="select">
+                Ongoing
+              </Menu.Item>
+              <Menu.Item key="9" className="select">
+                Completed
+              </Menu.Item>
             </Link>
-          </Menu.Item>
+          </SubMenu>
         </Menu>
       </Sider>
     );

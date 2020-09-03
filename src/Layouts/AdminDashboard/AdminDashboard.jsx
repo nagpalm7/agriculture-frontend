@@ -33,18 +33,16 @@ class AdminDashboard extends Component {
 
   render() {
     return (
-      <div style={{ overflow: 'hidden' }}>
-        <BrowserRouter>
-          <Layout>
-            <Sidebar />
-            <Layout className="site-layout">
-              <Headers />
-              <Contents />
-              <Footer>footer</Footer>
-            </Layout>
+      <BrowserRouter>
+        <Layout>
+          <Sidebar collapsed={this.state.collapsed} toggle={this.toggle} />
+          <Layout className="site-layout">
+            <Headers collapsed={this.state.collapsed} toggle={this.toggle} />
+            <Contents />
+            <Footer style={{ textAlign: 'center' }}>Copyright ©2020</Footer>
           </Layout>
-        </BrowserRouter>
-      </div>
+        </Layout>
+      </BrowserRouter>
     );
   }
 }
