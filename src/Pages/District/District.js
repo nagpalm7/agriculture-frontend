@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Input, Table, Tag, Space } from 'antd';
+import { PageHeader, Button, Input, Table, Space } from 'antd';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import './District.css';
@@ -85,7 +85,12 @@ class District extends Component {
                 style={{ width: 200 }}
               />,
             ]}>
-            <Table columns={columns} dataSource={data} size="small" />
+            <Table
+              pagination={{ position: ['bottomCenter'] }}
+              columns={columns}
+              dataSource={data}
+              size="small"
+            />
           </PageHeader>
         </div>
       </>

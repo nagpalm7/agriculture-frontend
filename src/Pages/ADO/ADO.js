@@ -119,7 +119,12 @@ const ADO = () => {
               style={{ width: 200 }}
             />,
           ]}>
-          <Table columns={columns} dataSource={data} size="small" />
+          <Table
+            pagination={{ position: ['bottomCenter'] }}
+            columns={columns}
+            dataSource={data}
+            size="small"
+          />
         </PageHeader>
       </div>
     </>
