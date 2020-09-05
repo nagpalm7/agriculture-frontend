@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import dashboard_routes from '../../routes/dashboard_routes';
-import { Layout, Menu, Button, PageHeader, Dropdown } from 'antd';
+import { Layout } from 'antd';
 
 const { Content } = Layout;
 

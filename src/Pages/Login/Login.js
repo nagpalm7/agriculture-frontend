@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Form, Button, Input, Checkbox, Row, Col } from 'antd';
+import { Form, Button, Input, Checkbox } from 'antd';
 import './Login.css';
 
 class Login extends Component {
@@ -68,7 +68,15 @@ class Login extends Component {
     return (
       <div className="main-content">
         <div className="left-content">
-          <h1 style={{ textAlign: 'center' }}>AFL Monitoring</h1>
+          <h3
+            style={{
+              textAlign: 'center',
+              fontSize: '25px',
+              fontWeight: '950',
+              marginTop: '20px',
+            }}>
+            AFL Monitoring
+          </h3>
         </div>
         <div className="right-content">
           <Form
@@ -76,9 +84,9 @@ class Login extends Component {
             name="normal_login"
             className="login-form"
             onFinish={this.handleSubmit}>
-            <h1>
-              <b>Log In</b>
-            </h1>
+            <h2>
+              <b>LogIn</b>
+            </h2>
             <h5>
               <b>Username</b>
             </h5>
@@ -90,7 +98,7 @@ class Login extends Component {
                   message: 'Please input your username!',
                 },
               ]}
-              style={{ marginBottom: '16px' }}>
+              style={{ marginBottom: '10px' }}>
               <Input placeholder="Username" />
             </Form.Item>
             <h5>
@@ -104,17 +112,17 @@ class Login extends Component {
                   message: 'Please input your Password!',
                 },
               ]}
-              style={{ marginBottom: '8px' }}>
+              style={{ marginBottom: '0' }}>
               <Input type="password" placeholder="Password" />
             </Form.Item>
             <Form.Item
               valuePropName="unchecked"
-              style={{ marginBottom: '16px' }}>
+              style={{ marginBottom: '5px' }}>
               <Checkbox
                 name="checked"
                 checked={this.state.checked}
                 onChange={this.onCheckboxChange}>
-                Remember me
+                <span style={{ fontWeight: 500 }}>Remember me</span>
               </Checkbox>
             </Form.Item>
             <Form.Item>
@@ -124,7 +132,7 @@ class Login extends Component {
                   htmlType="submit"
                   loading={loadings}
                   style={{ width: '150px' }}>
-                  Log in
+                  Login
                 </Button>
               </Form.Item>
               <a

@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { Layout, Menu, Button, PageHeader, Dropdown } from 'antd';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  HomeFilled,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  DownOutlined,
-  TeamOutlined,
-} from '@ant-design/icons';
+import { Layout } from 'antd';
 import './AdminDashboard.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Headers from '../../Components/Header/Header';
 import Contents from '../../Components/Content/Content';
-import dashboard_routes from '../../routes/dashboard_routes';
 import { BrowserRouter } from 'react-router-dom';
 
 const { Footer } = Layout;
@@ -38,7 +26,7 @@ class AdminDashboard extends Component {
           <Layout>
             <Sidebar />
             <Layout className="site-layout">
-              <Headers />
+              <Headers logout={this.props.logout} />
               <Contents />
               <Footer>footer</Footer>
             </Layout>

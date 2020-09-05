@@ -8,7 +8,6 @@ import {
   DownOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import dashboard_routes from '../../routes/dashboard_routes';
 import { Link } from 'react-router-dom';
 import '../../Layouts/AdminDashboard/AdminDashboard.css';
 

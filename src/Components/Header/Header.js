@@ -16,6 +16,7 @@ class Headers extends Component {
   };
 
   render() {
+    console.log('header', this.props);
     return (
       <Header className="site-layout-background" style={{ padding: 0 }}>
         <PageHeader
