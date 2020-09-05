@@ -36,11 +36,11 @@ const columns = [
     key: 'option',
     render: (text, record) => (
       <Space size="large">
-        <a>
-          <img src={edit} className="icons" />
+        <a href="">
+          <img src={edit} alt="edit" className="icons" />
         </a>
-        <a>
-          <img src={garbage} className="icons" />
+        <a href="">
+          <img src={garbage} alt="delete" className="icons" />
         </a>
       </Space>
     ),

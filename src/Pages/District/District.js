@@ -1,94 +1,111 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Input, Table, Tag, Space } from 'antd';
-import edit from '../../assets/images/edit.svg';
-import garbage from '../../assets/images/garbage.svg';
+import { Modal } from 'antd';
 import './District.css';
+import axios from 'axios';
+import CustomTable from '../../Components/Table/Table';
 
-const { Search } = Input;
+const url = 'https://api.aflmonitoring.com/api/district/';
+
+const headers = {
+  Authorization: 'token 915470c056d9f86cb271b7392ce7eae1296d906f',
+};
 
 const columns = [
   {
     title: 'DISTRICTS',
     dataIndex: 'district',
-    key: 'name',
-  },
-  {
-    title: 'OPTIONS',
-    key: 'option',
-    render: (text, record) => (
-      <Space size="large">
-        <a>
-          <img src={edit} className="icons" />
-        </a>
-        <a>
-          <img src={garbage} className="icons" />
-        </a>
-      </Space>
-    ),
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    district: 'village name',
-  },
-  {
-    key: '2',
-    district: 'village name',
-  },
-  {
-    key: '3',
-    district: 'village name',
-  },
-  {
-    key: '4',
-    district: 'village name',
-  },
-  {
-    key: '5',
-    district: 'village name',
-  },
-  {
-    key: '6',
-    district: 'village name',
-  },
-  {
-    key: '7',
-    district: 'village name',
-  },
-  {
-    key: '8',
-    district: 'village name',
+    key: 'district',
   },
 ];
 
 class District extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      columns: [],
+      loadings: false,
+      key: null,
+    };
+  }
+
+  add_form_ref = React.createRef();
+
+  componentDidMount() {
+    this.fetch_data();
+  }
+
+  // Fetch list of Districts
+  fetch_data = () => {
+    this.setState({ loadings: true });
+    axios
+      .get(url, { headers: headers })
+      .then((response) => {
+        console.log(response);
+        this.setState({ ...this.state, loadings: false });
+        if (response.data.length) {
+          console.log('district');
+          let data = [];
+          response.data.map((item) => {
+            let data_object = {
+              key: item.id,
+              district: item.district,
+              state: item.state === null ? 'Not Defined' : item.state.state,
+            };
+            data.push(data_object);
+          });
+          this.setState({ loadings: false });
+          this.setState({ data: data });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  // Delete modal helper functions
+  show_confirm_delete = (id) => {
+    console.log(id);
+    const { confirm } = Modal;
+    confirm({
+      title: 'Do you Want to delete this?',
+      onOk: () => {
+        this.handle_delete(id);
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  // Delete request function
+  handle_delete(id) {
+    console.log(id);
+    axios
+      .delete(url + id)
+      .then((response) => {
+        this.fetch_data();
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
   render() {
+    const { data } = this.state;
+    const { loadings } = this.state;
+
     return (
-      <>
-        <div className="site-page-header-ghost-wrapper">
-          <PageHeader
-            ghost={false}
-            title="District"
-            subTitle=""
-            extra={[
-              <Button key="1" shape="round">
-                Add
-              </Button>,
-              <Button key="2" shape="round">
-                Add Bulk
-              </Button>,
-              <Search
-                placeholder="Search"
-                onSearch={(value) => console.log(value)}
-                style={{ width: 200 }}
-              />,
-            ]}>
-            <Table columns={columns} dataSource={data} size="small" />
-          </PageHeader>
-        </div>
-      </>
+      <div className="site-card-border-less-wrapper">
+        <CustomTable
+          dataSource={data}
+          columns={columns}
+          title="District"
+          show_add_modal={this.show_edit_modal}
+          show_confirm_delete={this.show_confirm_delete}
+          hide_edit={true}
+        />
+      </div>
     );
   }
 }

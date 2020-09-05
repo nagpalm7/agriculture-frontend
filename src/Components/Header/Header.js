@@ -6,10 +6,6 @@ import './Header.css';
 const { Header } = Layout;
 
 class Headers extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Header className="site-layout-background" style={{ padding: 0 }}>

@@ -1,0 +1,127 @@
+import React from 'react';
+import { Table, Button, Modal, Space, PageHeader, Input } from 'antd';
+import edit from '../../assets/images/edit.svg';
+import garbage from '../../assets/images/garbage.svg';
+import './Table.css';
+
+class CustomTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ModalText: 'You can upload a CSV file',
+      visible: false,
+      confirmLoading: false,
+    };
+  }
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = () => {
+    this.setState({
+      ModalText: 'You can upload a CSV file',
+      confirmLoading: true,
+    });
+    setTimeout(() => {
+      this.setState({
+        visible: false,
+        confirmLoading: false,
+      });
+    }, 2000);
+  };
+
+  handleCancel = () => {
+    console.log('Clicked cancel button');
+    this.setState({
+      visible: false,
+    });
+  };
+
+  render() {
+    const { visible, confirmLoading, ModalText } = this.state;
+    const { Search } = Input;
+    const { Column } = Table;
+    const {
+      title,
+      dataSource,
+      columns,
+      show_confirm_delete,
+      show_edit_modal,
+    } = this.props;
+    console.log(dataSource);
+
+    return (
+      <React.Fragment>
+        <div className="site-page-header-ghost-wrapper">
+          <PageHeader
+            ghost={false}
+            title={title}
+            subTitle=""
+            extra={[
+              <Button key="1" shape="round">
+                +1 Add
+              </Button>,
+              <Button key="2" shape="round" onClick={this.showModal}>
+                Add Bulk
+              </Button>,
+              <Modal
+                title=""
+                visible={visible}
+                onOk={this.handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={this.handleCancel}>
+                <p>{ModalText}</p>
+              </Modal>,
+              <Search
+                placeholder="Search"
+                onSearch={(value) => console.log(value)}
+                style={{ width: 200 }}
+              />,
+            ]}>
+            <Table columns={columns} dataSource={dataSource} size="small">
+              <>
+                {columns.map((record) => (
+                  <>
+                    <Column
+                      title={record.title}
+                      dataIndex={record.dataIndex}
+                      key={record.key}
+                    />
+
+                    <Column
+                      title="OPTIONS"
+                      key="options"
+                      render={(text, record) => (
+                        <>
+                          <Space size="large">
+                            {!this.props.hide_edit && (
+                              <Button onClick={() => show_edit_modal(record)}>
+                                <img src={edit} alt="edit" className="icons" />
+                              </Button>
+                            )}
+                            <Button
+                              onClick={() => show_confirm_delete(record.key)}>
+                              <img
+                                src={garbage}
+                                alt="delete"
+                                className="icons"
+                              />
+                            </Button>
+                          </Space>
+                        </>
+                      )}
+                    />
+                  </>
+                ))}
+              </>
+            </Table>
+          </PageHeader>
+        </div>
+      </React.Fragment>
+    );
+  }
+}
+
+export default CustomTable;

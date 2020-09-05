@@ -1,9 +1,13 @@
-import React from 'react';
-import { PageHeader, Table, Space, Button, Input } from 'antd';
-import edit from '../../assets/images/edit.svg';
-import garbage from '../../assets/images/garbage.svg';
+import React, { Component } from 'react';
+import { Modal } from 'antd';
+import axios from 'axios';
+import CustomTable from '../../Components/Table/Table';
 
-const { Search } = Input;
+const url = 'https://api.aflmonitoring.com/api/district/';
+
+const headers = {
+  Authorization: 'token 915470c056d9f86cb271b7392ce7eae1296d906f',
+};
 
 const columns = [
   {
@@ -26,93 +30,129 @@ const columns = [
     key: 'email',
     dataIndex: 'email',
   },
-  {
-    title: 'OPTIONS',
-    key: 'option',
-    render: (text, record) => (
-      <Space size="large">
-        <a>
-          <img src={edit} className="icons" />
-        </a>
-        <a>
-          <img src={garbage} className="icons" />
-        </a>
-      </Space>
-    ),
-  },
 ];
+class DDA extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      columns: [],
+      key: null,
+    };
+  }
 
-const data = [
-  {
-    key: '1',
-    dda: 'village name',
-    district: 'village name',
-    phone: 1111111111,
-    email: 'village name',
-  },
-  {
-    key: '2',
-    dda: 'village name',
-    district: 'village name',
-    phone: 1111111111,
-    email: 'village name',
-  },
-  {
-    key: '3',
-    dda: 'village name',
-    district: 'village name',
-    phone: 1111111111,
-    email: 'village name',
-  },
-  {
-    key: '4',
-    dda: 'village name',
-    district: 'village name',
-    phone: 1111111111,
-    email: 'village name',
-  },
-  {
-    key: '5',
-    dda: 'village name',
-    district: 'village name',
-    phone: 1111111111,
-    email: 'village name',
-  },
-  {
-    key: '6',
-    dda: 'village name',
-    district: 'village name',
-    phone: 1111111111,
-    email: 'village name',
-  },
-];
+  add_form_ref = React.createRef();
 
-const DDA = () => {
-  return (
-    <>
-      <div className="site-page-header-ghost-wrapper">
-        <PageHeader
-          ghost={false}
-          title="List of DDA"
-          subTitle=""
-          extra={[
-            <Button key="1" shape="round">
-              Add
-            </Button>,
-            <Button key="2" shape="round">
-              Add Bulk
-            </Button>,
-            <Search
-              placeholder="Search"
-              onSearch={(value) => console.log(value)}
-              style={{ width: 200 }}
-            />,
-          ]}>
-          <Table columns={columns} dataSource={data} size="small" />
-        </PageHeader>
+  componentDidMount() {
+    this.fetch_data();
+  }
+
+  // Fetch list of Districts
+  fetch_data = () => {
+    axios
+      .get(url, { headers: headers })
+      .then((response) => {
+        console.log(response);
+        if (response.data.length) {
+          console.log('district');
+          let data = [];
+          response.data.map((item) => {
+            let data_object = {
+              key: item.id,
+              district: item.district,
+              state: item.state === null ? 'Not Defined' : item.state.state,
+            };
+            data.push(data_object);
+          });
+          this.setState({ data: data });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  // Add modal helper functions
+  show_add_modal = () => {
+    this.setState({
+      add_visible: true,
+    });
+  };
+
+  hide_add_modal = () => {
+    this.add_form_ref.current.resetFields();
+    this.setState({
+      add_visible: false,
+    });
+  };
+
+  // Add form helper functions
+  submit_add_form = (event) => {
+    this.setState(
+      {
+        add_loading: true,
+      },
+      () => {
+        let data = {
+          name: event.name,
+          email: event.email,
+        };
+        axios
+          .post(url, data)
+          .then((response) => {
+            this.setState({ add_loading: false });
+            this.fetch_data();
+            this.hide_add_modal();
+          })
+          .catch((error) => {
+            this.setState({ add_loading: false });
+          });
+      },
+    );
+  };
+
+  // Delete modal helper functions
+  show_confirm_delete = (id) => {
+    const { confirm } = Modal;
+    confirm({
+      title: 'Do you Want to delete this interviewee?',
+
+      onOk: () => {
+        this.handle_delete(id);
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  // Delete request function
+  handle_delete(id) {
+    axios
+      .delete(url + id)
+      .then((response) => {
+        this.fetch_data();
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  }
+
+  render() {
+    const { data } = this.state;
+
+    return (
+      <div className="site-card-border-less-wrapper">
+        <CustomTable
+          dataSource={data}
+          columns={columns}
+          title="District"
+          show_add_modal={this.show_add_modal}
+          show_confirm_delete={this.show_confirm_delete}
+          hide_edit={true}
+        />
       </div>
-    </>
-  );
-};
+    );
+  }
+}
 
 export default DDA;
