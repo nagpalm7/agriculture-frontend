@@ -26,7 +26,7 @@ class AdminDashboard extends Component {
           <Layout>
             <Sidebar />
             <Layout className="site-layout">
-              <Headers />
+              <Headers logout={this.props.logout} />
               <Contents />
               <Footer>footer</Footer>
             </Layout>
