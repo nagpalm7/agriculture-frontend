@@ -68,7 +68,7 @@ class District extends Component {
     console.log(id);
     const { confirm } = Modal;
     confirm({
-      title: 'Do you Want to delete this?',
+      title: 'Do you want to delete this?',
       onOk: () => {
         this.handle_delete(id);
       },
@@ -101,9 +101,7 @@ class District extends Component {
           dataSource={data}
           columns={columns}
           title="District"
-          show_add_modal={this.show_edit_modal}
           show_confirm_delete={this.show_confirm_delete}
-          hide_edit={true}
         />
       </div>
     );

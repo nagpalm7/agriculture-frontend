@@ -39,6 +39,13 @@ class CustomTable extends React.Component {
     });
   };
 
+  handleDelete = (key) => {
+    const dataSource = [...this.state.dataSource];
+    this.setState({
+      dataSource: dataSource.filter((item) => item.key !== key),
+    });
+  };
+
   render() {
     const { visible, confirmLoading, ModalText } = this.state;
     const { Search } = Input;
@@ -68,6 +75,7 @@ class CustomTable extends React.Component {
               </Button>,
               <Modal
                 title=""
+                centered
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}
@@ -79,45 +87,35 @@ class CustomTable extends React.Component {
                 onSearch={(value) => console.log(value)}
                 style={{ width: 200 }}
               />,
-            ]}>
-            <Table columns={columns} dataSource={dataSource} size="small">
-              <>
-                {columns.map((record) => (
-                  <>
-                    <Column
-                      title={record.title}
-                      dataIndex={record.dataIndex}
-                      key={record.key}
-                    />
-
-                    <Column
-                      title="OPTIONS"
-                      key="options"
-                      render={(text, record) => (
-                        <>
-                          <Space size="large">
-                            {!this.props.hide_edit && (
-                              <Button onClick={() => show_edit_modal(record)}>
-                                <img src={edit} alt="edit" className="icons" />
-                              </Button>
-                            )}
-                            <Button
-                              onClick={() => show_confirm_delete(record.key)}>
-                              <img
-                                src={garbage}
-                                alt="delete"
-                                className="icons"
-                              />
-                            </Button>
-                          </Space>
-                        </>
-                      )}
-                    />
-                  </>
-                ))}
-              </>
-            </Table>
-          </PageHeader>
+            ]}
+          />
+          <Table dataSource={dataSource} size="small">
+            <>
+              {columns.map((record) => (
+                <Column
+                  title={record.title}
+                  dataIndex={record.dataIndex}
+                  key={record.key}
+                />
+              ))}
+              <Column
+                title="OPTIONS"
+                key="options"
+                render={(text, record) => {
+                  return (
+                    <Space size="large">
+                      <Button>
+                        <img src={edit} alt="edit" className="icons" />
+                      </Button>
+                      <Button onClick={() => show_confirm_delete(record.key)}>
+                        <img src={garbage} alt="delete" className="icons" />
+                      </Button>
+                    </Space>
+                  );
+                }}
+              />
+            </>
+          </Table>
         </div>
       </React.Fragment>
     );
