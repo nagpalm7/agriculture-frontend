@@ -4,6 +4,13 @@
   height: 100vh;
 }
 
+.page-title {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 950;
+  margin-top: 20px;
+}
+
 .left-content {
   width: 30%;
   background-image: url('../../assets/images/loginImage.svg');
@@ -27,22 +34,10 @@
   margin: auto;
 }
 
-.top-left {
-  width: 100%;
-  height: 100vh;
-  border: 1px solid black;
-}
 
-.ant-btn-primary {
-  background-color: #3d0098;
-  border-color: #3d0098;
-  color: #ffffff;
+.login-btn {
+  width: 150px;
   border-radius: 5px;
-}
-
-.ant-input {
-  border-radius: 7px;
-  border-color: #707070;
 }
 
 @media screen and (min-device-width: 576px) and (max-device-width: 768px) {
@@ -73,7 +68,7 @@
 
   .left-content {
     width: 100%;
-    background-position: center 10vh;
+    background-position: center 13vh;
     background-size: 24vh;
   }
 
@@ -85,9 +80,7 @@
     transform: translate(-50%, -50%);
   }
 
-  .ant-btn-primary {
+  .login-btn {
     width: 100%;
-    margin-top: 8px;
-    margin-bottom: 3px;
   }
 }
