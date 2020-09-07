@@ -11,9 +11,9 @@ class Contents extends Component {
       <Content
         className="site-layout-background"
         style={{
-          margin: '35px 17px 0px 49px',
-          padding: 24,
+          margin: '25px 17px 0px 49px',
           minHeight: 280,
+          backgroundColor: "transparent"
         }}>
         <div style={{ flex: 1, padding: '10px' }}>
           <Switch>
