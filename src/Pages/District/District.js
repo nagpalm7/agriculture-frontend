@@ -37,35 +37,34 @@ class District extends Component {
 
   // Fetch list of Districts
   fetch_data = () => {
-    this.setState({ loadings: true });
-    axios
-      .get(url, { headers: headers })
-      .then((response) => {
-        console.log(response);
-        this.setState({ ...this.state, loadings: false });
-        if (response.data.length) {
-          console.log('district');
-          let data = [];
-          response.data.map((item) => {
-            let data_object = {
-              key: item.id,
-              district: item.district,
-              state: item.state === null ? 'Not Defined' : item.state.state,
-            };
-            data.push(data_object);
-          });
-          this.setState({ loadings: false });
-          this.setState({ data: data });
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    this.setState({ ...this.state, loadings: true }, () => {
+      axios
+        .get(url, { headers: headers })
+        .then((response) => {
+          console.log(response);
+          if (response.data.length) {
+            console.log('district');
+            let data = [];
+            response.data.map((item) => {
+              let data_object = {
+                key: item.id,
+                district: item.district,
+                state: item.state === null ? 'Not Defined' : item.state.state,
+              };
+              data.push(data_object);
+            });
+            this.setState({ data: data, loadings: false });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
   };
 
   // Delete modal helper functions
   show_confirm_delete = (id) => {
-    console.log(id);
+    // console.log(id);
     const { confirm } = Modal;
     confirm({
       title: 'Do you want to delete this?',
@@ -82,7 +81,7 @@ class District extends Component {
   handle_delete(id) {
     console.log(id);
     axios
-      .delete(url + id)
+      .delete(url + id, { headers: headers })
       .then((response) => {
         this.fetch_data();
       })
@@ -102,6 +101,7 @@ class District extends Component {
           columns={columns}
           title="District"
           show_confirm_delete={this.show_confirm_delete}
+          loadings={loadings}
         />
       </div>
     );

@@ -1,8 +1,27 @@
 import React from 'react';
-import { Table, Button, Modal, Space, PageHeader, Input } from 'antd';
+import {
+  Table,
+  Button,
+  Modal,
+  Space,
+  PageHeader,
+  Input,
+  Spin,
+  Upload,
+} from 'antd';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import './Table.css';
+
+const UploadComponent = () => {
+  return (
+    <>
+      <Upload>
+        <Button>Click to Upload</Button>
+      </Upload>
+    </>
+  );
+};
 
 class CustomTable extends React.Component {
   constructor(props) {
@@ -56,8 +75,10 @@ class CustomTable extends React.Component {
       columns,
       show_confirm_delete,
       show_edit_modal,
+      loadings,
     } = this.props;
-    console.log(dataSource);
+    // console.log(dataSource);
+    console.log(loadings);
 
     return (
       <React.Fragment>
@@ -79,7 +100,8 @@ class CustomTable extends React.Component {
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}
-                onCancel={this.handleCancel}>
+                onCancel={this.handleCancel}
+                footer={[<UploadComponent />]}>
                 <p>{ModalText}</p>
               </Modal>,
               <Search
@@ -89,33 +111,39 @@ class CustomTable extends React.Component {
               />,
             ]}
           />
-          <Table dataSource={dataSource} size="small">
-            <>
-              {columns.map((record) => (
+          {loadings ? (
+            <div className="example">
+              <Spin size="large" />
+            </div>
+          ) : (
+            <Table dataSource={dataSource} loading={loadings} size="small">
+              <>
+                {columns.map((record) => (
+                  <Column
+                    title={record.title}
+                    dataIndex={record.dataIndex}
+                    key={record.key}
+                  />
+                ))}
                 <Column
-                  title={record.title}
-                  dataIndex={record.dataIndex}
-                  key={record.key}
+                  title="OPTIONS"
+                  key="options"
+                  render={(text, record) => {
+                    return (
+                      <Space size="large">
+                        <Button>
+                          <img src={edit} alt="edit" className="icons" />
+                        </Button>
+                        <Button onClick={() => show_confirm_delete(record.key)}>
+                          <img src={garbage} alt="delete" className="icons" />
+                        </Button>
+                      </Space>
+                    );
+                  }}
                 />
-              ))}
-              <Column
-                title="OPTIONS"
-                key="options"
-                render={(text, record) => {
-                  return (
-                    <Space size="large">
-                      <Button>
-                        <img src={edit} alt="edit" className="icons" />
-                      </Button>
-                      <Button onClick={() => show_confirm_delete(record.key)}>
-                        <img src={garbage} alt="delete" className="icons" />
-                      </Button>
-                    </Space>
-                  );
-                }}
-              />
-            </>
-          </Table>
+              </>
+            </Table>
+          )}
         </div>
       </React.Fragment>
     );
