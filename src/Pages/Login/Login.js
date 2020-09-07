@@ -9,31 +9,21 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
       loadings: false,
       checked: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(value) {
-    this.setState(value);
   }
 
   onCheckboxChange = (e) => {
     console.log('checked = ', e.target.checked);
-    this.setState({
-      checked: e.target.checked,
-    });
+    this.setState({ ...this.state, checked: e.target.checked });
   };
 
   handleSubmit(event) {
-    // event.preventDefault();
-    this.setState({ loadings: true });
-    const { username, password } = this.state;
+    this.setState({ ...this.state, loadings: true });
+    const { username, password } = event;
     axios
       .post('https://api.aflmonitoring.com/rest-auth/login/', {
         username: username,
@@ -41,10 +31,10 @@ class Login extends Component {
       })
       .then((response) => {
         console.log(response);
-        this.token = response.data.key;
         this.setState({ ...this.state, loadings: false });
 
-        if (response.status === 200) {
+        if (response && response.statusText === 'OK') {
+          this.token = response.data.key;
           //if response is ok, then check if u want to store the token in localstorage or sessionstorage
           if (this.state.checked === true) {
             localStorage.setItem('Token', this.token);
@@ -54,33 +44,29 @@ class Login extends Component {
           this.props.toggleIsLoggedIn();
           this.props.history.push('/home');
         } else {
-          this.setState({ loadings: false });
+          console.log(response);
+          this.setState({ ...this.state, loadings: false });
           alert('Invalid user');
         }
       })
       .catch((error) => {
-        this.setState({ loadings: false });
+        this.setState({ ...this.state, loadings: false });
+        if (error.response) {
+          alert(error.response.data.non_field_errors[0]);
+        } else {
+          alert(error.message);
+        }
       });
   }
-
   render() {
     const { loadings } = this.state;
     return (
       <div className="main-content">
         <div className="left-content">
-          <h3
-            style={{
-              textAlign: 'center',
-              fontSize: '25px',
-              fontWeight: '950',
-              marginTop: '20px',
-            }}>
-            AFL Monitoring
-          </h3>
+          <h3 className="page-title">AFL Monitoring</h3>
         </div>
         <div className="right-content">
           <Form
-            onValuesChange={this.handleChange}
             name="normal_login"
             className="login-form"
             onFinish={this.handleSubmit}>
@@ -99,7 +85,10 @@ class Login extends Component {
                 },
               ]}
               style={{ marginBottom: '10px' }}>
-              <Input placeholder="Username" />
+              <Input
+                placeholder="Username"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+              />
             </Form.Item>
             <h5>
               <b>Password</b>
@@ -113,7 +102,10 @@ class Login extends Component {
                 },
               ]}
               style={{ marginBottom: '0' }}>
-              <Input type="password" placeholder="Password" />
+              <Input.Password
+                placeholder="Password"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+              />
             </Form.Item>
             <Form.Item
               valuePropName="unchecked"
@@ -128,10 +120,14 @@ class Login extends Component {
             <Form.Item>
               <Form.Item style={{ marginBottom: '16px' }}>
                 <Button
-                  type="primary"
                   htmlType="submit"
                   loading={loadings}
-                  style={{ width: '150px' }}>
+                  className="login-btn"
+                  style={{
+                    background: '#3d0098',
+                    borderColor: '#3d0098',
+                    color: '#ffffff',
+                  }}>
                   Login
                 </Button>
               </Form.Item>
