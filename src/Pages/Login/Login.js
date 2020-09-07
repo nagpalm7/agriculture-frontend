@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Form, Button, Input, Checkbox } from 'antd';
+import { Form, Button, Input, Checkbox, message } from 'antd';
 import './Login.css';
 
 class Login extends Component {
@@ -17,7 +17,6 @@ class Login extends Component {
   }
 
   onCheckboxChange = (e) => {
-    console.log('checked = ', e.target.checked);
     this.setState({ ...this.state, checked: e.target.checked });
   };
 
@@ -41,20 +40,20 @@ class Login extends Component {
           } else {
             sessionStorage.setItem('Token', this.token);
           }
+          message.success('Login Successfull');
           this.props.toggleIsLoggedIn();
           this.props.history.push('/home');
         } else {
           console.log(response);
           this.setState({ ...this.state, loadings: false });
-          alert('Invalid user');
         }
       })
       .catch((error) => {
         this.setState({ ...this.state, loadings: false });
         if (error.response) {
-          alert(error.response.data.non_field_errors[0]);
+          message.error(error.response.data.non_field_errors[0]);
         } else {
-          alert(error.message);
+          message.error(error.message);
         }
       });
   }
@@ -127,8 +126,9 @@ class Login extends Component {
                     background: '#3d0098',
                     borderColor: '#3d0098',
                     color: '#ffffff',
+                    fontWeight: '500',
                   }}>
-                  Login
+                  LOGIN
                 </Button>
               </Form.Item>
               <a
