@@ -28,71 +28,59 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    village: 'village name',
-  },
-  {
-    key: '2',
-    village: 'village name',
-  },
-  {
-    key: '3',
-    village: 'village name',
-  },
-  {
-    key: '4',
-    village: 'village name',
-  },
-  {
-    key: '5',
-    village: 'village name',
-  },
-  {
-    key: '6',
-    village: 'village name',
-  },
-  {
-    key: '7',
-    village: 'village name',
-  },
-  {
-    key: '8',
-    village: 'village name',
-  },
-];
-
 class Villages extends Component {
+  constructor() {
+    super();
+    this.state = {
+      data: [],
+    };
+  }
+
+  componentDidMount() {}
+
   render() {
     return (
       <>
-        <div className="site-page-header-ghost-wrapper">
-          <PageHeader
-            ghost={false}
-            title="Villages"
-            subTitle=""
-            extra={[
-              <Button key="1" shape="round">
-                Add
-              </Button>,
-              <Button key="2" shape="round">
-                Add Bulk
-              </Button>,
-              <Search
-                placeholder="Search"
-                onSearch={(value) => console.log(value)}
-                style={{ width: 200 }}
-              />,
-            ]}>
-            <Table
-              pagination={{ position: ['bottomCenter'] }}
-              columns={columns}
-              dataSource={data}
-              size="small"
-            />
-          </PageHeader>
-        </div>
+        <PageHeader
+          className="site-page-header"
+          ghost={false}
+          title="Villages"
+          subTitle=""
+          extra={[
+            <Button
+              key="1"
+              shape="round"
+              className="add-btn-style"
+              style={{
+                color: '#fff',
+                backgroundColor: '#3d0098',
+                border: '1px solid #3d0098',
+              }}>
+              Add
+            </Button>,
+            <Button
+              key="2"
+              shape="round"
+              className="add-btn-style"
+              style={{
+                color: '#fff',
+                backgroundColor: '#3d0098',
+                border: '1px solid #3d0098',
+              }}>
+              Add Bulk
+            </Button>,
+            <Search
+              placeholder="Search"
+              onSearch={(value) => console.log(value)}
+              style={{ width: 200 }}
+            />,
+          ]}
+        />
+        <Table
+          pagination={{ position: ['bottomCenter'] }}
+          columns={columns}
+          size="small"
+        />
       </>
     );
   }

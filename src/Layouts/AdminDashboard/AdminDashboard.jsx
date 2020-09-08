@@ -21,11 +21,13 @@ class AdminDashboard extends Component {
 
   render() {
     return (
-      <div style={{ overflow: 'hidden' }}>
+      <div>
         <BrowserRouter>
           <Layout>
             <Sidebar />
-            <Layout className="site-layout">
+            <Layout
+              className="site-layout"
+              style={{ backgroundColor: '#f5f3ff' }}>
               <Headers logout={this.props.logout} />
               <Contents />
               <Footer>footer</Footer>

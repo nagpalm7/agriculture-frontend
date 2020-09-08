@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
 import { Layout, Button, PageHeader } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import './Header.css';
 
 const { Header } = Layout;
 
 class Headers extends Component {
-  state = {
-    collapsed: false,
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
-
   render() {
     console.log('header', this.props);
     return (
       <Header className="site-layout-background" style={{ padding: 0 }}>
         <PageHeader
+          className="site-page-header"
           ghost={false}
           title=""
           subTitle=""
           extra={[
             <>
-              <Button className="headerButton">Analysis</Button>
+              <Button key="analysis" className="headerButton">
+                Analysis
+              </Button>
               <Button
+                key="logout"
                 className="headerButton"
                 htmlType="submit"
                 onClick={() => this.props.logout()}>
@@ -36,10 +31,10 @@ class Headers extends Component {
           ]}
         />
         {React.createElement(
-          this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+          this.props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
           {
             className: 'trigger',
-            onClick: this.toggle,
+            onClick: this.props.toggle,
           },
         )}
       </Header>

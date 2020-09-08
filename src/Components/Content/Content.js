@@ -9,11 +9,10 @@ class Contents extends Component {
   render() {
     return (
       <Content
-        className="site-layout-background"
         style={{
-          margin: '25px 17px 0px 49px',
-          minHeight: 280,
-          backgroundColor: "transparent"
+          margin: '40px 20px',
+          backgroundColor: 'transparent',
+          border: '1px solid black',
         }}>
         <div style={{ flex: 1, padding: '10px' }}>
           <Switch>

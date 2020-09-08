@@ -9,7 +9,7 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import '../../Layouts/AdminDashboard/AdminDashboard.css';
+import './Sidebar.css';
 
 const { Sider } = Layout;
 
@@ -45,7 +45,11 @@ class Sidebar extends Component {
   };
   render() {
     return (
-      <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={this.state.collapsed}
+        className="sidebar-style">
         <div className="logo">
           {this.state.collapsed ? 'AFL' : 'AFL Monitoring'}
         </div>
