@@ -1,8 +1,9 @@
 .headerButton {
+    font-weight: 400;
     background-color: #fff;
     color: #3d0098;
     border-radius: 10px;
-    border: 1.5px solid #3d0098;
+    border: 1.58px solid #3d0098;
     padding: 2px 32px;
     height: 28px;
     justify-content: center;

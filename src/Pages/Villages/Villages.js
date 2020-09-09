@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Input, Table, Space } from 'antd';
+import { PageHeader, Button, Input, Space } from 'antd';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import './Villages.css';
+import axios from 'axios';
+import TableComponent from '../../Components/TableComponent/TableComponent';
 
 const { Search } = Input;
 
@@ -33,10 +35,42 @@ class Villages extends Component {
     super();
     this.state = {
       data: [],
+      loading: false,
     };
   }
+  token = localStorage.getItem('Token') || sessionStorage.getItem('Token');
+  config = {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Token ${this.token}`,
+    },
+  };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({ ...this.state, loading: true });
+    axios
+      .get('https://api.aflmonitoring.com/api/villages-list', this.config)
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          ...this.state,
+          data: res.data.results,
+          loading: false,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  }
 
   render() {
     return (
@@ -72,14 +106,15 @@ class Villages extends Component {
             <Search
               placeholder="Search"
               onSearch={(value) => console.log(value)}
-              style={{ width: 200 }}
+              className="search-bar-style"
+              style={{ width: 200, color: '#000' }}
             />,
           ]}
         />
-        <Table
-          pagination={{ position: ['bottomCenter'] }}
+        <TableComponent
+          loading={this.state.loading}
+          dataSource={this.state.data}
           columns={columns}
-          size="small"
         />
       </>
     );
