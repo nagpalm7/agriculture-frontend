@@ -34,7 +34,7 @@ class Villages extends Component {
   constructor() {
     super();
     this.state = {
-      data: [],
+      villageData: [],
       loading: false,
     };
   }
@@ -55,7 +55,7 @@ class Villages extends Component {
         console.log(res.data);
         this.setState({
           ...this.state,
-          data: res.data.results,
+          villageData: res.data.results,
           loading: false,
         });
       })
@@ -80,6 +80,7 @@ class Villages extends Component {
           ghost={false}
           title="Villages"
           subTitle=""
+          style={{ borderRadius: '20px' }}
           extra={[
             <Button
               key="1"
@@ -113,7 +114,7 @@ class Villages extends Component {
         />
         <TableComponent
           loading={this.state.loading}
-          dataSource={this.state.data}
+          dataSource={this.state.villageData}
           columns={columns}
         />
       </>

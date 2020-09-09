@@ -11,10 +11,10 @@ class Contents extends Component {
       <Content
         style={{
           margin: '40px 20px',
-          backgroundColor: 'transparent',
-          border: '1px solid black',
+          backgroundColor: '#fff',
+          borderRadius: '20px',
         }}>
-        <div style={{ flex: 1, padding: '10px' }}>
+        <div>
           <Switch>
             {dashboard_routes.map((route, index) => (
               <Route

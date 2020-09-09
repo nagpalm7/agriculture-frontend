@@ -27,42 +27,6 @@ const columns = [
     ),
   },
 ];
-
-const data = [
-  {
-    key: '1',
-    district: 'village name',
-  },
-  {
-    key: '2',
-    district: 'village name',
-  },
-  {
-    key: '3',
-    district: 'village name',
-  },
-  {
-    key: '4',
-    district: 'village name',
-  },
-  {
-    key: '5',
-    district: 'village name',
-  },
-  {
-    key: '6',
-    district: 'village name',
-  },
-  {
-    key: '7',
-    district: 'village name',
-  },
-  {
-    key: '8',
-    district: 'village name',
-  },
-];
-
 class District extends Component {
   render() {
     return (
@@ -88,7 +52,6 @@ class District extends Component {
             <Table
               pagination={{ position: ['bottomCenter'] }}
               columns={columns}
-              dataSource={data}
               size="small"
             />
           </PageHeader>
