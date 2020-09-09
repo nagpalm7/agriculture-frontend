@@ -3,8 +3,9 @@ import { PageHeader, Button, Input, Space } from 'antd';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import './Villages.css';
-import axios from 'axios';
 import TableComponent from '../../Components/TableComponent/TableComponent';
+import { Link } from 'react-router-dom';
+import { axiosInstance } from '../../utils/axiosIntercepter';
 
 const { Search } = Input;
 
@@ -17,16 +18,17 @@ const columns = [
   {
     title: 'OPTIONS',
     key: 'operation',
-    render: (text, record) => (
-      <Space size="large">
-        <a>
-          <img src={edit} className="icons" />
-        </a>
-        <a>
-          <img src={garbage} className="icons" />
-        </a>
-      </Space>
-    ),
+    render: (text, record) => {
+      console.log(record);
+      return (
+        <Space size="large">
+          <Link to={`villages/edit/${record.id}`}>
+            <img src={edit} alt="" className="icons" />
+          </Link>
+          <img src={garbage} alt="" className="icons" />
+        </Space>
+      );
+    },
   },
 ];
 
@@ -38,19 +40,12 @@ class Villages extends Component {
       loading: false,
     };
   }
-  token = localStorage.getItem('Token') || sessionStorage.getItem('Token');
-  config = {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Token ${this.token}`,
-    },
-  };
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    axios
-      .get('https://api.aflmonitoring.com/api/villages-list', this.config)
+
+    axiosInstance
+      .get('/api/villages-list')
       .then((res) => {
         console.log(res.data);
         this.setState({
@@ -82,17 +77,19 @@ class Villages extends Component {
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
-            <Button
-              key="1"
-              shape="round"
-              className="add-btn-style"
-              style={{
-                color: '#fff',
-                backgroundColor: '#3d0098',
-                border: '1px solid #3d0098',
-              }}>
-              Add
-            </Button>,
+            <Link to="/villages/add">
+              <Button
+                key="1"
+                shape="round"
+                className="add-btn-style"
+                style={{
+                  color: '#fff',
+                  backgroundColor: '#3d0098',
+                  border: '1px solid #3d0098',
+                }}>
+                Add
+              </Button>
+            </Link>,
             <Button
               key="2"
               shape="round"

@@ -4,6 +4,8 @@ import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
 import ADO from '../Pages/ADO/ADO.js';
 import Locations from '../Pages/Locations/Locations.js';
+import AddVillage from '../Pages/Villages/components/AddVillage.js';
+import EditVillage from '../Pages/Villages/components/EditVillage.js';
 
 const dashboard_routes = [
   {
@@ -20,6 +22,16 @@ const dashboard_routes = [
     exact: true,
     path: '/villages',
     component: Villages,
+  },
+  {
+    exact: true,
+    path: '/villages/add',
+    component: AddVillage,
+  },
+  {
+    exact: true,
+    path: '/villages/edit/:villageId',
+    component: EditVillage,
   },
   {
     exact: true,
