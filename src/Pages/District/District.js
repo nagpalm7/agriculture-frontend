@@ -7,7 +7,7 @@ import CustomTable from '../../Components/Table/Table';
 const url = 'https://api.aflmonitoring.com/api/district/';
 
 const headers = {
-  Authorization: 'token 915470c056d9f86cb271b7392ce7eae1296d906f',
+  Authorization: 'token dbf8a13129cc5369437f1631939c19b45cdbcbb5',
 };
 
 const columns = [

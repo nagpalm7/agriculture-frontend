@@ -12,6 +12,7 @@ import {
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import './Table.css';
+import { Link } from 'react-router-dom';
 
 const UploadComponent = () => {
   return (
@@ -88,9 +89,11 @@ class CustomTable extends React.Component {
             title={title}
             subTitle=""
             extra={[
-              <Button key="1" shape="round">
-                +1 Add
-              </Button>,
+              <Link to="/district/add">
+                <Button key="1" shape="round">
+                  +1 Add
+                </Button>
+              </Link>,
               <Button key="2" shape="round" onClick={this.showModal}>
                 Add Bulk
               </Button>,
@@ -100,9 +103,9 @@ class CustomTable extends React.Component {
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}
-                onCancel={this.handleCancel}
-                footer={[<UploadComponent />]}>
+                onCancel={this.handleCancel}>
                 <p>{ModalText}</p>
+                <UploadComponent />
               </Modal>,
               <Search
                 placeholder="Search"

@@ -4,6 +4,7 @@ import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
 import ADO from '../Pages/ADO/ADO.js';
 import Locations from '../Pages/Locations/Locations.js';
+import AddForm from '../Components/Options/AddForm.js';
 
 const dashboard_routes = [
   {
@@ -15,6 +16,11 @@ const dashboard_routes = [
     exact: true,
     path: '/district',
     component: District,
+  },
+  {
+    exact: true,
+    path: '/district/add',
+    component: AddForm,
   },
   {
     exact: true,
