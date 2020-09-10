@@ -1,17 +1,54 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Form, Input, Button, Typography, message } from 'antd';
 import './addvillage.css';
+
+import { axiosInstance } from '../../../utils/axiosIntercepter';
 
 const { Title } = Typography;
 
 class AddVillages extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loadings: false,
+    };
+  }
+
+  handleAddVillage = (event) => {
+    const { village_name, village_code, village_subcode, block } = event;
+
+    axiosInstance
+      .post('/api/village/', {
+        village: village_name,
+        village_code: village_code,
+        village_subcode: village_subcode,
+        block: block,
+      })
+      .then((res) => {
+        console.log(res);
+        message.success('Village added');
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+          message.error('Unable to add village');
+        } else {
+          message.error('Unable to add village');
+          console.log(err.message);
+        }
+      });
+  };
+
   render() {
     return (
       <div className="add-village-container">
         <div>
           <Title level={3}>Add Village</Title>
         </div>
-        <Form name="add_village" className="add-village">
+        <Form
+          name="add_village"
+          className="add-village"
+          onFinish={this.handleAddVillage}>
           <h3>
             <b>Village</b>
           </h3>
