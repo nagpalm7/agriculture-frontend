@@ -34,42 +34,59 @@ const menu = (
 );
 
 class Sidebar extends Component {
-  state = {
-    collapsed: false,
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
   render() {
     return (
       <Sider
+        width="250px"
+        breakpoint="sm"
+        collapsedWidth="80"
         trigger={null}
         collapsible
-        collapsed={this.state.collapsed}
+        collapsed={this.props.collapsed}
         className="sidebar-style">
         <div className="logo">
-          {this.state.collapsed ? 'AFL' : 'AFL Monitoring'}
+          {this.props.collapsed ? 'AFL' : 'AFL Monitoring'}
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<HomeFilled />}>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['1']}
+          className="side-menu-style"
+          style={{ background: '#3d0098' }}>
+          <Menu.Item
+            key="1"
+            icon={<HomeFilled />}
+            style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/">Home</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+          <Menu.Item
+            key="2"
+            icon={<VideoCameraOutlined />}
+            style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/district">District</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
+          <Menu.Item
+            key="3"
+            icon={<UploadOutlined />}
+            style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/villages">Villages</Link>
           </Menu.Item>
-          <Menu.Item key="4" icon={<TeamOutlined />}>
+          <Menu.Item
+            key="4"
+            icon={<TeamOutlined />}
+            style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/dda">DDA</Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<UserOutlined />}>
+          <Menu.Item
+            key="5"
+            icon={<UserOutlined />}
+            style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/ado">ADO</Link>
           </Menu.Item>
-          <Menu.Item key="6" icon={<UserOutlined />}>
+          <Menu.Item
+            key="6"
+            icon={<UserOutlined />}
+            style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/locations">
               {' '}
               Locations

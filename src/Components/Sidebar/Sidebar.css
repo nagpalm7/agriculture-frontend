@@ -1,4 +1,26 @@
+.logo {
+  text-align: center;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 1000;
+  margin: 16px 8px 0 8px;
+}
 .sidebar-style {
-    height: 100vh;
-    background-color: #3d0098;
+  height: 100vh;
+  background: #3d0098;
+}
+.side-menu-style {
+  padding: 20px 30px;
+  text-align: left;
+  margin-top: 80px;
+  font-weight: 520;
+}
+/* .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #fff;
+  color: #000;
+} */
+
+.ant-menu-inline-collapsed {
+  padding: 20px 0;
+  margin-top: 60px;
 }

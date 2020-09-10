@@ -19,7 +19,6 @@ const columns = [
     title: 'OPTIONS',
     key: 'operation',
     render: (text, record) => {
-      console.log(record);
       return (
         <Space size="large">
           <Link to={`villages/edit/${record.id}`}>
