@@ -134,9 +134,11 @@ class CustomTable extends React.Component {
                   render={(text, record) => {
                     return (
                       <Space size="large">
-                        <Button>
-                          <img src={edit} alt="edit" className="icons" />
-                        </Button>
+                        <Link to="/district/edit">
+                          <Button>
+                            <img src={edit} alt="edit" className="icons" />
+                          </Button>
+                        </Link>
                         <Button onClick={() => show_confirm_delete(record.key)}>
                           <img src={garbage} alt="delete" className="icons" />
                         </Button>
