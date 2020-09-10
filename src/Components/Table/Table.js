@@ -75,7 +75,6 @@ class CustomTable extends React.Component {
       dataSource,
       columns,
       show_confirm_delete,
-      show_edit_modal,
       loadings,
     } = this.props;
     // console.log(dataSource);
