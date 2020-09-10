@@ -16,19 +16,13 @@ const { Sider } = Layout;
 const menu = (
   <Menu>
     <Menu.Item>
-      <a target="_blank" href="">
-        Pending
-      </a>
+      <Link to="/locations/pending">Pending</Link>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" href="">
-        Ongoing
-      </a>
+      <Link to="/locations/ongoing">Ongoing</Link>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" href="">
-        Completed
-      </a>
+      <Link to="/locations/completed">Completed</Link>
     </Menu.Item>
   </Menu>
 );

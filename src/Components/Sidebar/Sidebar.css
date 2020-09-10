@@ -15,10 +15,14 @@
   margin-top: 80px;
   font-weight: 520;
 }
-/* .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: #fff;
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+  .ant-menu-item-selected * {
   color: #000;
-} */
+}
 
 .ant-menu-inline-collapsed {
   padding: 20px 0;
