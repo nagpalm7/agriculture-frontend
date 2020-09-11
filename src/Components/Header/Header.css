@@ -1,0 +1,28 @@
+.headerButton {
+  font-weight: 400;
+  background-color: #fff;
+  color: #3d0098;
+  border-radius: 10px;
+  border: 1.58px solid #3d0098;
+  padding: 2px 32px;
+  height: 28px;
+  justify-content: center;
+}
+
+.headerButton:hover {
+  color: #fff;
+  background-color: #3d0098;
+  border-color: #3d0098;
+}
+
+.header-style {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* .main-header>.ant-page-header-heading {
+    display: block;
+} */

@@ -9,9 +9,12 @@ import { BrowserRouter } from 'react-router-dom';
 const { Footer } = Layout;
 
 class AdminDashboard extends Component {
-  state = {
-    collapsed: false,
-  };
+  constructor() {
+    super();
+    this.state = {
+      collapsed: false,
+    };
+  }
 
   toggle = () => {
     this.setState({
@@ -21,12 +24,18 @@ class AdminDashboard extends Component {
 
   render() {
     return (
-      <div style={{ overflow: 'hidden' }}>
+      <div>
         <BrowserRouter>
           <Layout>
-            <Sidebar />
-            <Layout className="site-layout">
-              <Headers logout={this.props.logout} />
+            <Sidebar collapsed={this.state.collapsed} />
+            <Layout
+              className="site-layout"
+              style={{ backgroundColor: '#f5f3ff' }}>
+              <Headers
+                logout={this.props.logout}
+                toggle={this.toggle}
+                collapsed={this.state.collapsed}
+              />
               <Contents />
               <Footer>footer</Footer>
             </Layout>
