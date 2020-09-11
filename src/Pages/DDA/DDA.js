@@ -3,10 +3,10 @@ import { Modal } from 'antd';
 import axios from 'axios';
 import CustomTable from '../../Components/Table/Table';
 
-const url = 'https://api.aflmonitoring.com/api/district/';
+const url = 'https://api.aflmonitoring.com/api/user/dda/';
 
 const headers = {
-  Authorization: 'token 915470c056d9f86cb271b7392ce7eae1296d906f',
+  Authorization: 'token dbf8a13129cc5369437f1631939c19b45cdbcbb',
 };
 
 const columns = [
@@ -37,6 +37,7 @@ class DDA extends Component {
     this.state = {
       data: [],
       columns: [],
+      loadings: false,
       key: null,
     };
   }
@@ -49,73 +50,37 @@ class DDA extends Component {
 
   // Fetch list of Districts
   fetch_data = () => {
-    axios
-      .get(url, { headers: headers })
-      .then((response) => {
-        console.log(response);
-        if (response.data.length) {
-          console.log('district');
-          let data = [];
-          response.data.map((item) => {
-            let data_object = {
-              key: item.id,
-              district: item.district,
-              state: item.state === null ? 'Not Defined' : item.state.state,
-            };
-            data.push(data_object);
-          });
-          this.setState({ data: data });
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  // Add modal helper functions
-  show_add_modal = () => {
-    this.setState({
-      add_visible: true,
+    this.setState({ ...this.state, loadings: true }, () => {
+      axios
+        .get(url, { headers: headers })
+        .then((response) => {
+          console.log(response);
+          if (response.data.length) {
+            console.log('district');
+            let data = [];
+            response.data.map((item) => {
+              let data_object = {
+                key: item.id,
+                district: item.district,
+                state: item.state === null ? 'Not Defined' : item.state.state,
+              };
+              data.push(data_object);
+            });
+            this.setState({ data: data, loadings: false });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     });
-  };
-
-  hide_add_modal = () => {
-    this.add_form_ref.current.resetFields();
-    this.setState({
-      add_visible: false,
-    });
-  };
-
-  // Add form helper functions
-  submit_add_form = (event) => {
-    this.setState(
-      {
-        add_loading: true,
-      },
-      () => {
-        let data = {
-          name: event.name,
-          email: event.email,
-        };
-        axios
-          .post(url, data)
-          .then((response) => {
-            this.setState({ add_loading: false });
-            this.fetch_data();
-            this.hide_add_modal();
-          })
-          .catch((error) => {
-            this.setState({ add_loading: false });
-          });
-      },
-    );
   };
 
   // Delete modal helper functions
   show_confirm_delete = (id) => {
+    // console.log(id);
     const { confirm } = Modal;
     confirm({
-      title: 'Do you Want to delete this interviewee?',
-
+      title: 'Do you want to delete this?',
       onOk: () => {
         this.handle_delete(id);
       },
@@ -127,8 +92,9 @@ class DDA extends Component {
 
   // Delete request function
   handle_delete(id) {
+    console.log(id);
     axios
-      .delete(url + id)
+      .delete(url + id, { headers: headers })
       .then((response) => {
         this.fetch_data();
       })
@@ -139,6 +105,7 @@ class DDA extends Component {
 
   render() {
     const { data } = this.state;
+    const { loadings } = this.state;
 
     return (
       <div className="site-card-border-less-wrapper">
@@ -146,9 +113,8 @@ class DDA extends Component {
           dataSource={data}
           columns={columns}
           title="District"
-          show_add_modal={this.show_add_modal}
           show_confirm_delete={this.show_confirm_delete}
-          hide_edit={true}
+          loadings={loadings}
         />
       </div>
     );
