@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import dashboard_routes from '../../routes/dashboard_routes';
 import { Layout } from 'antd';
 
@@ -14,18 +14,17 @@ class Contents extends Component {
           backgroundColor: '#fff',
           borderRadius: '20px',
         }}>
-        <div>
-          <Switch>
-            {dashboard_routes.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                children={<route.component />}
-              />
-            ))}
-          </Switch>
-        </div>
+        <Switch>
+          {dashboard_routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              children={<route.component />}
+            />
+          ))}
+          <Redirect from="/" to="/" />
+        </Switch>
       </Content>
     );
   }
