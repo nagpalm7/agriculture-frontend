@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Input, Space } from 'antd';
+import { Link } from 'react-router-dom';
+import { Space } from 'antd';
+import './Villages.css';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
-import './Villages.css';
-import TableComponent from '../../Components/TableComponent/TableComponent';
-import { Link } from 'react-router-dom';
 import { axiosInstance } from '../../utils/axiosIntercepter';
-
-const { Search } = Input;
+import MainContent from '../../Components/MainContent/MainContent';
 
 const columns = [
   {
@@ -69,46 +67,9 @@ class Villages extends Component {
   render() {
     return (
       <>
-        <PageHeader
-          className="site-page-header"
-          ghost={false}
+        <MainContent
           title="Villages"
-          subTitle=""
-          style={{ borderRadius: '20px' }}
-          extra={[
-            <Link to="/villages/add">
-              <Button
-                key="1"
-                shape="round"
-                className="add-btn-style"
-                style={{
-                  color: '#fff',
-                  backgroundColor: '#3d0098',
-                  border: '1px solid #3d0098',
-                }}>
-                Add
-              </Button>
-            </Link>,
-            <Button
-              key="2"
-              shape="round"
-              className="add-btn-style"
-              style={{
-                color: '#fff',
-                backgroundColor: '#3d0098',
-                border: '1px solid #3d0098',
-              }}>
-              Add Bulk
-            </Button>,
-            <Search
-              placeholder="Search"
-              onSearch={(value) => console.log(value)}
-              className="search-bar-style"
-              style={{ width: 200, color: '#000' }}
-            />,
-          ]}
-        />
-        <TableComponent
+          addlink="/villages/add"
           loading={this.state.loading}
           dataSource={this.state.villageData}
           columns={columns}

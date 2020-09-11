@@ -1,9 +1,4 @@
-.icons {
-  width: 20px;
-  height: 20px;
-}
-
-/* .add-btn-style {
+.add-btn-style {
   border-radius: 10px;
   padding: 2px 32px;
   height: 28px;
@@ -16,10 +11,10 @@
   margin-right: 20px;
 }
 
-.search-bar-style>input {
+.search-bar-style > input {
   background: #f5f5ff;
 }
 
 .search-bar-style:hover {
   border-color: '#000';
-} */
+}
