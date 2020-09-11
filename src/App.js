@@ -10,14 +10,15 @@ export default class App extends React.Component {
       isLoggedIn: false,
     };
   }
-
-  componentDidMount() {
+  /*eslint-disable */
+  UNSAFE_componentWillMount() {
     let isLoggedIn =
       localStorage.getItem('Token') || sessionStorage.getItem('Token');
     this.setState({
       isLoggedIn: isLoggedIn,
     });
   }
+  /*eslint-enable */
 
   toggleIsLoggedIn = () => {
     const { isLoggedIn } = this.state;
@@ -53,8 +54,8 @@ export default class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route
-              exact
               path="/"
+              exact
               render={(props) => (
                 <Login
                   history={props.history}
