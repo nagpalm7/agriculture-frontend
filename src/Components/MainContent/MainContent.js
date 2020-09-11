@@ -17,7 +17,7 @@ class MainContent extends Component {
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
-            <Link to={this.props.link}>
+            <Link to={this.props.addlink}>
               <Button
                 key="1"
                 shape="round"
