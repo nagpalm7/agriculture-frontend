@@ -6,7 +6,7 @@
   margin: 16px 8px 0 8px;
 }
 .sidebar-style {
-  height: 100vh;
+  overflow: auto;
   background: #3d0098;
 }
 .side-menu-style {
@@ -20,7 +20,8 @@
 }
 
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
-  .ant-menu-item-selected * {
+  .ant-menu-item-selected
+  * {
   color: #000;
 }
 
