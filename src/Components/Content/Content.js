@@ -23,7 +23,7 @@ class Contents extends Component {
               children={<route.component />}
             />
           ))}
-          {/* <Redirect from="/" to="/" /> */}
+          <Redirect from="/" to="/" />
         </Switch>
       </Content>
     );
