@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Layout, Button, PageHeader, Space } from 'antd';
+import { Layout, Button, Space } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import './Header.css';
+import MyButton from '../ButtonComponent/MyButton';
 
 const { Header } = Layout;
 
 class Headers extends Component {
   render() {
-    console.log('header', this.props);
     return (
       <Header
         className="site-layout-background"
@@ -25,16 +25,12 @@ class Headers extends Component {
           </div>
           <div>
             <Space>
-              <Button key="analysis" className="headerButton">
-                Analysis
-              </Button>
-              <Button
-                key="logout"
-                className="headerButton"
-                htmlType="submit"
-                onClick={() => this.props.logout()}>
-                Logout
-              </Button>
+              <MyButton text="Analysis" type="outlined" />
+              <MyButton
+                text="Logout"
+                type="outlined"
+                handleClick={this.props.logout}
+              />
             </Space>
           </div>
         </div>

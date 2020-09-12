@@ -1,0 +1,13 @@
+.search-bar-style {
+  background: #f5f5ff;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+.search-bar-style > input {
+  background: #f5f5ff;
+}
+
+.search-bar-style:hover {
+  border-color: '#000';
+}

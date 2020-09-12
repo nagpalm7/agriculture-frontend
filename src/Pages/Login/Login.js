@@ -6,8 +6,8 @@ import './Login.css';
 class Login extends Component {
   token;
   documentData;
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       loadings: false,
       checked: false,

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Typography, message } from 'antd';
+import { Form, Input, Typography, message, Select } from 'antd';
 import './addvillage.css';
 
 import { axiosInstance } from '../../../utils/axiosIntercepter';
+
+import MyButton from '../../../Components/ButtonComponent/MyButton';
 
 const { Title } = Typography;
 
@@ -11,18 +13,68 @@ class AddVillages extends Component {
     super();
     this.state = {
       loadings: false,
+      blockData: [],
+      adoData: [],
     };
   }
 
+  componentDidMount() {
+    axiosInstance
+      .get('/api/block/')
+      .then((res) => {
+        console.log(res);
+        const blockData = res.data.map((item) => {
+          return {
+            block: item.block,
+            id: item.id,
+          };
+        });
+        this.setState({ ...this.state, blockData: blockData });
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+
+    axiosInstance
+      .get('/api/users-list/ado/')
+      .then((res) => {
+        const adoData = res.data.results.map((item) => {
+          return {
+            ado: item.user.username,
+            id: item.user.id,
+          };
+        });
+        this.setState({ ...this.state, adoData: adoData });
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  }
+
   handleAddVillage = (event) => {
-    const { village_name, village_code, village_subcode, block } = event;
+    const {
+      village_name,
+      village_code,
+      village_subcode,
+      blocklist,
+      adolist,
+    } = event;
 
     axiosInstance
       .post('/api/village/', {
         village: village_name,
         village_code: village_code,
         village_subcode: village_subcode,
-        block: block,
+        block: blocklist,
+        ado: adolist === undefined ? null : adolist,
       })
       .then((res) => {
         console.log(res);
@@ -41,7 +93,7 @@ class AddVillages extends Component {
 
   render() {
     return (
-      <div className="add-village-container">
+      <div className="form-container">
         <div>
           <Title level={3}>Add Village</Title>
         </div>
@@ -52,7 +104,15 @@ class AddVillages extends Component {
           <h3>
             <b>Village</b>
           </h3>
-          <Form.Item name="village_name" style={{ marginBottom: '10px' }}>
+          <Form.Item
+            name="village_name"
+            style={{ marginBottom: '10px' }}
+            rules={[
+              {
+                required: true,
+                message: 'Please provide village name!',
+              },
+            ]}>
             <Input
               placeholder="Village name"
               style={{ borderRadius: '7px', borderColor: '#707070' }}
@@ -61,7 +121,15 @@ class AddVillages extends Component {
           <h3>
             <b>Village Code</b>
           </h3>
-          <Form.Item name="village_code" style={{ marginBottom: '10px' }}>
+          <Form.Item
+            name="village_code"
+            style={{ marginBottom: '10px' }}
+            rules={[
+              {
+                required: true,
+                message: 'Please provide village code!',
+              },
+            ]}>
             <Input
               placeholder="Village Code"
               style={{ borderRadius: '7px', borderColor: '#707070' }}
@@ -70,7 +138,15 @@ class AddVillages extends Component {
           <h3>
             <b>Village Sub Code</b>
           </h3>
-          <Form.Item name="village_subcode" style={{ marginBottom: '10px' }}>
+          <Form.Item
+            name="village_subcode"
+            style={{ marginBottom: '10px' }}
+            rules={[
+              {
+                required: true,
+                message: 'Please provide village subcode!',
+              },
+            ]}>
             <Input
               placeholder="Village Sub Code"
               style={{ borderRadius: '7px', borderColor: '#707070' }}
@@ -79,26 +155,51 @@ class AddVillages extends Component {
           <h3>
             <b>Block</b>
           </h3>
-          <Form.Item name="block" style={{ marginBottom: '16px' }}>
-            <Input
-              placeholder="Block"
-              style={{ borderRadius: '7px', borderColor: '#707070' }}
-            />
+          <Form.Item
+            name="blocklist"
+            style={{ marginBottom: '16px' }}
+            rules={[
+              {
+                required: true,
+                message: 'Please select block!',
+              },
+            ]}>
+            <Select
+              placeholder="Select Block"
+              style={{ borderRadius: '7px', borderColor: '#707070' }}>
+              {this.state.blockData.map((item) => {
+                return (
+                  <Select.Option value={item.id}>{item.block}</Select.Option>
+                );
+              })}
+            </Select>
           </Form.Item>
-          <Form.Item>
-            <Form.Item style={{ marginBottom: '10px' }}>
-              <Button
-                htmlType="submit"
-                className="add-village-btn"
-                style={{
-                  background: '#3d0098',
-                  borderColor: '#3d0098',
-                  color: '#ffffff',
-                  fontWeight: '500',
-                }}>
-                ADD
-              </Button>
-            </Form.Item>
+          <h3>
+            <b>Ado</b>
+          </h3>
+          <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
+            <Select
+              placeholder="Select Ado"
+              style={{ borderRadius: '7px', borderColor: '#707070' }}>
+              {this.state.adoData.map((item) => {
+                return (
+                  <Select.Option value={item.id}>{item.ado}</Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item style={{ marginBottom: '10px' }}>
+            <MyButton
+              htmlType="submit"
+              text="ADD"
+              type="filled"
+              extraStyle={{
+                background: '#3d0098',
+                borderColor: '#3d0098',
+                color: '#ffffff',
+                fontWeight: '500',
+              }}
+            />
           </Form.Item>
         </Form>
       </div>
