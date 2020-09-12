@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import TableComponent from '../TableComponent/TableComponent';
 import { PageHeader, Button, Input } from 'antd';
 import './MainContent.css';
+import MyButton from '../ButtonComponent/MyButton';
 
 const { Search } = Input;
 
@@ -17,30 +18,27 @@ class MainContent extends Component {
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
-            <Link to={this.props.addlink}>
-              <Button
-                key="1"
-                shape="round"
-                className="add-btn-style"
-                style={{
+            <Link to={this.props.addlink} key="1">
+              <MyButton
+                text="Add"
+                type="filled"
+                extraStyle={{
                   color: '#fff',
                   backgroundColor: '#3d0098',
                   border: '1px solid #3d0098',
-                }}>
-                Add
-              </Button>
+                }}
+              />
             </Link>,
-            <Button
+            <MyButton
               key="2"
-              shape="round"
-              className="add-btn-style"
-              style={{
+              text="Add Bulk"
+              type="filled"
+              extraStyle={{
                 color: '#fff',
                 backgroundColor: '#3d0098',
                 border: '1px solid #3d0098',
-              }}>
-              Add Bulk
-            </Button>,
+              }}
+            />,
             <Search
               placeholder="Search"
               onSearch={(value) => console.log(value)}

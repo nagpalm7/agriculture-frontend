@@ -1,6 +1,8 @@
 import React, { Component, createRef } from 'react';
-import { Form, Input, Button, Typography, message, Select } from 'antd';
+import { Form, Input, Typography, message, Select } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
+import MyButton from '../../../Components/ButtonComponent/MyButton';
+import './addvillage.css';
 
 const { Title } = Typography;
 class EditVillage extends Component {
@@ -118,7 +120,7 @@ class EditVillage extends Component {
 
   render() {
     return (
-      <div className="edit-village-container">
+      <div className="form-container">
         <div>
           <Title level={3}>Edit Village</Title>
         </div>
@@ -213,17 +215,17 @@ class EditVillage extends Component {
           </Form.Item>
 
           <Form.Item style={{ marginBottom: '10px' }}>
-            <Button
+            <MyButton
               htmlType="submit"
-              className="edit-village-btn"
-              style={{
+              text="UPDATE"
+              type="filled"
+              extraStyle={{
                 background: '#3d0098',
                 borderColor: '#3d0098',
                 color: '#ffffff',
                 fontWeight: '500',
-              }}>
-              Update
-            </Button>
+              }}
+            />
           </Form.Item>
         </Form>
       </div>

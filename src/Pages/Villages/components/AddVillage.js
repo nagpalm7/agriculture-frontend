@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Typography, message, Select } from 'antd';
+import { Form, Input, Typography, message, Select } from 'antd';
 import './addvillage.css';
 
 import { axiosInstance } from '../../../utils/axiosIntercepter';
+
+import MyButton from '../../../Components/ButtonComponent/MyButton';
 
 const { Title } = Typography;
 
@@ -17,7 +19,6 @@ class AddVillages extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.blockRef.current);
     axiosInstance
       .get('/api/block/')
       .then((res) => {
@@ -92,7 +93,7 @@ class AddVillages extends Component {
 
   render() {
     return (
-      <div className="add-village-container">
+      <div className="form-container">
         <div>
           <Title level={3}>Add Village</Title>
         </div>
@@ -187,20 +188,18 @@ class AddVillages extends Component {
               })}
             </Select>
           </Form.Item>
-          <Form.Item>
-            <Form.Item style={{ marginBottom: '10px' }}>
-              <Button
-                htmlType="submit"
-                className="add-village-btn"
-                style={{
-                  background: '#3d0098',
-                  borderColor: '#3d0098',
-                  color: '#ffffff',
-                  fontWeight: '500',
-                }}>
-                ADD
-              </Button>
-            </Form.Item>
+          <Form.Item style={{ marginBottom: '10px' }}>
+            <MyButton
+              htmlType="submit"
+              text="ADD"
+              type="filled"
+              extraStyle={{
+                background: '#3d0098',
+                borderColor: '#3d0098',
+                color: '#ffffff',
+                fontWeight: '500',
+              }}
+            />
           </Form.Item>
         </Form>
       </div>
