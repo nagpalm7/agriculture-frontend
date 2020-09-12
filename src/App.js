@@ -4,8 +4,8 @@ import Login from './Pages/Login/Login';
 import AdminDashboard from './Layouts/AdminDashboard/AdminDashboard';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       isLoggedIn: false,
     };

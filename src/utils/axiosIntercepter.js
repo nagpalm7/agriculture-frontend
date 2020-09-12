@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const token = localStorage.getItem('Token') || sessionStorage.getItem('Token');
+let token;
+
+if (localStorage.getItem('Token')) {
+  token = localStorage.getItem('Token');
+} else if (sessionStorage.getItem('Token')) {
+  token = sessionStorage.getItem('Token');
+}
 
 export const axiosInstance = axios.create({
   baseURL: 'https://api.aflmonitoring.com/',

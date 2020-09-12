@@ -6,7 +6,8 @@
   margin: 16px 8px 0 8px;
 }
 .sidebar-style {
-  overflow: auto;
+  position: fixed;
+  height: 100vh;
   background: #3d0098;
 }
 .side-menu-style {

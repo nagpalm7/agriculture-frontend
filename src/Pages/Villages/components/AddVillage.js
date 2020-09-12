@@ -21,6 +21,7 @@ class AddVillages extends Component {
     axiosInstance
       .get('/api/block/')
       .then((res) => {
+        console.log(res);
         const blockData = res.data.map((item) => {
           return {
             block: item.block,
@@ -58,14 +59,21 @@ class AddVillages extends Component {
   }
 
   handleAddVillage = (event) => {
-    const { village_name, village_code, village_subcode, block } = event;
+    const {
+      village_name,
+      village_code,
+      village_subcode,
+      blocklist,
+      adolist,
+    } = event;
 
     axiosInstance
       .post('/api/village/', {
         village: village_name,
         village_code: village_code,
         village_subcode: village_subcode,
-        block: block,
+        block: blocklist,
+        ado: adolist === undefined ? null : adolist,
       })
       .then((res) => {
         console.log(res);
@@ -168,15 +176,7 @@ class AddVillages extends Component {
           <h3>
             <b>Ado</b>
           </h3>
-          <Form.Item
-            name="adolist"
-            style={{ marginBottom: '16px' }}
-            rules={[
-              {
-                required: true,
-                message: 'Please select ado!',
-              },
-            ]}>
+          <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
             <Select
               placeholder="Select Ado"
               style={{ borderRadius: '7px', borderColor: '#707070' }}>

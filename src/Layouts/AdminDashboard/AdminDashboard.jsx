@@ -28,13 +28,13 @@ class AdminDashboard extends Component {
           <Sidebar collapsed={this.state.collapsed} />
           <Layout
             className="site-layout"
-            style={{ backgroundColor: '#f5f3ff' }}>
+            style={{ backgroundColor: '#f5f3ff', marginLeft: '250px' }}>
             <Headers
               logout={this.props.logout}
               toggle={this.toggle}
               collapsed={this.state.collapsed}
             />
-            <Contents />
+            <Contents history={this.props.history} />
             <Footer>footer</Footer>
           </Layout>
         </Layout>

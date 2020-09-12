@@ -20,7 +20,7 @@ class Contents extends Component {
               key={index}
               path={route.path}
               exact={route.exact}
-              children={<route.component />}
+              children={<route.component history={this.props.history} />}
             />
           ))}
           <Redirect from="/" to="/" />
