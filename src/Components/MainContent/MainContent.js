@@ -9,16 +9,25 @@ const { Search } = Input;
 
 class MainContent extends Component {
   render() {
+    const {
+      title,
+      addlink,
+      loading,
+      dataSource,
+      columns,
+      totalPages,
+      onPageChange,
+    } = this.props;
     return (
-      <>
+      <div>
         <PageHeader
           className="site-page-header"
           ghost={false}
-          title={this.props.title}
+          title={title}
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
-            <Link to={this.props.addlink} key="1">
+            <Link to={addlink} key="1">
               <MyButton
                 text="Add"
                 type="filled"
@@ -48,11 +57,13 @@ class MainContent extends Component {
           ]}
         />
         <TableComponent
-          loading={this.props.loading}
-          dataSource={this.props.dataSource}
-          columns={this.props.columns}
+          loading={loading}
+          dataSource={dataSource}
+          columns={columns}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
         />
-      </>
+      </div>
     );
   }
 }

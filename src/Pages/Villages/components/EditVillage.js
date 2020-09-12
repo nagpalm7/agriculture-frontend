@@ -96,7 +96,7 @@ class EditVillage extends Component {
       adolist,
     } = e;
     axiosInstance
-      .put(`/api/village/2382732/`, {
+      .put(`/api/village/${this.villageId}/`, {
         village: village_name,
         village_code: village_code,
         village_subcode: village_subcode,
