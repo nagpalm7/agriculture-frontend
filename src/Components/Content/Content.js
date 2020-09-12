@@ -13,6 +13,7 @@ class Contents extends Component {
           margin: '40px 20px',
           backgroundColor: '#fff',
           borderRadius: '20px',
+          minHeight: 'auto',
         }}>
         <Switch>
           {dashboard_routes.map((route, index) => (
