@@ -11,22 +11,25 @@ class Contents extends Component {
       <Content
         style={{
           margin: '40px 20px',
-          backgroundColor: '#fff',
+          //backgroundColor: '#fff',
           borderRadius: '20px',
         }}>
-        <Switch>
-          {dashboard_routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={<route.component />}
-            />
-          ))}
-          <Redirect from="/" to="/" />
-        </Switch>
+        <div style={{ flex: 1, padding: '10px', height: "100%" }}>
+          <Switch>
+            {dashboard_routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.component />}
+              />
+            ))}
+            <Redirect from="/" to="/" />
+          </Switch>
+        </div>
       </Content>
     );
   }
 }
+
 export default Contents;
