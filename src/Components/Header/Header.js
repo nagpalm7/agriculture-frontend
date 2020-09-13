@@ -25,11 +25,11 @@ class Headers extends Component {
           </div>
           <div>
             <Space>
-              <MyButton text="Analysis" type="outlined" />
+              <MyButton text="Analysis" className="outlined" />
               <MyButton
                 text="Logout"
-                type="outlined"
-                handleClick={this.props.logout}
+                className="outlined"
+                onClick={this.props.logout}
               />
             </Space>
           </div>

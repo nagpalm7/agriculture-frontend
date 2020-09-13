@@ -12,15 +12,13 @@ class Login extends Component {
       loadings: false,
       checked: false,
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onCheckboxChange = (e) => {
     this.setState({ ...this.state, checked: e.target.checked });
   };
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     this.setState({ ...this.state, loadings: true });
     const { username, password } = event;
     axios
@@ -56,7 +54,7 @@ class Login extends Component {
           message.error(error.message);
         }
       });
-  }
+  };
   render() {
     const { loadings } = this.state;
     return (
