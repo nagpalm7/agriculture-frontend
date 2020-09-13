@@ -156,65 +156,65 @@ const Home = (props) => {
     pending_count: pending_count || [],
     ongoing_count: ongoing_count || [],
     completed_count: completed_count || [],
-    loading: false //set it to true 
+    loading: true //set it to true 
   });
 
-  // useEffect(() => {
-  //   let mounted = true;
-  //   const fetchData = async () => {
-  //     try {
-  //       let locs = { data: locations };
-  //       // let locs = await axios
-  //       //   .get('https://api.aflmonitoring.com/api/upload/locations/map/', {
-  //       //     headers: {
-  //       //       "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
-  //       //       "Content-Type": "application/json"
-  //       //     }
-  //       //   });
+   useEffect(() => {
+    let mounted = true;
+    const fetchData = async () => {
+      try {
+        let locs = { data: locations };
+        let locs = await axios
+          .get('https://api.aflmonitoring.com/api/upload/locations/map/', {
+            headers: {
+              "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
+              "Content-Type": "application/json"
+            }
+          });
 
-  //       let dists = { data: districts };
-  //       // let dists = await axios
-  //       //   .get('https://api.aflmonitoring.com/api/district/', {
-  //       //     headers: {
-  //       //       "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
-  //       //       "Content-Type": "application/json"
-  //       //     }
-  //       //   });
+        let dists = { data: districts };
+        let dists = await axios
+          .get('https://api.aflmonitoring.com/api/district/', {
+            headers: {
+              "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
+              "Content-Type": "application/json"
+            }
+          });
 
-  //       let count = { data: { pending_count: pending_count, ongoing_count: ongoing_count, completed_count: completed_count } };
-  //       // let count = await axios
-  //       //   .get('https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=3', {
-  //       //     headers: {
-  //       //       "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
-  //       //       "Content-Type": "application/json"
-  //       //     }
-  //       //   });
+        let count = { data: { pending_count: pending_count, ongoing_count: ongoing_count, completed_count: completed_count } };
+        let count = await axios
+          .get('https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=3', {
+            headers: {
+              "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
+              "Content-Type": "application/json"
+            }
+          });
 
-  //       setState({
-  //         locations: locs.data,
-  //         districts: dists.data,
-  //         pending_count: count.data.pending_count,
-  //         ongoing_count: count.data.ongoing_count,
-  //         completed_count: count.data.completed_count,
-  //         loading: false
-  //       });
-  //     } catch (e) {
-  //       setState({
-  //         ...state,
-  //         loading: false
-  //       });
+        setState({
+          locations: locs.data,
+          districts: dists.data,
+          pending_count: count.data.pending_count,
+          ongoing_count: count.data.ongoing_count,
+          completed_count: count.data.completed_count,
+          loading: false
+        });
+      } catch (e) {
+        setState({
+          ...state,
+          loading: false
+        });
 
-  //       //error handling
+        //error handling
 
-  //       console.log(e);
-  //     }
-  //   }
-  //   fetchData();
+        console.log(e);
+      }
+    }
+    fetchData();
 
-  //   return () => {
-  //     mounted = false;
-  //   }
-  // }, []);
+    return () => {
+      mounted = false;
+    }
+  }, []);
 
   const handleDistrictChange = async (e) => {
     setState({
