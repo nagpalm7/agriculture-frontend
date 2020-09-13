@@ -11,7 +11,7 @@ class Contents extends Component {
       <Content
         style={{
           margin: '40px 20px',
-          backgroundColor: '#fff',
+          //backgroundColor: '#fff',
           borderRadius: '20px',
           minHeight: 'auto',
         }}>
@@ -30,4 +30,5 @@ class Contents extends Component {
     );
   }
 }
+
 export default Contents;

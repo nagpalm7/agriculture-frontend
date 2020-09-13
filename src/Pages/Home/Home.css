@@ -1,3 +1,14 @@
 .button {
   background-color: #8555da;
 }
+
+.chart-text-heading {
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.chart-text-count {
+  font-size: x-large;
+  font-weight: 700;
+}
