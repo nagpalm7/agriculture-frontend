@@ -13,20 +13,19 @@ class Contents extends Component {
           margin: '40px 20px',
           //backgroundColor: '#fff',
           borderRadius: '20px',
+          minHeight: 'auto',
         }}>
-        <div style={{ flex: 1, padding: '10px', height: "100%" }}>
-          <Switch>
-            {dashboard_routes.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                children={<route.component />}
-              />
-            ))}
-            <Redirect from="/" to="/" />
-          </Switch>
-        </div>
+        <Switch>
+          {dashboard_routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              children={<route.component history={this.props.history} />}
+            />
+          ))}
+          <Redirect from="/" to="/" />
+        </Switch>
       </Content>
     );
   }

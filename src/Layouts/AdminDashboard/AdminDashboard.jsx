@@ -4,7 +4,6 @@ import './AdminDashboard.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Headers from '../../Components/Header/Header';
 import Contents from '../../Components/Content/Content';
-import { BrowserRouter } from 'react-router-dom';
 
 const { Footer } = Layout;
 
@@ -25,22 +24,19 @@ class AdminDashboard extends Component {
   render() {
     return (
       <div>
-        <BrowserRouter>
-          <Layout>
-            <Sidebar collapsed={this.state.collapsed} />
-            <Layout
-              className="site-layout"
-              style={{ backgroundColor: '#f5f3ff' }}>
-              <Headers
-                logout={this.props.logout}
-                toggle={this.toggle}
-                collapsed={this.state.collapsed}
-              />
-              <Contents />
-              <Footer>footer</Footer>
-            </Layout>
+        <Layout style={{ height: '100vh' }}>
+          <Sidebar collapsed={this.state.collapsed} />
+          <Layout
+            className="site-layout"
+            style={{ backgroundColor: '#f5f3ff' }}>
+            <Headers
+              logout={this.props.logout}
+              toggle={this.toggle}
+              collapsed={this.state.collapsed}
+            />
+            <Contents history={this.props.history} />
           </Layout>
-        </BrowserRouter>
+        </Layout>
       </div>
     );
   }

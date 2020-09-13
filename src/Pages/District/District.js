@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Input, Table, Space } from 'antd';
+import { Link } from 'react-router-dom';
+import { Space } from 'antd';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import './District.css';
-
-const { Search } = Input;
+import MainContent from '../../Components/MainContent/MainContent';
 
 const columns = [
   {
@@ -17,45 +17,33 @@ const columns = [
     key: 'option',
     render: (text, record) => (
       <Space size="large">
-        <a>
+        <Link to="/district/edit">
           <img src={edit} className="icons" />
-        </a>
-        <a>
-          <img src={garbage} className="icons" />
-        </a>
+        </Link>
+        <img src={garbage} className="icons" />
       </Space>
     ),
   },
 ];
 class District extends Component {
+  constructor() {
+    super();
+    this.state = {
+      districtData: [],
+      loading: false,
+    };
+  }
+
   render() {
     return (
       <>
-        <div className="site-page-header-ghost-wrapper">
-          <PageHeader
-            ghost={false}
-            title="District"
-            subTitle=""
-            extra={[
-              <Button key="1" shape="round">
-                Add
-              </Button>,
-              <Button key="2" shape="round">
-                Add Bulk
-              </Button>,
-              <Search
-                placeholder="Search"
-                onSearch={(value) => console.log(value)}
-                style={{ width: 200 }}
-              />,
-            ]}>
-            <Table
-              pagination={{ position: ['bottomCenter'] }}
-              columns={columns}
-              size="small"
-            />
-          </PageHeader>
-        </div>
+        <MainContent
+          title="Villages"
+          addlink="/district/add"
+          loading={this.state.loading}
+          dataSource={this.state.districtData}
+          columns={columns}
+        />
       </>
     );
   }
