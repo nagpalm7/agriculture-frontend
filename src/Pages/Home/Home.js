@@ -185,7 +185,7 @@ const Home = (props) => {
 
         //let count = { data: { pending_count: pending_count, ongoing_count: ongoing_count, completed_count: completed_count } };
         let count = await axios
-          .get('https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=3', {
+          .get('https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=5', {
             headers: {
               "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
               "Content-Type": "application/json"
