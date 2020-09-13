@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Space, Modal } from 'antd';
+import { Space, Modal, message } from 'antd';
 import './Villages.css';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
@@ -14,6 +14,7 @@ class Villages extends Component {
   constructor() {
     super();
     this.state = {
+      search: '',
       totalCount: null,
       villageData: [],
       loading: false,
@@ -32,11 +33,12 @@ class Villages extends Component {
         return (
           <Space size="large">
             <Link to={`/villages/edit/${record.id}`}>
-              <img src={edit} alt="" className="icons" />
+              <img src={edit} alt="edit" className="icons" />
             </Link>
             <img
               src={garbage}
               className="icons"
+              alt="delete"
               onClick={() => this.showDeleteConfirm(record.village, record.id)}
             />
           </Space>
@@ -44,6 +46,16 @@ class Villages extends Component {
       },
     },
   ];
+
+  onSearch = (value) => {
+    this.setState({ ...this.state, search: value });
+    let currentPage = this.props.history.location.search.split('=')[1];
+    if (currentPage === undefined) {
+      this.fetchVillageList(1, value);
+    } else {
+      this.fetchVillageList(currentPage, value);
+    }
+  };
 
   showDeleteConfirm = (villlageName, villageId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
@@ -61,6 +73,7 @@ class Villages extends Component {
           .delete(`/api/village/${villageId}/`)
           .then((res) => {
             console.log(res);
+            message.success('Village deleted successfully');
             if (currentPage === undefined) {
               instance.fetchVillageList(1);
             } else {
@@ -71,6 +84,7 @@ class Villages extends Component {
             if (err.response) {
               console.log(err.response);
             } else {
+              message.error(err.message);
               console.log(err.message);
             }
           });
@@ -87,13 +101,13 @@ class Villages extends Component {
       pathname: '/villages/',
       search: `?page=${page}`,
     });
-    this.fetchVillageList(page);
+    this.fetchVillageList(page, this.state.search);
   };
 
-  fetchVillageList = (page) => {
+  fetchVillageList = (page, search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/villages-list/?page=${page}`)
+      .get(`/api/villages-list/?page=${page}&search=${search}`)
       .then((res) => {
         console.log(res.data);
         this.setState({
@@ -118,7 +132,7 @@ class Villages extends Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.fetchVillageList(1);
+    this.fetchVillageList(1, this.state.search);
   }
 
   render() {
@@ -131,6 +145,7 @@ class Villages extends Component {
         columns={this.columns}
         totalPages={this.state.totalPages}
         onPageChange={this.onPageChange}
+        onSearch={this.onSearch}
       />
     );
   }

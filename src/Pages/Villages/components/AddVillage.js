@@ -192,8 +192,9 @@ class AddVillages extends Component {
             <MyButton
               htmlType="submit"
               text="ADD"
-              type="filled"
-              extraStyle={{
+              className="filled"
+              loading={this.state.loadings}
+              style={{
                 background: '#3d0098',
                 borderColor: '#3d0098',
                 color: '#ffffff',
