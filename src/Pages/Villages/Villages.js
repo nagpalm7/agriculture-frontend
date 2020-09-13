@@ -1,33 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Space } from 'antd';
+import { Space, Modal } from 'antd';
 import './Villages.css';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
-const columns = [
-  {
-    title: 'VILLAGES',
-    dataIndex: 'village',
-    key: 'name',
-  },
-  {
-    title: 'OPTIONS',
-    key: 'operation',
-    render: (text, record) => {
-      return (
-        <Space size="large">
-          <Link to={`villages/edit/${record.id}`}>
-            <img src={edit} alt="" className="icons" />
-          </Link>
-          <img src={garbage} alt="" className="icons" />
-        </Space>
-      );
-    },
-  },
-];
+const { confirm } = Modal;
 
 class Villages extends Component {
   constructor() {
@@ -38,6 +19,67 @@ class Villages extends Component {
       loading: false,
     };
   }
+  columns = [
+    {
+      title: 'VILLAGES',
+      dataIndex: 'village',
+      key: 'name',
+    },
+    {
+      title: 'OPTIONS',
+      key: 'operation',
+      render: (text, record) => {
+        return (
+          <Space size="large">
+            <Link to={`/villages/edit/${record.id}`}>
+              <img src={edit} alt="" className="icons" />
+            </Link>
+            <img
+              src={garbage}
+              className="icons"
+              onClick={() => this.showDeleteConfirm(record.village, record.id)}
+            />
+          </Space>
+        );
+      },
+    },
+  ];
+
+  showDeleteConfirm = (villlageName, villageId) => {
+    let currentPage = this.props.history.location.search.split('=')[1];
+    let instance = this;
+    confirm({
+      title: 'Are you sure delete this village?',
+      icon: <ExclamationCircleOutlined />,
+      content: villlageName,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK');
+        axiosInstance
+          .delete(`/api/village/${villageId}/`)
+          .then((res) => {
+            console.log(res);
+            if (currentPage === undefined) {
+              instance.fetchVillageList(1);
+            } else {
+              instance.fetchVillageList(currentPage);
+            }
+          })
+          .catch((err) => {
+            if (err.response) {
+              console.log(err.response);
+            } else {
+              console.log(err.message);
+            }
+          });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
 
   onPageChange = (page) => {
     console.log('page = ', page);
@@ -86,7 +128,7 @@ class Villages extends Component {
         addlink="/villages/add"
         loading={this.state.loading}
         dataSource={this.state.villageData}
-        columns={columns}
+        columns={this.columns}
         totalPages={this.state.totalPages}
         onPageChange={this.onPageChange}
       />
