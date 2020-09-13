@@ -153,17 +153,18 @@ const Home = (props) => {
   let [state, setState] = useState({
     locations: locations || [],
     districts: districts || [],
+    selectedDist: "ALL DISTRICTS",
     pending_count: pending_count || [],
     ongoing_count: ongoing_count || [],
     completed_count: completed_count || [],
     loading: true //set it to true 
   });
 
-   useEffect(() => {
+  useEffect(() => {
     let mounted = true;
     const fetchData = async () => {
       try {
-        let locs = { data: locations };
+        //let locs = { data: locations };
         let locs = await axios
           .get('https://api.aflmonitoring.com/api/upload/locations/map/', {
             headers: {
@@ -172,7 +173,7 @@ const Home = (props) => {
             }
           });
 
-        let dists = { data: districts };
+        //let dists = { data: districts };
         let dists = await axios
           .get('https://api.aflmonitoring.com/api/district/', {
             headers: {
@@ -180,8 +181,10 @@ const Home = (props) => {
               "Content-Type": "application/json"
             }
           });
+        dists.data.push({ id: -1, district: "ALL DISTRICTS" });
+        console.log(dists.data);
 
-        let count = { data: { pending_count: pending_count, ongoing_count: ongoing_count, completed_count: completed_count } };
+        //let count = { data: { pending_count: pending_count, ongoing_count: ongoing_count, completed_count: completed_count } };
         let count = await axios
           .get('https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=3', {
             headers: {
@@ -193,6 +196,7 @@ const Home = (props) => {
         setState({
           locations: locs.data,
           districts: dists.data,
+          selectedDist: "ALL DISTRICTS",
           pending_count: count.data.pending_count,
           ongoing_count: count.data.ongoing_count,
           completed_count: count.data.completed_count,
@@ -217,13 +221,25 @@ const Home = (props) => {
   }, []);
 
   const handleDistrictChange = async (e) => {
+    console.log(e);
+    
+    let url = "https://api.aflmonitoring.com/api/upload/locations/map/";
+    let selectedDist = state.districts.filter((dist) => dist.id == parseInt(e.key))[0].district;
+
     setState({
       ...state,
+      selectedDist: selectedDist,
       loading: true
     });
 
+    if (selectedDist == "ALL DISTRICTS") {
+      url = "https://api.aflmonitoring.com/api/upload/locations/map/";
+    } else {
+      url = `https://api.aflmonitoring.com/api/upload/locations/map/?district=${selectedDist}`;
+    }
+
     let locs = await axios
-      .get(`https://api.aflmonitoring.com/api/upload/locations/map/?district=${state.districts[22 - parseInt(e.key)].district}`, {
+      .get(url, {
         headers: {
           "Authorization": "token " + (localStorage.getItem("Token") || sessionStorage.getItem("Token")),
           "Content-Type": "application/json"
@@ -236,34 +252,32 @@ const Home = (props) => {
       loading: false
     });
 
-    message.info(`Showing data of district ${state.districts[22 - parseInt(e.key)].district}`);
-  }
-
-  if (state.loading) {
-    return (
-      <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, backgroundColor: "#aaa", opacity: 0.7, flex: 1 }}>
-        <Spin style={{ position: "absolute", top: 300, bottom: 0, left: 0, right: 0, flex: 1, height: 500 }} size="large"/>
-      </div>
-    );
+    message.info(`Showing data of district ${selectedDist}`);
   }
 
   return (
     <React.Fragment>
       <Row>
         <h2 style={{ fontWeight: "bold", flex: 1, fontSize: 26 }}>Map</h2>
-        <DropdownMenu districts={state.districts} handleDistrictChange={handleDistrictChange} />
+        <DropdownMenu districts={state.districts} handleDistrictChange={handleDistrictChange} selectedDist={state.selectedDist} />
       </Row>
       <Row justify="center" >
-        <Col xl={20} xs={24} >
-          <Map locations={state.locations} />
-        </Col>
-        <Col xl={4} xs={4} style={{ minWidth: 200 }} >
-          <Charts
-            pending_count={state.pending_count}
-            ongoing_count={state.ongoing_count}
-            completed_count={state.completed_count}
-          />
-        </Col>
+        {
+          state.loading
+            ? <Spin size="large" />
+            : <>
+              <Col xl={20} xs={24} >
+                <Map locations={state.locations} />
+              </Col>
+              <Col xl={4} xs={4} style={{ minWidth: 200 }} >
+                <Charts
+                  pending_count={state.pending_count}
+                  ongoing_count={state.ongoing_count}
+                  completed_count={state.completed_count}
+                />
+              </Col>
+            </>
+        }
       </Row>
     </React.Fragment>
   );

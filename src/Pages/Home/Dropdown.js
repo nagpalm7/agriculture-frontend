@@ -28,8 +28,8 @@ const DropdownMenu = (props) => {
 
     return (
         <Dropdown overlay={menuItems} overlayStyle={{ float: "revert" }}>
-            <Button style={{ borderRadius: 14, backgroundColor: "#cccccc", padding: "6px 26px" }}>
-                All District <DownOutlined />
+            <Button style={{ borderRadius: 14, backgroundColor: "#cccccc", padding: "3px 26px" }}>
+                {props.selectedDist} <DownOutlined />
             </Button>
         </Dropdown>
     );
