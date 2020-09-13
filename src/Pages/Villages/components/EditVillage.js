@@ -9,6 +9,7 @@ class EditVillage extends Component {
   constructor() {
     super();
     this.state = {
+      loadings: false,
       blockData: [],
       adoData: [],
     };
@@ -88,6 +89,7 @@ class EditVillage extends Component {
   };
 
   handleEditVillage = (e) => {
+    this.setState({ ...this.state, loadings: true });
     const {
       village_name,
       village_code,
@@ -105,9 +107,12 @@ class EditVillage extends Component {
       })
       .then((res) => {
         console.log(res);
+        this.setState({ ...this.state, loadings: false });
         message.success('Village updated successfully');
+        this.props.history.goBack();
       })
       .catch((err) => {
+        this.setState({ ...this.state, loadings: false });
         if (err.response) {
           message.error('Unable to update village');
           console.log(err.response);
@@ -218,8 +223,9 @@ class EditVillage extends Component {
             <MyButton
               htmlType="submit"
               text="UPDATE"
-              type="filled"
-              extraStyle={{
+              className="filled"
+              loading={this.state.loadings}
+              style={{
                 background: '#3d0098',
                 borderColor: '#3d0098',
                 color: '#ffffff',

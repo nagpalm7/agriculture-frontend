@@ -60,6 +60,7 @@ class AddVillages extends Component {
   }
 
   handleAddVillage = (event) => {
+    this.setState({ ...this.state, loadings: true });
     const {
       village_name,
       village_code,
@@ -77,10 +78,13 @@ class AddVillages extends Component {
         ado: adolist === undefined ? null : adolist,
       })
       .then((res) => {
+        this.setState({ ...this.state, loadings: false });
         console.log(res);
         message.success('Village added');
+        this.props.history.goBack();
       })
       .catch((err) => {
+        this.setState({ ...this.state, loadings: false });
         if (err.response) {
           console.log(err.response);
           message.error('Unable to add village');
