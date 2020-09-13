@@ -99,12 +99,12 @@ const pending_count = [
   {
     "start": "2019-02-01",
     "end": "2019-05-16",
-    "data": 0
+    "data": 1000
   },
   {
     "start": "2019-05-17",
     "end": "2019-08-29",
-    "data": 0
+    "data": 1200
   },
   {
     "start": "2019-08-30",
@@ -182,7 +182,6 @@ const Home = (props) => {
             }
           });
         dists.data.push({ id: -1, district: "ALL DISTRICTS" });
-        console.log(dists.data);
 
         //let count = { data: { pending_count: pending_count, ongoing_count: ongoing_count, completed_count: completed_count } };
         let count = await axios
@@ -249,6 +248,7 @@ const Home = (props) => {
     setState({
       ...state,
       locations: locs.data,
+      selectedDist: selectedDist,
       loading: false
     });
 
