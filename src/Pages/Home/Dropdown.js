@@ -2,11 +2,6 @@ import React from "react";
 import { Menu, Dropdown, Button, message } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 
-function handleButtonClick(e) {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-}
-
 const renderMenu = (menu, handleDistrictChange) => {
     return (
         <Menu onClick={handleDistrictChange}>

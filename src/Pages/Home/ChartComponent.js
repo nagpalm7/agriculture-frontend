@@ -2,19 +2,24 @@ import React from 'react';
 import { Chart } from 'react-charts';
 
 const ChartComponent = (props) => {
+    let data = [];
+    props.count.forEach((ele) => {
+        data.push([ele.start, ele.data]);
+    });
+
     return (
-            <Chart            
-                data={[
-                    {
-                        label: 'Series 1',
-                        data: [[0, 1], [1, 2], [2, 4], [3, 2]]
-                    }
-                ]}
-                axes={[
-                    { primary: true, type: 'linear', position: 'bottom' },
-                    { type: 'linear', position: 'left' }
-                ]}
-            />
+        <Chart
+            data={[
+                {
+                    label: 'Series 1',
+                    data: data
+                }
+            ]}
+            axes={[
+                { primary: true, type: 'ordinal', position: 'bottom' },
+                { type: 'linear', position: 'left' }
+            ]}
+        />
     )
 }
 

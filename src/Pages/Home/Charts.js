@@ -8,7 +8,6 @@ const style = {
         backgroundColor: "white",
         margin: "10px 10px 30px 30px",
         borderRadius: 30,
-        // border: "2px solid red",
         padding: "15px"
     }
 };
