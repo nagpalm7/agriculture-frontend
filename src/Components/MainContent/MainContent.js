@@ -20,7 +20,7 @@ class MainContent extends Component {
       onSearch,
     } = this.props;
     return (
-      <div>
+      <div style={{ backgroundColor: '#fff', borderRadius: 'inherit' }}>
         <PageHeader
           className="site-page-header"
           ghost={false}
