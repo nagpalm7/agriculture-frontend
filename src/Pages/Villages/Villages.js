@@ -27,6 +27,26 @@ class Villages extends Component {
       key: 'name',
     },
     {
+      title: 'VILLAGE CODE',
+      dataIndex: 'village_code',
+      key: 'village_code',
+    },
+    {
+      title: 'VILLAGE SUBCODE',
+      dataIndex: 'village_subcode',
+      key: 'village_subcode',
+    },
+    {
+      title: 'BLOCK',
+      dataIndex: 'block',
+      key: 'block',
+    },
+    {
+      title: 'ADO',
+      dataIndex: 'ado',
+      key: 'ado',
+    },
+    {
       title: 'OPTIONS',
       key: 'operation',
       render: (text, record) => {
@@ -137,16 +157,18 @@ class Villages extends Component {
 
   render() {
     return (
-      <MainContent
-        title="Villages"
-        addlink="/villages/add"
-        loading={this.state.loading}
-        dataSource={this.state.villageData}
-        columns={this.columns}
-        totalPages={this.state.totalPages}
-        onPageChange={this.onPageChange}
-        onSearch={this.onSearch}
-      />
+      <>
+        <MainContent
+          title="Villages"
+          addlink="/villages/add"
+          loading={this.state.loading}
+          dataSource={this.state.villageData}
+          columns={this.columns}
+          totalPages={this.state.totalPages}
+          onPageChange={this.onPageChange}
+          onSearch={this.onSearch}
+        />
+      </>
     );
   }
 }

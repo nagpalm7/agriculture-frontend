@@ -18,7 +18,7 @@ class AddVillages extends Component {
     };
   }
 
-  componentDidMount() {
+  fetchBlock = () => {
     axiosInstance
       .get('/api/block/')
       .then((res) => {
@@ -38,7 +38,9 @@ class AddVillages extends Component {
           console.log(err.message);
         }
       });
+  };
 
+  fetchAdo = () => {
     axiosInstance
       .get('/api/users-list/ado/')
       .then((res) => {
@@ -57,6 +59,11 @@ class AddVillages extends Component {
           console.log(err.message);
         }
       });
+  };
+
+  componentDidMount() {
+    this.fetchBlock();
+    this.fetchAdo();
   }
 
   handleAddVillage = (event) => {
@@ -169,6 +176,11 @@ class AddVillages extends Component {
               },
             ]}>
             <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
               placeholder="Select Block"
               style={{ borderRadius: '7px', borderColor: '#707070' }}>
               {this.state.blockData.map((item) => {
