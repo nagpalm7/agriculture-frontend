@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { Form, Input, Typography, message, Select } from 'antd';
+import { Form, Input, Typography, message, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import './addvillage.css';
@@ -9,7 +9,8 @@ class EditVillage extends Component {
   constructor() {
     super();
     this.state = {
-      loadings: false,
+      formLoading: false,
+      btnLoading: false,
       blockData: [],
       adoData: [],
     };
@@ -24,6 +25,7 @@ class EditVillage extends Component {
   }
 
   fetchVillageInfo = () => {
+    this.setState({ ...this.state, formLoading: true });
     this.villageId = this.props.history.location.pathname.split('/')[3];
     axiosInstance
       .get(`/api/village/${this.villageId}/`)
@@ -36,11 +38,14 @@ class EditVillage extends Component {
           blocklist: res.data.block.id,
           adolist: res.data.ado,
         });
+        this.setState({ ...this.state, formLoading: false });
       })
       .catch((err) => {
+        this.setState({ ...this.state, formLoading: false });
         if (err.response) {
           console.log(err.response);
         } else {
+          message.error(err.message);
           console.log(err.message);
         }
       });
@@ -89,7 +94,7 @@ class EditVillage extends Component {
   };
 
   handleEditVillage = (e) => {
-    this.setState({ ...this.state, loadings: true });
+    this.setState({ ...this.state, btnLoading: true });
     const {
       village_name,
       village_code,
@@ -107,12 +112,12 @@ class EditVillage extends Component {
       })
       .then((res) => {
         console.log(res);
-        this.setState({ ...this.state, loadings: false });
+        this.setState({ ...this.state, btnLoading: false });
         message.success('Village updated successfully');
         this.props.history.goBack();
       })
       .catch((err) => {
-        this.setState({ ...this.state, loadings: false });
+        this.setState({ ...this.state, btnLoading: false });
         if (err.response) {
           message.error('Unable to update village');
           console.log(err.response);
@@ -125,116 +130,121 @@ class EditVillage extends Component {
 
   render() {
     return (
-      <div className="form-container">
-        <div>
-          <Title level={3}>Edit Village</Title>
-        </div>
-        <Form
-          ref={this.formRef}
-          name="edit_village"
-          className="edit-village"
-          onFinish={this.handleEditVillage}>
-          <h3>
-            <b>Village</b>
-          </h3>
-          <Form.Item
-            name="village_name"
-            style={{ marginBottom: '10px' }}
-            rules={[
-              {
-                required: true,
-                message: 'Please provide village name!',
-              },
-            ]}>
-            <Input
-              placeholder="Village name"
-              style={{ borderRadius: '7px', borderColor: '#707070' }}
-            />
-          </Form.Item>
-          <h3>
-            <b>Village Code</b>
-          </h3>
-          <Form.Item
-            name="village_code"
-            style={{ marginBottom: '10px' }}
-            rules={[
-              {
-                required: true,
-                message: 'Please provide village code!',
-              },
-            ]}>
-            <Input
-              placeholder="Village Code"
-              style={{ borderRadius: '7px', borderColor: '#707070' }}
-            />
-          </Form.Item>
-          <h3>
-            <b>Village Sub Code</b>
-          </h3>
-          <Form.Item
-            name="village_subcode"
-            style={{ marginBottom: '10px' }}
-            rules={[
-              {
-                required: true,
-                message: 'Please provide village subcode!',
-              },
-            ]}>
-            <Input
-              placeholder="Village Sub Code"
-              style={{ borderRadius: '7px', borderColor: '#707070' }}
-            />
-          </Form.Item>
-          <h3>
-            <b>Block</b>
-          </h3>
-          <Form.Item
-            name="blocklist"
-            style={{ marginBottom: '16px' }}
-            rules={[
-              {
-                required: true,
-                message: 'Please select block!',
-              },
-            ]}>
-            <Select
-              placeholder="Select Block"
-              style={{ borderRadius: '7px', borderColor: '#707070' }}>
-              {this.state.blockData.map((item) => {
-                return (
-                  <Select.Option value={item.id}>{item.block}</Select.Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-          <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
-            <Select
-              placeholder="Select Ado"
-              style={{ borderRadius: '7px', borderColor: '#707070' }}>
-              {this.state.adoData.map((item) => {
-                return (
-                  <Select.Option value={item.id}>{item.ado}</Select.Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
+      <Spin spinning={this.state.formLoading}>
+        <div className="form-container">
+          <div>
+            <Title level={3}>Edit Village</Title>
+          </div>
+          <Form
+            ref={this.formRef}
+            name="edit_village"
+            className="edit-village"
+            onFinish={this.handleEditVillage}>
+            <h3>
+              <b>Village</b>
+            </h3>
+            <Form.Item
+              name="village_name"
+              style={{ marginBottom: '10px' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please provide village name!',
+                },
+              ]}>
+              <Input
+                placeholder="Village name"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+              />
+            </Form.Item>
+            <h3>
+              <b>Village Code</b>
+            </h3>
+            <Form.Item
+              name="village_code"
+              style={{ marginBottom: '10px' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please provide village code!',
+                },
+              ]}>
+              <Input
+                placeholder="Village Code"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+              />
+            </Form.Item>
+            <h3>
+              <b>Village Sub Code</b>
+            </h3>
+            <Form.Item
+              name="village_subcode"
+              style={{ marginBottom: '10px' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please provide village subcode!',
+                },
+              ]}>
+              <Input
+                placeholder="Village Sub Code"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+              />
+            </Form.Item>
+            <h3>
+              <b>Block</b>
+            </h3>
+            <Form.Item
+              name="blocklist"
+              style={{ marginBottom: '16px' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select block!',
+                },
+              ]}>
+              <Select
+                placeholder="Select Block"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+                {this.state.blockData.map((item) => {
+                  return (
+                    <Select.Option value={item.id}>{item.block}</Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            <h3>
+              <b>ADO</b>
+            </h3>
+            <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
+              <Select
+                placeholder="Select Ado"
+                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+                {this.state.adoData.map((item) => {
+                  return (
+                    <Select.Option value={item.id}>{item.ado}</Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
 
-          <Form.Item style={{ marginBottom: '10px' }}>
-            <MyButton
-              htmlType="submit"
-              text="UPDATE"
-              className="filled"
-              loading={this.state.loadings}
-              style={{
-                background: '#3d0098',
-                borderColor: '#3d0098',
-                color: '#ffffff',
-                fontWeight: '500',
-              }}
-            />
-          </Form.Item>
-        </Form>
-      </div>
+            <Form.Item style={{ marginBottom: '10px' }}>
+              <MyButton
+                htmlType="submit"
+                text="UPDATE"
+                className="filled"
+                loading={this.state.btnLoading}
+                style={{
+                  background: '#3d0098',
+                  borderColor: '#3d0098',
+                  color: '#ffffff',
+                  fontWeight: '500',
+                }}
+              />
+            </Form.Item>
+          </Form>
+        </div>
+      </Spin>
     );
   }
 }

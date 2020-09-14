@@ -2,5 +2,6 @@
   padding: 20px 24px;
   max-width: 600px;
   margin: auto;
-  background-color: inherit;
+  background-color: #fff;
+  border-radius: inherit;
 }
