@@ -5,8 +5,6 @@ import Sidebar from '../../Components/Sidebar/Sidebar';
 import Headers from '../../Components/Header/Header';
 import Contents from '../../Components/Content/Content';
 
-const { Footer } = Layout;
-
 class AdminDashboard extends Component {
   constructor() {
     super();

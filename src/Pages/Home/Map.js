@@ -12,7 +12,6 @@ const RenderMarkers = (markers) => {
                     position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }}
                 >
                     <InfoBox
-                        //onCloseClick={props.onToggleOpen}
                         options={{ closeBoxURL: ``, enableEventPropagation: true }}
                     >
                         <div style={{ backgroundColor: `yellow`, opacity: 0.75, padding: `12px` }}>

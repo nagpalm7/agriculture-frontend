@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { Form, Input, Typography, message, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
-import './addvillage.css';
+import '../../formStyle.css';
 
 const { Title } = Typography;
 class EditVillage extends Component {
@@ -36,7 +36,7 @@ class EditVillage extends Component {
           village_code: res.data.village_code,
           village_subcode: res.data.village_subcode,
           blocklist: res.data.block.id,
-          adolist: res.data.ado,
+          adolist: res.data.ado.id,
         });
         this.setState({ ...this.state, formLoading: false });
       })
@@ -152,10 +152,7 @@ class EditVillage extends Component {
                   message: 'Please provide village name!',
                 },
               ]}>
-              <Input
-                placeholder="Village name"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Village name" />
             </Form.Item>
             <h3>
               <b>Village Code</b>
@@ -169,10 +166,7 @@ class EditVillage extends Component {
                   message: 'Please provide village code!',
                 },
               ]}>
-              <Input
-                placeholder="Village Code"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Village Code" />
             </Form.Item>
             <h3>
               <b>Village Sub Code</b>
@@ -186,10 +180,7 @@ class EditVillage extends Component {
                   message: 'Please provide village subcode!',
                 },
               ]}>
-              <Input
-                placeholder="Village Sub Code"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Village Sub Code" />
             </Form.Item>
             <h3>
               <b>Block</b>
@@ -203,9 +194,7 @@ class EditVillage extends Component {
                   message: 'Please select block!',
                 },
               ]}>
-              <Select
-                placeholder="Select Block"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+              <Select placeholder="Select Block">
                 {this.state.blockData.map((item) => {
                   return (
                     <Select.Option value={item.id}>{item.block}</Select.Option>
