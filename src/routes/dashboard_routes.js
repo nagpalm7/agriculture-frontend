@@ -6,6 +6,8 @@ import ADO from '../Pages/ADO/ADO.js';
 import Locations from '../Pages/Locations/Locations.js';
 import AddVillage from '../Pages/Villages/components/AddVillage.js';
 import EditVillage from '../Pages/Villages/components/EditVillage.js';
+import AddDda from '../Pages/DDA/components/AddDda.js';
+import EditDda from '../Pages/DDA/components/EditDda.js';
 
 const dashboard_routes = [
   {
@@ -37,6 +39,16 @@ const dashboard_routes = [
     exact: true,
     path: '/dda',
     component: DDA,
+  },
+  {
+    exact: true,
+    path: 'dda/add',
+    component: AddDda,
+  },
+  {
+    exact: true,
+    path: 'dda/edit/:ddaId',
+    component: EditDda,
   },
   {
     exact: true,
