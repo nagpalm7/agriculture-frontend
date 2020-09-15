@@ -22,7 +22,7 @@ export default class App extends React.Component {
       sessionStorage.getItem('Role') === null;
     this.setState({
       isLoggedIn: !isLoggedIn,
-      role: roleIsNull === true ? 5 : roleIsNull,
+      role: 5,
     });
   }
   /*eslint-enable */
