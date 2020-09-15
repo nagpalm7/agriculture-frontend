@@ -42,12 +42,12 @@ const dashboard_routes = [
   },
   {
     exact: true,
-    path: 'dda/add',
+    path: '/dda/add',
     component: AddDda,
   },
   {
     exact: true,
-    path: 'dda/edit/:ddaId',
+    path: '/dda/edit/:ddaId',
     component: EditDda,
   },
   {

@@ -47,14 +47,14 @@ class DDA extends Component {
       render: (text, record) => {
         return (
           <Space size="large">
-            <Link to={`/district/edit/${record.id}`}>
+            <Link to={`/dda/edit/${record.id}`}>
               <img src={edit} alt="edit" className="icons" />
             </Link>
             <img
               src={garbage}
               className="icons"
               alt="delete"
-              onClick={() => this.showDeleteConfirm(record.district, record.id)}
+              onClick={() => this.showDeleteConfirm(record.dda, record.id)}
             />
           </Space>
         );
@@ -68,7 +68,7 @@ class DDA extends Component {
     if (currentPage === undefined) {
       this.fetchDdaList(1, value);
     } else {
-      this.fetchDdalist(currentPage, value);
+      this.fetchDdaList(currentPage, value);
     }
   };
 
@@ -127,6 +127,7 @@ class DDA extends Component {
         console.log(res.data);
         const ddaData = res.data.results.map((item) => {
           return {
+            id: item.id,
             dda: item.user.name,
             district: item.district.district,
             email: item.user.email,
