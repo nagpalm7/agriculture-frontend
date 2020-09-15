@@ -3,10 +3,10 @@ import { Layout, Menu, Dropdown } from 'antd';
 import {
   HomeFilled,
   UserOutlined,
-  VideoCameraOutlined,
   UploadOutlined,
   DownOutlined,
   TeamOutlined,
+  VideoCameraFilled,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
@@ -55,7 +55,7 @@ class Sidebar extends Component {
           </Menu.Item>
           <Menu.Item
             key="2"
-            icon={<VideoCameraOutlined />}
+            icon={<VideoCameraFilled />}
             style={{ borderRadius: '25px', marginBottom: '20px' }}>
             <Link to="/district">District</Link>
           </Menu.Item>

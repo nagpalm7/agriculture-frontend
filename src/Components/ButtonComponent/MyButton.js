@@ -5,13 +5,7 @@ import './MyButton.css';
 const MyButton = (props) => {
   return (
     <>
-      <Button
-        htmlType={props.htmlType}
-        className={props.type}
-        onClick={props.handleClick}
-        style={props.extraStyle}>
-        {props.text}
-      </Button>
+      <Button {...props}>{props.text}</Button>
     </>
   );
 };

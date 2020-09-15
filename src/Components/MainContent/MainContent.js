@@ -17,9 +17,10 @@ class MainContent extends Component {
       columns,
       totalPages,
       onPageChange,
+      onSearch,
     } = this.props;
     return (
-      <div>
+      <div style={{ backgroundColor: '#fff', borderRadius: 'inherit' }}>
         <PageHeader
           className="site-page-header"
           ghost={false}
@@ -30,27 +31,27 @@ class MainContent extends Component {
             <Link to={addlink} key="1">
               <MyButton
                 text="Add"
-                type="filled"
-                extraStyle={{
+                className="filled"
+                style={{
                   color: '#fff',
                   backgroundColor: '#3d0098',
                   border: '1px solid #3d0098',
                 }}
               />
             </Link>,
-            <MyButton
-              key="2"
-              text="Add Bulk"
-              type="filled"
-              extraStyle={{
-                color: '#fff',
-                backgroundColor: '#3d0098',
-                border: '1px solid #3d0098',
-              }}
-            />,
+            // <MyButton
+            //   key="2"
+            //   text="Add Bulk"
+            //   className="filled"
+            //   style={{
+            //     color: '#fff',
+            //     backgroundColor: '#3d0098',
+            //     border: '1px solid #3d0098',
+            //   }}
+            // />,
             <Search
               placeholder="Search"
-              onSearch={(value) => console.log(value)}
+              onSearch={(value) => onSearch(value)}
               className="search-bar-style"
               style={{ width: 200, color: '#000' }}
             />,

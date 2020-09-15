@@ -4,23 +4,19 @@ import { Form, Button, Input, Checkbox, message } from 'antd';
 import './Login.css';
 
 class Login extends Component {
-  token;
-  documentData;
   constructor() {
     super();
     this.state = {
       loadings: false,
       checked: false,
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onCheckboxChange = (e) => {
     this.setState({ ...this.state, checked: e.target.checked });
   };
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     this.setState({ ...this.state, loadings: true });
     const { username, password } = event;
     axios
@@ -31,22 +27,37 @@ class Login extends Component {
       .then((response) => {
         console.log(response);
         this.setState({ ...this.state, loadings: false });
+        const token = response.data.key;
 
-        if (response && response.statusText === 'OK') {
-          this.token = response.data.key;
-          //if response is ok, then check if u want to store the token in localstorage or sessionstorage
-          if (this.state.checked === true) {
-            localStorage.setItem('Token', this.token);
-          } else {
-            sessionStorage.setItem('Token', this.token);
-          }
-          message.success('Login Successfull');
-          this.props.toggleIsLoggedIn();
-          this.props.history.push('/home');
-        } else {
-          console.log(response);
-          this.setState({ ...this.state, loadings: false });
-        }
+        // getting user role
+        axios
+          .get('https://api.aflmonitoring.com/api/get-user/', {
+            headers: {
+              Authorization: `token ${token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            const role = res.data.user.role;
+            this.props.setRole(role);
+            if (this.state.checked === true) {
+              localStorage.setItem('Token', token);
+              localStorage.setItem('Role', role);
+            } else {
+              sessionStorage.setItem('Token', token);
+              localStorage.setItem('Role', role);
+            }
+            message.success('Login Successfull');
+            this.props.toggleIsLoggedIn();
+            this.props.history.push('/home');
+          })
+          .catch((err) => {
+            if (err.response) {
+              console.log(err.response);
+            } else {
+              console.log(err.message);
+            }
+          });
       })
       .catch((error) => {
         this.setState({ ...this.state, loadings: false });
@@ -56,7 +67,7 @@ class Login extends Component {
           message.error(error.message);
         }
       });
-  }
+  };
   render() {
     const { loadings } = this.state;
     return (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Space, message, Modal } from 'antd';
+import { Space, Modal, message } from 'antd';
+import './location.css';
 import edit from '../../assets/images/edit.svg';
 import garbage from '../../assets/images/garbage.svg';
 import { axiosInstance } from '../../utils/axiosIntercepter';
@@ -9,90 +10,99 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 
-const columns = [
-  {
-    title: 'DDA',
-    dataIndex: 'dda',
-    key: 'dda',
-  },
-  {
-    title: 'DISTRICT',
-    dataIndex: 'district',
-    key: 'district',
-  },
-  {
-    title: 'PHONE',
-    dataIndex: 'phone',
-    key: 'phone',
-  },
-  {
-    title: 'EMAIL',
-    key: 'email',
-    dataIndex: 'email',
-  },
-  {
-    title: 'OPTIONS',
-    key: 'option',
-    render: (text, record) => {
-      return (
-        <Space size="large">
-          <Link to={`/district/edit/${record.id}`}>
-            <img src={edit} alt="edit" className="icons" />
-          </Link>
-          <img
-            src={garbage}
-            className="icons"
-            alt="delete"
-            onClick={() => this.showDeleteConfirm(record.district, record.id)}
-          />
-        </Space>
-      );
-    },
-  },
-];
-
-class DDA extends Component {
+class Pending extends Component {
   constructor() {
     super();
     this.state = {
       search: '',
       totalCount: null,
-      ddaData: [],
+      locationsData: [],
       loading: false,
     };
   }
+  columns = [
+    {
+      title: 'STATE',
+      dataIndex: 'state',
+      key: 'state',
+    },
+    {
+      title: 'BLOCK',
+      dataIndex: 'block',
+      key: 'block',
+    },
+    {
+      title: 'VILLAGE',
+      dataIndex: 'village_name',
+      key: 'village_name',
+    },
+    {
+      title: 'DDA',
+      dataIndex: 'dda',
+      key: 'dda',
+    },
+    {
+      title: 'ADO',
+      dataIndex: 'ado',
+      key: 'ado',
+    },
+    {
+      title: 'DATE',
+      dataIndex: 'acq_date',
+      key: 'acq_date',
+    },
+    {
+      title: 'OPTIONS',
+      key: 'operation',
+      render: (text, record) => {
+        return (
+          <Space size="large">
+            <Link to={`/locations/pending/edit/${record.id}`}>
+              <img src={edit} alt="edit" className="icons" />
+            </Link>
+            <img
+              src={garbage}
+              className="icons"
+              alt="delete"
+              onClick={() => this.showDeleteConfirm(record.village, record.id)}
+            />
+          </Space>
+        );
+      },
+    },
+  ];
 
   onSearch = (value) => {
     this.setState({ ...this.state, search: value });
     let currentPage = this.props.history.location.search.split('=')[1];
     if (currentPage === undefined) {
-      this.fetchDdaList(1, value);
+      this.fetchLocations(1, value);
     } else {
-      this.fetchDdalist(currentPage, value);
+      this.fetchLocations(currentPage, value);
     }
   };
 
-  showDeleteConfirm = (ddaName, ddaId) => {
+  showDeleteConfirm = (villlageName, locationId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     let instance = this;
     confirm({
-      title: 'Are you sure delete this dda?',
+      title: 'Are you sure delete this location?',
       icon: <ExclamationCircleOutlined />,
-      content: ddaName,
+      content: villlageName,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
       onOk() {
         console.log('OK');
         axiosInstance
-          .delete(`/api/dda/${ddaId}/`)
+          .delete(`/api/location/${locationId}/`)
           .then((res) => {
             console.log(res);
-            message.success('Dda deleted successfully');
+            message.success('Location deleted successfully');
             if (currentPage === undefined) {
-              instance.fetchDdaList(1);
+              instance.fetchLocations(1);
             } else {
-              instance.fetchDdaList(currentPage);
+              instance.fetchLocations(currentPage);
             }
           })
           .catch((err) => {
@@ -113,23 +123,23 @@ class DDA extends Component {
   onPageChange = (page) => {
     console.log('page = ', page);
     this.props.history.push({
-      pathname: '/dda/',
+      pathname: '/locations/pending/',
       search: `?page=${page}`,
     });
-    this.fetchDdaList(page, this.state.search);
+    this.fetchLocations(page, this.state.search);
   };
 
-  fetchDdaList = (page, search = '') => {
+  fetchLocations = (page, search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/users-list/dda/?page=${page}&search=${search}`)
+      .get(`/api/locations/pending?page=${page}&search=${search}`)
       .then((res) => {
         console.log(res.data);
         this.setState({
           ...this.state,
-          ddaData: res.data.results,
+          locationsData: res.data.results,
           loading: false,
-          totalPages: res.data.count,
+          totalCount: res.data.count,
         });
       })
       .catch((err) => {
@@ -147,19 +157,19 @@ class DDA extends Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.fetchDdaList(1, this.state.search);
+    this.fetchLocations(1, this.state.search);
   }
 
   render() {
     return (
       <>
         <MainContent
-          title="Dda"
-          addlink="/dda/add"
+          title="Pending Locations"
+          addlink="/locations/add"
           loading={this.state.loading}
-          dataSource={this.state.ddaData}
+          dataSource={this.state.locationsData}
           columns={this.columns}
-          totalPages={this.state.totalPages}
+          totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
         />
@@ -168,4 +178,4 @@ class DDA extends Component {
   }
 }
 
-export default DDA;
+export default Pending;
