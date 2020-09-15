@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Typography, message, Select, Spin } from 'antd';
-import './addvillage.css';
+import '../../formStyle.css';
 
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 
@@ -47,6 +47,7 @@ class AddVillages extends Component {
     axiosInstance
       .get('/api/users-list/ado/')
       .then((res) => {
+        console.log(res);
         this.setState({ ...this.state, formLoading: false });
         const adoData = res.data.results.map((item) => {
           return {
@@ -130,10 +131,7 @@ class AddVillages extends Component {
                   message: 'Please provide village name!',
                 },
               ]}>
-              <Input
-                placeholder="Village name"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Village name" />
             </Form.Item>
             <h3>
               <b>Village Code</b>
@@ -147,10 +145,7 @@ class AddVillages extends Component {
                   message: 'Please provide village code!',
                 },
               ]}>
-              <Input
-                placeholder="Village Code"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Village Code" />
             </Form.Item>
             <h3>
               <b>Village Sub Code</b>
@@ -164,10 +159,7 @@ class AddVillages extends Component {
                   message: 'Please provide village subcode!',
                 },
               ]}>
-              <Input
-                placeholder="Village Sub Code"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Village Sub Code" />
             </Form.Item>
             <h3>
               <b>Block</b>
@@ -188,8 +180,7 @@ class AddVillages extends Component {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
-                placeholder="Select Block"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+                placeholder="Select Block">
                 {this.state.blockData.map((item) => {
                   return (
                     <Select.Option value={item.id}>{item.block}</Select.Option>
@@ -201,9 +192,7 @@ class AddVillages extends Component {
               <b>Ado</b>
             </h3>
             <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
-              <Select
-                placeholder="Select Ado"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+              <Select placeholder="Select Ado">
                 {this.state.adoData.map((item) => {
                   return (
                     <Select.Option value={item.id}>{item.ado}</Select.Option>

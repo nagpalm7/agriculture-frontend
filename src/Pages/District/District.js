@@ -16,7 +16,7 @@ class District extends Component {
     this.state = {
       search: '',
       totalCount: null,
-      dsitrictData: [],
+      districtData: [],
       loading: false,
     };
   }
@@ -25,7 +25,7 @@ class District extends Component {
     {
       title: 'DISTRICTS',
       dataIndex: 'district',
-      key: 'district_name',
+      key: 'district',
     },
     {
       title: 'DISTRICT CODE',
@@ -51,6 +51,17 @@ class District extends Component {
     },
   ];
 
+  onSearch = (value) => {
+    console.log('search = ', value);
+    this.setState({ ...this.state, search: value });
+    let currentPage = this.props.history.location.search.split('=')[1];
+    if (currentPage === undefined) {
+      this.fetchDistrictList(1, value);
+    } else {
+      this.fetchDistrictList(currentPage, value);
+    }
+  };
+
   showDeleteConfirm = (districtName, districtId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     let instance = this;
@@ -69,12 +80,13 @@ class District extends Component {
             console.log(res);
             message.success('District deleted successfully');
             if (currentPage === undefined) {
-              instance.fetchVillageList(1);
+              instance.fetchDistrictList(1);
             } else {
-              instance.fetchVillageList(currentPage);
+              instance.fetchDistrictList(currentPage);
             }
           })
           .catch((err) => {
+            message.success('Unable to delete district');
             if (err.response) {
               console.log(err.response);
             } else {
@@ -89,17 +101,16 @@ class District extends Component {
     });
   };
 
-  fetchDistrictList = (page, search = '') => {
+  fetchDistrictList = (search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/district/?page=${page}&search=${search}`)
+      .get(`/api/district/?search=${search}`)
       .then((res) => {
-        console.log(res.data);
         this.setState({
           ...this.state,
           districtData: res.data,
           loading: false,
-          totalPages: res.data.length,
+          totalCount: res.data.length,
         });
       })
       .catch((err) => {
@@ -117,7 +128,7 @@ class District extends Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.fetchDistrictList(1, this.state.search);
+    this.fetchDistrictList(this.state.search);
   }
 
   render() {
@@ -129,7 +140,7 @@ class District extends Component {
           loading={this.state.loading}
           dataSource={this.state.districtData}
           columns={this.columns}
-          totalPages={this.state.totalPages}
+          totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
         />

@@ -134,7 +134,7 @@ class Villages extends Component {
           ...this.state,
           villageData: res.data.results,
           loading: false,
-          totalPages: res.data.count,
+          totalCount: res.data.count,
         });
       })
       .catch((err) => {
@@ -164,7 +164,7 @@ class Villages extends Component {
           loading={this.state.loading}
           dataSource={this.state.villageData}
           columns={this.columns}
-          totalPages={this.state.totalPages}
+          totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
         />
