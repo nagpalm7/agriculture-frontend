@@ -3,7 +3,9 @@ import District from '../Pages/District/District.js';
 import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
 import ADO from '../Pages/ADO/ADO.js';
-import Locations from '../Pages/Locations/Locations.js';
+import Pending from '../Pages/Locations/pending.js';
+import Ongoing from '../Pages/Locations/ongoing.js';
+import Completed from '../Pages/Locations/completed.js';
 import AddVillage from '../Pages/Villages/components/AddVillage.js';
 import EditVillage from '../Pages/Villages/components/EditVillage.js';
 import AddDda from '../Pages/DDA/components/AddDda.js';
@@ -69,8 +71,18 @@ const dashboard_routes = [
   },
   {
     exact: true,
-    path: '/locations',
-    component: Locations,
+    path: '/locations/pending',
+    component: Pending,
+  },
+  {
+    exact: true,
+    path: '/locations/ongoing',
+    component: Ongoing,
+  },
+  {
+    exact: true,
+    path: '/locations/completed',
+    component: Completed,
   },
 ];
 
