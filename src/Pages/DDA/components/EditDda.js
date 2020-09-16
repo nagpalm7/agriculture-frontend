@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { Form, Input, Typography, message, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
-import './formStyle.css';
+import '../../formStyle.css';
 
 const { Title } = Typography;
 
@@ -15,7 +15,7 @@ class EditDda extends Component {
       districtList: [],
     };
     this.formRef = createRef();
-    this.districtId = '';
+    this.ddaId = '';
   }
 
   fetchDistrict = () => {
@@ -23,14 +23,17 @@ class EditDda extends Component {
     axiosInstance
       .get('/api/district/')
       .then((res) => {
-        this.setState({ ...this.state, formLoading: false });
         const districtList = res.data.map((item) => {
           return {
             id: item.id,
             district: item.district,
           };
         });
-        this.setState({ ...this.state, districtList: districtList });
+        this.setState({
+          ...this.state,
+          districtList: districtList,
+          formLoading: false,
+        });
       })
       .catch((err) => {
         this.setState({ ...this.state, formLoading: false });
@@ -42,7 +45,70 @@ class EditDda extends Component {
       });
   };
 
+  fetchDdaInfo = () => {
+    this.setState({ ...this.state, formLoading: true });
+    this.ddaId = this.props.history.location.pathname.split('/')[3];
+    axiosInstance
+      .get(`/api/user/${this.ddaId}/`)
+      .then((res) => {
+        console.log(res);
+        this.formRef.current.setFieldsValue({
+          dda_name: res.data.user.name,
+          dda_phone: res.data.user.phone,
+          dda_email: res.data.user.email,
+          dda_username: res.data.user.username,
+          dda_district: res.data.district.id,
+        });
+        this.setState({ ...this.state, formLoading: false });
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, formLoading: false });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          message.error(err.message);
+          console.log(err.message);
+        }
+      });
+  };
+
+  handleEditDda = (event) => {
+    this.setState({ ...this.state, btnLoading: true });
+    const {
+      dda_name,
+      dda_phone,
+      dda_email,
+      dda_district,
+      dda_username,
+    } = event;
+    axiosInstance
+      .put(`/api/user/${this.ddaId}/`, {
+        name: dda_name,
+        phone: dda_phone,
+        email: dda_email,
+        username: dda_username,
+        district: dda_district,
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({ ...this.state, btnLoading: false });
+        message.success('Dda updated successfully');
+        this.props.history.goBack();
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, btnLoading: false });
+        if (err.response) {
+          message.error('Unable to update district');
+          console.log(err.response);
+        } else {
+          message.error(err.message);
+          console.log(err.message);
+        }
+      });
+  };
+
   componentDidMount() {
+    this.fetchDdaInfo();
     this.fetchDistrict();
   }
 
@@ -53,7 +119,11 @@ class EditDda extends Component {
           <div>
             <Title level={3}>Edit Dda</Title>
           </div>
-          <Form name="edit_dda" className="edit-dda" ref={this.formRef}>
+          <Form
+            name="edit_dda"
+            className="edit-dda"
+            ref={this.formRef}
+            onFinish={this.handleEditDda}>
             <h3>
               <b>Dda name</b>
             </h3>
@@ -77,7 +147,15 @@ class EditDda extends Component {
             <h3>
               <b>Email Id</b>
             </h3>
-            <Form.Item name="dda_email" style={{ marginBottom: '10px' }}>
+            <Form.Item
+              name="dda_email"
+              style={{ marginBottom: '10px' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please provide email id!',
+                },
+              ]}>
               <Input placeholder="Email" />
             </Form.Item>
             <h3>
@@ -99,8 +177,7 @@ class EditDda extends Component {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
-                placeholder="Select district"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+                placeholder="Select district">
                 {this.state.districtList.map((item) => {
                   return (
                     <Select.Option value={item.id}>
@@ -127,7 +204,7 @@ class EditDda extends Component {
             <Form.Item style={{ marginBottom: '10px' }}>
               <MyButton
                 htmlType="submit"
-                text="ADD"
+                text="UPDATE"
                 className="filled"
                 loading={this.state.btnLoading}
                 style={{

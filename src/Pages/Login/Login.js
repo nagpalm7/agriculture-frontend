@@ -25,7 +25,6 @@ class Login extends Component {
         password: password,
       })
       .then((response) => {
-        console.log(response);
         this.setState({ ...this.state, loadings: false });
         const token = response.data.key;
 
@@ -37,15 +36,17 @@ class Login extends Component {
             },
           })
           .then((res) => {
-            console.log(res);
             const role = res.data.user.role;
+            const state = res.data.user.state.state;
             this.props.setRole(role);
             if (this.state.checked === true) {
               localStorage.setItem('Token', token);
               localStorage.setItem('Role', role);
+              localStorage.setItem('State', state);
             } else {
               sessionStorage.setItem('Token', token);
-              localStorage.setItem('Role', role);
+              sessionStorage.setItem('Role', role);
+              sessionStorage.setItem('State', state);
             }
             message.success('Login Successfull');
             this.props.toggleIsLoggedIn();

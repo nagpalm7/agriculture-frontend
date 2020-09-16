@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Typography, message, Select, Spin } from 'antd';
-import './formStyle.css';
-
 import { axiosInstance } from '../../../utils/axiosIntercepter';
+import '../../formStyle.css';
 
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 
@@ -18,35 +17,45 @@ class AddDda extends Component {
     };
   }
 
-  // handleAddDda = (event) => {
-  //   this.setState({ ...this.state, btnLoading: true });
-  //   const { dda_name, dda_phone, dda_email,dda_district,dda_username,dda_password } = event;
-
-  //   axiosInstance
-  //     .post('/api/dda/', {
-  //       village: village_name,
-  //       village_code: village_code,
-  //       village_subcode: village_subcode,
-  //       block: blocklist,
-  //       ado: adolist === undefined ? null : adolist,
-  //     })
-  //     .then((res) => {
-  //       this.setState({ ...this.state, btnLoading: false });
-  //       console.log(res);
-  //       message.success('Village added');
-  //       this.props.history.goBack();
-  //     })
-  //     .catch((err) => {
-  //       this.setState({ ...this.state, btnLoading: false });
-  //       if (err.response) {
-  //         console.log(err.response);
-  //         message.error('Unable to add village');
-  //       } else {
-  //         message.error('Unable to add village');
-  //         console.log(err.message);
-  //       }
-  //     });
-  // };
+  handleAddDda = (event) => {
+    this.setState({ ...this.state, btnLoading: true });
+    const {
+      dda_name,
+      dda_phone,
+      dda_email,
+      dda_district,
+      dda_username,
+      dda_password,
+    } = event;
+    const state =
+      localStorage.getItem('State') || sessionStorage.getItem('State');
+    axiosInstance
+      .post('/api/user/', {
+        name: dda_name,
+        phone: dda_phone,
+        email: dda_email,
+        username: dda_username,
+        password: dda_password,
+        district: dda_district,
+        state: state,
+        role: 4,
+      })
+      .then((res) => {
+        this.setState({ ...this.state, btnLoading: false });
+        console.log(res);
+        message.success('Dda added');
+        this.props.history.goBack();
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, btnLoading: false });
+        message.error('Unable to add dda');
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  };
 
   fetchDistrict = () => {
     this.setState({ ...this.state, formLoading: true });
@@ -83,7 +92,7 @@ class AddDda extends Component {
           <div>
             <Title level={3}>Add Dda</Title>
           </div>
-          <Form name="add_dda" className="add-dda">
+          <Form name="add_dda" className="add-dda" onFinish={this.handleAddDda}>
             <h3>
               <b>Dda name</b>
             </h3>
@@ -107,7 +116,15 @@ class AddDda extends Component {
             <h3>
               <b>Email Id</b>
             </h3>
-            <Form.Item name="dda_email" style={{ marginBottom: '10px' }}>
+            <Form.Item
+              name="dda_email"
+              style={{ marginBottom: '10px' }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please provide email id!',
+                },
+              ]}>
               <Input placeholder="Email" />
             </Form.Item>
             <h3>
@@ -129,8 +146,7 @@ class AddDda extends Component {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
-                placeholder="Select district"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}>
+                placeholder="Select district">
                 {this.state.districtList.map((item) => {
                   return (
                     <Select.Option value={item.id}>

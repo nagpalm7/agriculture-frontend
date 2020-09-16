@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import TableComponent from '../TableComponent/TableComponent';
-import { PageHeader, Button, Input } from 'antd';
+import { PageHeader, Input } from 'antd';
 import './MainContent.css';
 import MyButton from '../ButtonComponent/MyButton';
 

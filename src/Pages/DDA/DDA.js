@@ -63,6 +63,7 @@ class DDA extends Component {
   ];
 
   onSearch = (value) => {
+    console.log(value);
     this.setState({ ...this.state, search: value });
     let currentPage = this.props.history.location.search.split('=')[1];
     if (currentPage === undefined) {
@@ -85,7 +86,7 @@ class DDA extends Component {
       onOk() {
         console.log('OK');
         axiosInstance
-          .delete(`/api/dda/${ddaId}/`)
+          .delete(`/api/user/${ddaId}/`)
           .then((res) => {
             console.log(res);
             message.success('Dda deleted successfully');
@@ -127,7 +128,7 @@ class DDA extends Component {
         console.log(res.data);
         const ddaData = res.data.results.map((item) => {
           return {
-            id: item.id,
+            id: item.user.id,
             dda: item.user.name,
             district: item.district.district,
             email: item.user.email,
@@ -138,7 +139,7 @@ class DDA extends Component {
           ...this.state,
           ddaData: ddaData,
           loading: false,
-          totalPages: res.data.count,
+          totalCount: res.data.count,
         });
       })
       .catch((err) => {
@@ -168,7 +169,7 @@ class DDA extends Component {
           loading={this.state.loading}
           dataSource={this.state.ddaData}
           columns={this.columns}
-          totalPages={this.state.totalPages}
+          totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
         />
