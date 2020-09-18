@@ -9,48 +9,6 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 
-const columns = [
-  {
-    title: 'DDA',
-    dataIndex: 'dda',
-    key: 'dda',
-  },
-  {
-    title: 'DISTRICT',
-    dataIndex: 'district',
-    key: 'district',
-  },
-  {
-    title: 'PHONE',
-    dataIndex: 'phone',
-    key: 'phone',
-  },
-  {
-    title: 'EMAIL',
-    key: 'email',
-    dataIndex: 'email',
-  },
-  {
-    title: 'OPTIONS',
-    key: 'option',
-    render: (text, record) => {
-      return (
-        <Space size="large">
-          <Link to={`/district/edit/${record.id}`}>
-            <img src={edit} alt="edit" className="icons" />
-          </Link>
-          <img
-            src={garbage}
-            className="icons"
-            alt="delete"
-            onClick={() => this.showDeleteConfirm(record.district, record.id)}
-          />
-        </Space>
-      );
-    },
-  },
-];
-
 class DDA extends Component {
   constructor() {
     super();
@@ -62,13 +20,56 @@ class DDA extends Component {
     };
   }
 
+  columns = [
+    {
+      title: 'DDA',
+      dataIndex: 'dda',
+      key: 'dda',
+    },
+    {
+      title: 'DISTRICT',
+      dataIndex: 'district',
+      key: 'district',
+    },
+    {
+      title: 'PHONE',
+      dataIndex: 'phone',
+      key: 'phone',
+    },
+    {
+      title: 'EMAIL',
+      key: 'email',
+      dataIndex: 'email',
+    },
+    {
+      title: 'OPTIONS',
+      key: 'option',
+      render: (text, record) => {
+        return (
+          <Space size="large">
+            <Link to={`/dda/edit/${record.id}`}>
+              <img src={edit} alt="edit" className="icons" />
+            </Link>
+            <img
+              src={garbage}
+              className="icons"
+              alt="delete"
+              onClick={() => this.showDeleteConfirm(record.dda, record.id)}
+            />
+          </Space>
+        );
+      },
+    },
+  ];
+
   onSearch = (value) => {
+    console.log(value);
     this.setState({ ...this.state, search: value });
     let currentPage = this.props.history.location.search.split('=')[1];
     if (currentPage === undefined) {
       this.fetchDdaList(1, value);
     } else {
-      this.fetchDdalist(currentPage, value);
+      this.fetchDdaList(currentPage, value);
     }
   };
 
@@ -85,7 +86,7 @@ class DDA extends Component {
       onOk() {
         console.log('OK');
         axiosInstance
-          .delete(`/api/dda/${ddaId}/`)
+          .delete(`/api/user/${ddaId}/`)
           .then((res) => {
             console.log(res);
             message.success('Dda deleted successfully');
@@ -125,11 +126,20 @@ class DDA extends Component {
       .get(`/api/users-list/dda/?page=${page}&search=${search}`)
       .then((res) => {
         console.log(res.data);
+        const ddaData = res.data.results.map((item) => {
+          return {
+            id: item.user.id,
+            dda: item.user.name,
+            district: item.district.district,
+            email: item.user.email,
+            phone: item.user.phone,
+          };
+        });
         this.setState({
           ...this.state,
-          ddaData: res.data.results,
+          ddaData: ddaData,
           loading: false,
-          totalPages: res.data.count,
+          totalCount: res.data.count,
         });
       })
       .catch((err) => {
@@ -159,7 +169,7 @@ class DDA extends Component {
           loading={this.state.loading}
           dataSource={this.state.ddaData}
           columns={this.columns}
-          totalPages={this.state.totalPages}
+          totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
         />
