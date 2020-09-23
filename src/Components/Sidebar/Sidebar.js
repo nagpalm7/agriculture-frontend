@@ -31,7 +31,7 @@ class Sidebar extends Component {
   render() {
     return (
       <Sider
-        width="250px"
+        width="220px"
         breakpoint="sm"
         collapsedWidth="80"
         trigger={null}
@@ -46,41 +46,45 @@ class Sidebar extends Component {
           mode="inline"
           defaultSelectedKeys={['1']}
           className="side-menu-style"
-          style={{ background: '#3d0098' }}>
+          style={{
+            background: 'white',
+            color: 'black',
+            padding: '0px',
+          }}>
           <Menu.Item
             key="1"
             icon={<HomeFilled />}
-            style={{ borderRadius: '25px', marginBottom: '20px' }}>
+            style={{ marginBottom: '20px', padding: '0px' }}>
             <Link to="/">Home</Link>
           </Menu.Item>
           <Menu.Item
             key="2"
             icon={<VideoCameraFilled />}
-            style={{ borderRadius: '25px', marginBottom: '20px' }}>
+            style={{ borderRadius: '0px', marginBottom: '20px' }}>
             <Link to="/district">District</Link>
           </Menu.Item>
           <Menu.Item
             key="3"
             icon={<UploadOutlined />}
-            style={{ borderRadius: '25px', marginBottom: '20px' }}>
+            style={{ borderRadius: '0px', marginBottom: '20px' }}>
             <Link to="/villages">Villages</Link>
           </Menu.Item>
           <Menu.Item
             key="4"
             icon={<TeamOutlined />}
-            style={{ borderRadius: '25px', marginBottom: '20px' }}>
+            style={{ borderRadius: '0px', marginBottom: '20px' }}>
             <Link to="/dda">DDA</Link>
           </Menu.Item>
           <Menu.Item
             key="5"
             icon={<UserOutlined />}
-            style={{ borderRadius: '25px', marginBottom: '20px' }}>
+            style={{ borderRadius: '0px', marginBottom: '20px' }}>
             <Link to="/ado">ADO</Link>
           </Menu.Item>
           <Menu.Item
             key="6"
             icon={<UserOutlined />}
-            style={{ borderRadius: '25px', marginBottom: '20px' }}>
+            style={{ borderRadius: '0px', marginBottom: '20px' }}>
             <Link to="/locations">
               {' '}
               Locations

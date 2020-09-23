@@ -156,6 +156,7 @@ class Villages extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <>
         <MainContent

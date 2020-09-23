@@ -1,31 +1,64 @@
 .logo {
   text-align: center;
-  color: #ffffff;
+  color: #000;
   font-size: 20px;
   font-weight: 1000;
   margin: 16px 8px 0 8px;
 }
+
 .sidebar-style {
   height: 100vh;
-  background: #3d0098;
+  background: white;
+  box-shadow: 7px 3px 4px -6px rgba(0, 0, 0, 0.144);
 }
+
 .side-menu-style {
   padding: 20px 30px;
   text-align: left;
   margin-top: 80px;
   font-weight: 520;
-}
-.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #fff;
+  color: black;
 }
 
-.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
-  .ant-menu-item-selected
-  * {
-  color: #000;
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #e03b3b;
+  color: white;
 }
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected * {}
 
 .ant-menu-inline-collapsed {
   padding: 20px 0;
   margin-top: 60px;
+}
+
+.ant-menu-dark .ant-menu-item-active {
+  color: black;
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-item>a,
+.ant-menu-dark .ant-menu-item>span>a {
+  color: black;
+}
+
+.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-item-selected>a,
+.ant-menu-dark .ant-menu-item-selected>span>a {
+  color: white;
+}
+
+.ant-menu-dark .ant-menu-item:hover,
+.ant-menu-dark .ant-menu-item>a,
+.ant-menu-dark .ant-menu-item>span>a:hover {
+  color: red;
+}
+
+.ant-menu-dark .ant-menu-item-selected:hover,
+.ant-menu-dark .ant-menu-item-group-title:hover,
+.ant-menu-dark .ant-menu-item-selected>a,
+.ant-menu-dark .ant-menu-item-selected>span>a:hover {
+  color: white;
 }
