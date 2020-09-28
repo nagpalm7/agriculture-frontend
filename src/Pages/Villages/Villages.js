@@ -11,8 +11,8 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 
 class Villages extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       search: '',
       totalCount: null,
@@ -156,7 +156,6 @@ class Villages extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <>
         <MainContent
