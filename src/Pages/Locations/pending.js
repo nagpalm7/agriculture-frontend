@@ -42,14 +42,13 @@ class Pending extends Component {
       dataIndex: 'dda',
       key: 'dda',
       render: (dda) => {
-        console.log(dda);
         let tooltipText = '';
         if (dda) {
           tooltipText = () => {
             return (
               <>
                 <div className="tooltip-text">
-                  Usename : {dda.user.name}
+                  Name : {dda.user.name}
                   <br></br>
                   Email : {dda.user.email}
                   <br></br>
@@ -80,7 +79,7 @@ class Pending extends Component {
             return (
               <>
                 <div className="tooltip-text">
-                  Usename : {ado.user.name}
+                  Name : {ado.user.name}
                   <br></br>
                   Email : {ado.user.email}
                   <br></br>
@@ -172,7 +171,6 @@ class Pending extends Component {
   };
 
   onPageChange = (page) => {
-    console.log('page = ', page);
     this.props.history.push({
       pathname: '/locations/pending/',
       search: `?page=${page}`,

@@ -41,7 +41,7 @@ class Ongoing extends Component {
             return (
               <>
                 <div className="tooltip-text">
-                  Usename : {dda.user.name}
+                  Name : {dda.user.name}
                   <br></br>
                   Email : {dda.user.email}
                   <br></br>
@@ -72,7 +72,7 @@ class Ongoing extends Component {
             return (
               <>
                 <div className="tooltip-text">
-                  Usename : {ado.user.name}
+                  Name : {ado.user.name}
                   <br></br>
                   Email : {ado.user.email}
                   <br></br>
