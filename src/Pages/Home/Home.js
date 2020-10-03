@@ -266,10 +266,10 @@ const Home = (props) => {
           state.loading
             ? <Spin size="large" />
             : <>
-              <Col xl={20} xs={24} >
+              <Col xl={20} lg={18} md={24} >
                 <Map locations={state.locations} />
               </Col>
-              <Col xl={4} xs={4} style={{ minWidth: 200 }} >
+              <Col xl={4} lg={6} >
                 <Charts
                   pending_count={state.pending_count}
                   ongoing_count={state.ongoing_count}
