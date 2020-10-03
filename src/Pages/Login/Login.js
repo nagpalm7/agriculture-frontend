@@ -40,11 +40,11 @@ class Login extends Component {
             const state = res.data.user.state.state;
             this.props.setRole(role);
             if (this.state.checked === true) {
-              localStorage.setItem('Token', token);
+              localStorage.setItem('token', token);
               localStorage.setItem('Role', role);
               localStorage.setItem('State', state);
             } else {
-              sessionStorage.setItem('Token', token);
+              sessionStorage.setItem('token', token);
               sessionStorage.setItem('Role', role);
               sessionStorage.setItem('State', state);
             }

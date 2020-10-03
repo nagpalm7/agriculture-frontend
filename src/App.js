@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Login from './Pages/Login/Login';
 import AdminDashboard from './Layouts/AdminDashboard/AdminDashboard';
 import DdaDashboard from './Layouts/DdaDashboard/DdaDashboard';
+import { axiosInstance } from './utils/axiosIntercepter';
 
 export default class App extends React.Component {
   constructor() {
@@ -14,41 +15,49 @@ export default class App extends React.Component {
   }
   /*eslint-disable */
   componentWillMount() {
-    let isLoggedIn =
-      localStorage.getItem('Token') === undefined &&
-      sessionStorage.getItem('Token') === undefined;
-    let roleIsNull =
-      localStorage.getItem('Role') === null &&
-      sessionStorage.getItem('Role') === null;
+    const token =
+      localStorage.getItem('token') == null
+        ? sessionStorage.getItem('token')
+        : localStorage.getItem('token');
+    const isLoggedIn = token === null;
+
+    axiosInstance.interceptors.request.use(function (config) {
+      config.headers.Authorization = 'token ' + token;
+      return config;
+    });
+
     this.setState({
       isLoggedIn: !isLoggedIn,
-      role: 5,
+      role:
+        localStorage.getItem('Role') == null
+          ? parseInt(sessionStorage.getItem('Role'))
+          : parseInt(localStorage.getItem('Role')),
     });
   }
   /*eslint-enable */
 
   toggleIsLoggedIn = () => {
     const { isLoggedIn } = this.state;
-    this.setState(() => {
+    this.setState((prev) => {
       return {
-        ...this.state,
+        ...prev,
         isLoggedIn: !isLoggedIn,
       };
     });
   };
 
   setRole = (role) => {
-    this.setState(() => {
+    this.setState((prev) => {
       return {
-        ...this.state,
-        role: role,
+        ...prev,
+        role: parseInt(role, 10),
       };
     });
   };
 
   logout = () => {
-    delete localStorage.Token;
-    delete sessionStorage.Token;
+    delete localStorage.token;
+    delete sessionStorage.token;
     this.toggleIsLoggedIn();
   };
 
