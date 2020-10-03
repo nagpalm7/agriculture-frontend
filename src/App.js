@@ -20,11 +20,12 @@ export default class App extends React.Component {
         ? sessionStorage.getItem('token')
         : localStorage.getItem('token');
     const isLoggedIn = token === null;
-
-    axiosInstance.interceptors.request.use(function (config) {
-      config.headers.Authorization = 'token ' + token;
-      return config;
-    });
+    console.log(' asdAD', token);
+    if (token)
+      axiosInstance.interceptors.request.use(function (config) {
+        config.headers.Authorization = 'token ' + token;
+        return config;
+      });
 
     this.setState({
       isLoggedIn: !isLoggedIn,
@@ -63,7 +64,6 @@ export default class App extends React.Component {
 
   render() {
     const { isLoggedIn, role } = this.state;
-
     if (isLoggedIn) {
       if (role === 5) {
         return (
