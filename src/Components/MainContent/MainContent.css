@@ -11,3 +11,71 @@
 .search-bar-style:hover {
   border-color: '#000';
 }
+
+#rcDialogTitle1 {
+  text-align: center;
+}
+
+.ant-modal-close {
+  display: none;
+}
+
+.ant-modal-header {
+  border-bottom: 0px;
+}
+
+.ant-modal-body {
+  text-align: center;
+  padding-top: 0px;
+  margin-top: -10px;
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.404);
+}
+
+.ant-modal-footer {
+  border-top: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer_buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-button {
+  border-radius: 14px;
+}
+
+.ant-modal-footer .modal-button div {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ant-modal-footer .modal-button div img {
+  font-size: 20px;
+  height: 27px;
+}
+
+.ant-modal-body .ant-progress {
+  margin-top: 22px;
+}
+
+#logout-button:hover {
+  background-color: crimson;
+  color: white;
+}
+
+.new_locations {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.err_mess {
+  color: rgba(255, 0, 0, 0.781);
+}
