@@ -59,6 +59,8 @@ export default class App extends React.Component {
   logout = () => {
     delete localStorage.token;
     delete sessionStorage.token;
+    delete localStorage.Role;
+    delete sessionStorage.Role;
     this.toggleIsLoggedIn();
   };
 
