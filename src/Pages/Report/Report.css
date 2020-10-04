@@ -1,0 +1,88 @@
+/* .slick-slider {
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.61);
+    border-radius: 3px;
+    padding: 10px;
+    background-color: #364d79;
+} */
+
+.Info {
+    padding-left: 30px;
+}
+
+.villageName {
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+.submission {
+    color: crimson;
+}
+
+.pending_displayer {
+    background-color: #e03b3b;
+    height: 150px;
+    width: 150px;
+    text-align: center;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pending_wrapper {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.pending_displayer div:nth-child(1) {
+    color: white;
+    font-size: 65px;
+    font-weight: 700;
+}
+
+.pending_displayer div:nth-child(2) {
+    color: white;
+}
+
+.wrapper {
+    background-color: white;
+    padding: 30px;
+
+}
+
+.ado_details {
+    font-weight: 00;
+}
+
+
+
+.ado_about {
+    margin-left: 20px;
+}
+
+.dda_details {
+    margin-top: 20px;
+}
+
+.dda_about {
+    margin-left: 20px;
+}
+
+.edit_button {
+    margin-top: 20px;
+
+}
+
+.report_heading {
+    font-size: 30px;
+    color: #dc143c;
+    font-weight: 600;
+}
+
+.report_card {
+    padding-left: 20px;
+    margin-top: 10px;
+}

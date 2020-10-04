@@ -13,6 +13,8 @@ import EditDda from '../Pages/DDA/components/EditDda.js';
 import AddDistrict from '../Pages/District/components/AddDistrict';
 import EditDistrict from '../Pages/District/components/EditDistrict';
 
+import React from 'react';
+
 const dashboard_routes = [
   {
     exact: true,

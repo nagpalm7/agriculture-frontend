@@ -19,6 +19,8 @@ class MainContent extends Component {
       file_name: '',
       isUploaded: null,
       uploadPercent: 0,
+      file_upload_err: null,
+      location_update_count: '',
     };
   }
 
@@ -36,54 +38,112 @@ class MainContent extends Component {
 
   handleCancel = (event) => {
     this.setState({
+      ...this.state,
       visible: false,
-      file_name: '',
       selectedFile: null,
+      file_name: '',
       isUploaded: null,
+      uploadPercent: 0,
+      file_upload_err: null,
     });
   };
   fileSelectedHandler = (event) => {
     const file = event.target.files[0];
     console.log(file);
-    this.setState({
-      ...this.state,
-      selectedFile: file,
-      file_name: file.name,
-    });
+    if (file) {
+      this.setState({
+        ...this.state,
+        selectedFile: file,
+        file_name: file.name,
+        file_upload_err: null,
+        visible: true,
+        isUploaded: null,
+        uploadPercent: 0,
+        file_upload_err: null,
+        location_update_count: '',
+      });
+    }
   };
   fileUploadHandler = () => {
-    const formData = new FormData();
-    formData.append(
-      'location_csv',
-      this.state.selectedFile,
-      this.state.selectedFile.name,
-    );
-    axiosInstance
-      .post('/api/upload/locations/', formData, {
-        onDownloadProgress: (progressEvent) => {
-          console.log((progressEvent.loaded / progressEvent.total) * 100);
-          this.setState({
-            ...this.state,
-            uploadPercent: (progressEvent.loaded / progressEvent.total) * 100,
-          });
-        },
-      })
-      .then((res) => {
-        console.log('success');
-        this.setState({
-          ...this.state,
-          isUploaded: true,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          ...this.state,
-          isUploaded: false,
-        });
+    try {
+      if (!this.state.isUploaded) {
+        if (this.state.selectedFile) {
+          if (this.state.file_name.toString().match(/\.csv$/g) != null) {
+            const formData = new FormData();
+            formData.append(
+              'location_csv',
+              this.state.selectedFile,
+              this.state.selectedFile.name,
+            );
+            axiosInstance
+              .post('/api/upload/locations/', formData, {
+                onDownloadProgress: (progressEvent) => {
+                  this.setState({
+                    ...this.state,
+                    file_upload_err: null,
+                    uploadPercent: Math.round(
+                      (progressEvent.loaded * 100) / progressEvent.total,
+                    ),
+                  });
+                },
+              })
+              .then((res) => {
+                console.log(res);
+                this.setState({
+                  ...this.state,
+                  isUploaded: true,
+                  location_update_count: res.data.count,
+                });
+              })
+              .catch((err) => {
+                this.setState({
+                  ...this.state,
+                  isUploaded: false,
+                });
+                throw err;
+              });
+          } else {
+            console.log('here');
+            var error2 = new Error('Only .csv format can be uploaded');
+            error2.name = 'file_type_error';
+            throw error2;
+          }
+        } else {
+          var error = new Error('Select the file before uploading');
+          error.name = 'file_not_selected';
+          throw error;
+        }
+      } else {
+        var error = new Error('File Alreay Uploaded');
+        error.name = 'already_uploaded';
+        throw error;
+      }
+    } catch (err) {
+      console.log(err);
+      this.setState({
+        ...this.state,
+        file_upload_err: err,
       });
+    }
   };
   render() {
     console.log(this.state);
+    const err_text = () => {
+      if (this.state.file_upload_err) {
+        if (
+          this.state.file_upload_err.name == 'file_not_selected' &&
+          !this.state.selectedFile
+        ) {
+          return this.state.file_upload_err.message;
+        } else if (this.state.file_upload_err.name == 'file_type_error') {
+          return this.state.file_upload_err.message;
+        } else {
+          return '';
+        }
+      } else {
+        return '';
+      }
+    };
     const text = () => {
       if (this.state.isUploaded == true) {
         return 'Uploaded';
@@ -110,17 +170,6 @@ class MainContent extends Component {
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
-            <Link to={addlink} key="1">
-              <MyButton
-                text="Add"
-                className="filled"
-                style={{
-                  color: '#e03b3b',
-                  backgroundColor: '#f5f3ff',
-                  border: '0px',
-                }}
-              />
-            </Link>,
             <MyButton
               key="2"
               text="Add Bulk"
@@ -149,34 +198,47 @@ class MainContent extends Component {
           onCancel={this.handleCancel}
           width={400}
           footer={[
-            <Button
-              key="upload"
-              className="modal-button"
-              onClick={this.fileUploadHandler}
-              style={{
-                color: '#e03b3b',
-                backgroundColor: '#f5f3ff',
-                border: '0px',
-                width: '120px',
-              }}>
-              <div>
-                <img src={cloud_logo} />
-                <span>{this.state.isUploaded ? text() : 'Upload'}</span>
-              </div>
-            </Button>,
-            <Button
-              key="back"
-              type="primary"
-              className="modal-button"
-              loading={loading}
-              onClick={this.handleCancel}
-              style={{
-                color: 'black',
-                backgroundColor: 'white',
-                border: '0px',
-              }}>
-              Cancel
-            </Button>,
+            <div className="footer_buttons">
+              <Button
+                key="upload"
+                className="modal-button"
+                onClick={this.fileUploadHandler}
+                style={{
+                  color: '#e03b3b',
+                  backgroundColor: '#f5f3ff',
+                  border: '0px',
+                  width: '150px',
+                }}>
+                <div>
+                  <img src={cloud_logo} />
+                  <span>{this.state.isUploaded ? text() : 'Upload'}</span>
+                  <Progress
+                    type="circle"
+                    width={30}
+                    sty
+                    percent={this.state.uploadPercent}
+                  />
+                </div>
+              </Button>
+              <Button
+                key="back"
+                type="primary"
+                className="modal-button"
+                loading={loading}
+                onClick={this.handleCancel}
+                style={{
+                  color: 'black',
+                  backgroundColor: 'white',
+                  border: '0px',
+                }}>
+                Cancel
+              </Button>
+            </div>,
+            <div className="new_locations">
+              {this.state.location_update_count
+                ? `${this.state.location_update_count} new locations successfully added`
+                : ''}
+            </div>,
           ]}>
           <p>click on upload button or drag & drop</p>
           <input
@@ -203,11 +265,10 @@ class MainContent extends Component {
             Select File
           </Button>
           <div className="file_name">{this.state.file_name}</div>
-          <Progress
-            type="circle"
-            width={40}
-            percent={this.state.uploadPercent}
-          />
+          <div className="err_mess">
+            {console.log(err_text())}
+            {err_text()}
+          </div>
         </Modal>
 
         <TableComponent
