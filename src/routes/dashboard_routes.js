@@ -1,4 +1,5 @@
 import Home from '../Pages/Home/Home.js';
+import Analysis from "../Pages/Analysis";
 import District from '../Pages/District/District.js';
 import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
@@ -20,6 +21,11 @@ const dashboard_routes = [
     exact: true,
     path: '/',
     component: Home,
+  },
+  {
+    exact: true,
+    path: '/analysis',
+    component: Analysis,
   },
   {
     exact: true,

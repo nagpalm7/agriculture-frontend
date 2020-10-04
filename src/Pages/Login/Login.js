@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Form, Button, Input, Checkbox, message } from 'antd';
 import './Login.css';
+import { axiosInstance } from '../../utils/axiosIntercepter';
 
 class Login extends Component {
   constructor() {
@@ -27,7 +28,11 @@ class Login extends Component {
       .then((response) => {
         this.setState({ ...this.state, loadings: false });
         const token = response.data.key;
-
+        if (token)
+          axiosInstance.interceptors.request.use(function (config) {
+            config.headers.Authorization = 'token ' + token;
+            return config;
+          });
         // getting user role
         axios
           .get('https://api.aflmonitoring.com/api/get-user/', {
@@ -37,19 +42,20 @@ class Login extends Component {
           })
           .then((res) => {
             const role = res.data.user.role;
-            const state = res.data.user.state.state;
-            this.props.setRole(role);
+            const state =
+              res.data.user.state == null ? null : res.data.user.state.state;
             if (this.state.checked === true) {
-              localStorage.setItem('Token', token);
+              localStorage.setItem('token', token);
               localStorage.setItem('Role', role);
               localStorage.setItem('State', state);
             } else {
-              sessionStorage.setItem('Token', token);
+              sessionStorage.setItem('token', token);
               sessionStorage.setItem('Role', role);
               sessionStorage.setItem('State', state);
             }
             message.success('Login Successfull');
             this.props.toggleIsLoggedIn();
+            this.props.setRole(role);
             this.props.history.push('/home');
           })
           .catch((err) => {
