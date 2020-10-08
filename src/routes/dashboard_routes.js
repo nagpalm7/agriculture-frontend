@@ -1,5 +1,5 @@
 import Home from '../Pages/Home/Home.js';
-import Analysis from "../Pages/Analysis";
+import Analysis from '../Pages/Analysis';
 import District from '../Pages/District/District.js';
 import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
@@ -13,8 +13,8 @@ import AddDda from '../Pages/DDA/components/AddDda.js';
 import EditDda from '../Pages/DDA/components/EditDda.js';
 import AddDistrict from '../Pages/District/components/AddDistrict';
 import EditDistrict from '../Pages/District/components/EditDistrict';
-
 import React from 'react';
+import EditAdo from '../Pages/ADO/Components/EditAdo.js';
 
 const dashboard_routes = [
   {
@@ -56,6 +56,11 @@ const dashboard_routes = [
     exact: true,
     path: '/villages/edit/:villageId',
     component: EditVillage,
+  },
+  {
+    exact: true,
+    path: '/ado/edit/:adoId',
+    component: EditAdo,
   },
   {
     exact: true,

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Space, message, Modal } from 'antd';
-import edit from '../../assets/images/edit.svg';
-import garbage from '../../assets/images/garbage.svg';
+import edit from '../../assets/images/edit.png';
+import garbage from '../../assets/images/trash-can.png';
 import './District.css';
 import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -54,14 +54,22 @@ class District extends Component {
   onSearch = (value) => {
     console.log('search = ', value);
     this.setState({ ...this.state, search: value });
+    console.log(this.props.history);
     let currentPage = this.props.history.location.search.split('=')[1];
+    console.log(currentPage);
     if (currentPage === undefined) {
       this.fetchDistrictList(1, value);
     } else {
       this.fetchDistrictList(currentPage, value);
     }
   };
-
+  onPageChange = (page) => {
+    this.props.history.push({
+      pathname: '/district/',
+      search: `?page=${page}`,
+    });
+    this.fetchDistrictList(this.state.search, page);
+  };
   showDeleteConfirm = (districtName, districtId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     let instance = this;
@@ -101,10 +109,10 @@ class District extends Component {
     });
   };
 
-  fetchDistrictList = (search = '') => {
+  fetchDistrictList = (search = '', page) => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/district/?search=${search}`)
+      .get(`/api/district/?page=${page}&search=${search}`)
       .then((res) => {
         this.setState({
           ...this.state,
@@ -128,7 +136,7 @@ class District extends Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.fetchDistrictList(this.state.search);
+    this.fetchDistrictList(this.state.search, 1);
   }
 
   render() {

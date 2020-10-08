@@ -49,7 +49,6 @@ class MainContent extends Component {
   };
   fileSelectedHandler = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
       this.setState({
         ...this.state,
@@ -127,7 +126,6 @@ class MainContent extends Component {
     }
   };
   render() {
-    console.log(this.state);
     const err_text = () => {
       if (this.state.file_upload_err) {
         if (
@@ -265,10 +263,7 @@ class MainContent extends Component {
             Select File
           </Button>
           <div className="file_name">{this.state.file_name}</div>
-          <div className="err_mess">
-            {console.log(err_text())}
-            {err_text()}
-          </div>
+          <div className="err_mess">{err_text()}</div>
         </Modal>
 
         <TableComponent
