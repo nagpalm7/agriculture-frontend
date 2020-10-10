@@ -168,6 +168,19 @@ class MainContent extends Component {
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
+            !this.props.isLocation ? (
+              <Link to={addlink} key="1">
+                <MyButton
+                  text="Add"
+                  className="filled"
+                  style={{
+                    color: '#e03b3b',
+                    backgroundColor: '#f5f3ff',
+                    border: '0px',
+                  }}
+                />
+              </Link>
+            ) : null,
             <MyButton
               key="2"
               text="Add Bulk"

@@ -220,6 +220,7 @@ class Pending extends Component {
           totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
+          isLocation="true"
         />
       </>
     );
