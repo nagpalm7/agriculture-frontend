@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Space, message, Modal } from 'antd';
+import { Space, message, Modal, Button } from 'antd';
 import edit from '../../assets/images/edit.png';
 import garbage from '../../assets/images/trash-can.png';
 import './District.css';
 import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { axiosInstance } from '../../utils/axiosIntercepter';
+import cross from '../../assets/images/cross-remove-sign.png';
 
 const { confirm } = Modal;
 
@@ -18,6 +19,7 @@ class District extends Component {
       totalCount: null,
       districtData: [],
       loading: false,
+      block_data: [],
     };
   }
 
@@ -31,6 +33,46 @@ class District extends Component {
       title: 'DISTRICT CODE',
       dataIndex: 'district_code',
       key: 'district_code',
+    },
+    {
+      title: 'HAS BLOCK',
+      dataIndex: 'district_code',
+      key: 'district_code',
+      render: (district_id) => {
+        let has_block;
+        const blocks = this.state.block_data.filter((block) => {
+          return block.district.district_code == district_id;
+        });
+        console.log(blocks);
+        if (
+          blocks.length == 0 ||
+          (blocks.length == 1 &&
+            blocks[0].block_code == blocks[0].district.district_code)
+        ) {
+          return (
+            <span style={{ paddingLeft: '40px' }}>
+              <img src={cross} width={15}></img>
+            </span>
+          );
+        } else {
+          return (
+            <Link to={`/block/${district_id}`}>
+              <Button
+                type="primary"
+                className="block-button"
+                loading={this.loading}
+                style={{
+                  color: 'crimson',
+                  backgroundColor: '#f5f3ff',
+                  border: '0px',
+                  borderRadius: '20px',
+                }}>
+                View Block
+              </Button>
+            </Link>
+          );
+        }
+      },
     },
     {
       title: 'OPTIONS',
@@ -50,8 +92,7 @@ class District extends Component {
       ),
     },
   ];
-
-  onSearch = (value) => {
+  Search = (value) => {
     console.log('search = ', value);
     this.setState({ ...this.state, search: value });
     console.log(this.props.history);
@@ -108,12 +149,34 @@ class District extends Component {
       },
     });
   };
-
+  fetchBlockData = () => {
+    this.setState({ ...this.state, loading: true });
+    axiosInstance
+      .get('api/block/')
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          ...this.state,
+          loading: false,
+          block_data: res.data,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
+        if (err.response) {
+          console.log(err.response);
+        }
+      });
+  };
   fetchDistrictList = (search = '', page) => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
       .get(`/api/district/?page=${page}&search=${search}`)
       .then((res) => {
+        console.log(res);
         this.setState({
           ...this.state,
           districtData: res.data,
@@ -137,6 +200,7 @@ class District extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchDistrictList(this.state.search, 1);
+    this.fetchBlockData();
   }
 
   render() {

@@ -15,7 +15,8 @@ import AddDistrict from '../Pages/District/components/AddDistrict';
 import EditDistrict from '../Pages/District/components/EditDistrict';
 import React from 'react';
 import EditAdo from '../Pages/ADO/Components/EditAdo.js';
-
+import Block from '../Pages/BlockComponent/Blocks';
+import renderBlockComponet from '../Pages/District/District';
 const dashboard_routes = [
   {
     exact: true,
@@ -96,6 +97,11 @@ const dashboard_routes = [
     exact: true,
     path: '/locations/completed',
     component: Completed,
+  },
+  {
+    exact: true,
+    path: '/block/:districtId',
+    component: Block,
   },
 ];
 
