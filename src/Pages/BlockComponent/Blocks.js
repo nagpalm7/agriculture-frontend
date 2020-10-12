@@ -11,23 +11,19 @@ class Block extends Component {
     };
   }
   componentDidMount() {
+    this.setState({ ...this.state, loading: true });
     this.fetchBlockList();
   }
   fetchBlockList() {
-    const filterBlock = (block_data) => {
-      const district_id = this.props.history.location.pathname.split('/')[2];
-      return block_data.filter((block) => {
-        return block.district.district_code == district_id;
-      });
-    };
-    this.setState({ ...this.state, loading: true });
+    const district_id = this.props.history.location.pathname.split('/')[2];
+    console.log(district_id);
     axiosInstance
-      .get('api/block/')
+      .get(`api/blocks-list/district/${district_id}/`)
       .then((res) => {
         this.setState({
           ...this.state,
           loading: false,
-          blockData: filterBlock(res.data),
+          blockData: res.data,
         });
       })
       .catch((err) => {
@@ -61,12 +57,11 @@ class Block extends Component {
     },
   ];
   render() {
-    console.log(this.state);
     return (
       <MainContent
         title="Block"
         loading={this.state.loading}
-        dataSource={this.state.blockData}
+        dataSource={this.state.blockData.results}
         columns={this.columns}
       />
     );

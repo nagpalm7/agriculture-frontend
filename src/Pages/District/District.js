@@ -8,7 +8,7 @@ import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import cross from '../../assets/images/cross-remove-sign.png';
-
+import BlockInfo from './components/blockInfo';
 const { confirm } = Modal;
 
 class District extends Component {
@@ -36,42 +36,10 @@ class District extends Component {
     },
     {
       title: 'HAS BLOCK',
-      dataIndex: 'district_code',
-      key: 'district_code',
+      dataIndex: 'id',
+      key: 'id',
       render: (district_id) => {
-        let has_block;
-        const blocks = this.state.block_data.filter((block) => {
-          return block.district.district_code == district_id;
-        });
-        console.log(blocks);
-        if (
-          blocks.length == 0 ||
-          (blocks.length == 1 &&
-            blocks[0].block_code == blocks[0].district.district_code)
-        ) {
-          return (
-            <span style={{ paddingLeft: '40px' }}>
-              <img src={cross} width={15}></img>
-            </span>
-          );
-        } else {
-          return (
-            <Link to={`/block/${district_id}`}>
-              <Button
-                type="primary"
-                className="block-button"
-                loading={this.loading}
-                style={{
-                  color: 'crimson',
-                  backgroundColor: '#f5f3ff',
-                  border: '0px',
-                  borderRadius: '20px',
-                }}>
-                View Block
-              </Button>
-            </Link>
-          );
-        }
+        return <BlockInfo district_id={district_id}></BlockInfo>;
       },
     },
     {
@@ -149,17 +117,12 @@ class District extends Component {
       },
     });
   };
-  fetchBlockData = () => {
+  fetchBlockData = (district_id) => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get('api/block/')
+      .get(`api/blocks-list/district/${district_id}/`)
       .then((res) => {
-        console.log(res);
-        this.setState({
-          ...this.state,
-          loading: false,
-          block_data: res.data,
-        });
+        return res.data;
       })
       .catch((err) => {
         this.setState({
@@ -200,7 +163,6 @@ class District extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchDistrictList(this.state.search, 1);
-    this.fetchBlockData();
   }
 
   render() {
