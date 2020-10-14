@@ -9,15 +9,15 @@ class BlockInfo extends Component {
     super(props);
     this.state = {
       isLoaing: true,
-      blockdata: null,
+      has_blocks: null,
     };
   }
   componentDidMount() {
     this.setState({ ...this.state, isloading: true });
     axiosInstance
-      .get(`api/blocks-list/district/${this.props.district_id}/`)
+      .get(`api/district/${this.props.district_id}/`)
       .then((res) => {
-        this.setState({ isLoaing: false, blockdata: res.data });
+        this.setState({ isLoaing: false, has_blocks: res.data.has_blocks });
       })
       .catch((err) => {
         this.setState({ ...this.state, isLoaing: false });
@@ -27,17 +27,11 @@ class BlockInfo extends Component {
       });
   }
   render() {
-    const blocks = this.state.blockdata;
     const district_id = this.props.district_id;
     if (this.state.isLoaing) {
       return <loading></loading>;
     } else {
-      if (
-        blocks.count == 0 ||
-        (blocks.count == 1 &&
-          blocks.results[0].block_code ==
-            blocks.results[0].district.district_code)
-      ) {
+      if (this.state.has_blocks == false) {
         return (
           <span style={{ paddingLeft: '40px' }}>
             <img src={cross} width={15}></img>

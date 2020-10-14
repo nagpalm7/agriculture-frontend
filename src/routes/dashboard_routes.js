@@ -13,10 +13,12 @@ import AddDda from '../Pages/DDA/components/AddDda.js';
 import EditDda from '../Pages/DDA/components/EditDda.js';
 import AddDistrict from '../Pages/District/components/AddDistrict';
 import EditDistrict from '../Pages/District/components/EditDistrict';
+import AddBlock from '../Pages/BlockComponent/components/AddBlock.js';
 import React from 'react';
 import EditAdo from '../Pages/ADO/Components/EditAdo.js';
 import Block from '../Pages/BlockComponent/Blocks';
 import renderBlockComponet from '../Pages/District/District';
+import EditBlock from '../Pages/BlockComponent/components/EditBlock.js';
 const dashboard_routes = [
   {
     exact: true,
@@ -102,6 +104,16 @@ const dashboard_routes = [
     exact: true,
     path: '/block/:districtId',
     component: Block,
+  },
+  {
+    exact: true,
+    path: '/block/:district_id/add',
+    component: AddBlock,
+  },
+  {
+    exact: true,
+    path: '/block/:district_id/edit/:blockId',
+    component: EditBlock,
   },
 ];
 

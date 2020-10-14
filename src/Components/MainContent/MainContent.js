@@ -193,12 +193,14 @@ class MainContent extends Component {
               onClick={this.showModal}
             />,
 
-            <Search
-              placeholder="Search"
-              onSearch={(value) => onSearch(value)}
-              className="search-bar-style"
-              style={{ width: 200, color: '#000' }}
-            />,
+            !this.props.isBlock ? (
+              <Search
+                placeholder="Search"
+                onSearch={(value) => onSearch(value)}
+                className="search-bar-style"
+                style={{ width: 200, color: '#000' }}
+              />
+            ) : null,
           ]}
         />
         <Modal

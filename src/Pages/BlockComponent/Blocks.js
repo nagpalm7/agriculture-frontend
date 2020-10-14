@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import MainContent from '../../Components/MainContent/MainContent';
 import { axiosInstance } from '../../utils/axiosIntercepter';
+import { Space, Modal, message } from 'antd';
+import edit from '../../assets/images/edit.png';
+import garbage from '../../assets/images/trash-can.png';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+const { confirm } = Modal;
 
 class Block extends Component {
   constructor(props) {
@@ -36,6 +42,39 @@ class Block extends Component {
         }
       });
   }
+  showDeleteConfirm(block_code) {
+    let instance = this;
+    confirm({
+      title: 'Are you sure delete this block?',
+      icon: <ExclamationCircleOutlined />,
+      content: block_code,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK');
+        axiosInstance
+          .delete(`api/block/${block_code}/`)
+          .then((res) => {
+            console.log(res);
+            message.success('District deleted successfully');
+            instance.fetchBlockList();
+          })
+          .catch((err) => {
+            message.success('Unable to delete block');
+            if (err.response) {
+              console.log(err.response);
+            } else {
+              message.error(err.message);
+              console.log(err.message);
+            }
+          });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
   columns = [
     {
       title: 'Block',
@@ -55,14 +94,39 @@ class Block extends Component {
         return district.district;
       },
     },
+    {
+      title: 'OPTIONS',
+      key: 'id',
+      dataIndex: 'id',
+      render: (blockId) => {
+        const district_id = this.props.history.location.pathname.split('/')[2];
+        return (
+          <Space size="large">
+            <Link to={`/block/${district_id}/edit/${blockId}`}>
+              <img src={edit} alt="edit" className="icons" />
+            </Link>
+            <img
+              src={garbage}
+              className="icons"
+              alt="delete"
+              onClick={() => this.showDeleteConfirm(blockId)}
+            />
+          </Space>
+        );
+      },
+    },
   ];
   render() {
+    console.log(this.state);
+    const district_id = this.props.history.location.pathname.split('/')[2];
     return (
       <MainContent
         title="Block"
         loading={this.state.loading}
         dataSource={this.state.blockData.results}
         columns={this.columns}
+        isBlock={true}
+        addlink={`/block/${district_id}/add`}
       />
     );
   }
