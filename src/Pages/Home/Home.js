@@ -82,7 +82,7 @@ class Home extends Component {
   render() {
     console.log(this.state);
     return (
-      <>
+      <div className="home-wrapper">
         <Row>
           <h2 style={{ fontWeight: 'bold', flex: 1, fontSize: 26 }}>Map</h2>
           {/* <DropdownMenu
@@ -105,7 +105,7 @@ class Home extends Component {
             <Spin size="large" />
           )}
         </Row>
-      </>
+      </div>
     );
   }
 }
