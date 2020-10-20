@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Space, message, Modal } from 'antd';
-import edit from '../../assets/images/edit.svg';
-import garbage from '../../assets/images/garbage.svg';
+import edit from '../../assets/images/edit.png';
+import garbage from '../../assets/images/trash-can.png';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -45,6 +45,7 @@ class DDA extends Component {
       title: 'OPTIONS',
       key: 'option',
       render: (text, record) => {
+        console.log(record);
         return (
           <Space size="large">
             <Link to={`/dda/edit/${record.id}`}>
@@ -65,6 +66,7 @@ class DDA extends Component {
   onSearch = (value) => {
     console.log(value);
     this.setState({ ...this.state, search: value });
+    console.log(this.props.history.location);
     let currentPage = this.props.history.location.search.split('=')[1];
     if (currentPage === undefined) {
       this.fetchDdaList(1, value);

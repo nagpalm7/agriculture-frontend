@@ -1,5 +1,5 @@
 import Home from '../Pages/Home/Home.js';
-import Analysis from "../Pages/Analysis";
+import Analysis from '../Pages/Analysis';
 import District from '../Pages/District/District.js';
 import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
@@ -13,9 +13,12 @@ import AddDda from '../Pages/DDA/components/AddDda.js';
 import EditDda from '../Pages/DDA/components/EditDda.js';
 import AddDistrict from '../Pages/District/components/AddDistrict';
 import EditDistrict from '../Pages/District/components/EditDistrict';
-
+import AddBlock from '../Pages/BlockComponent/components/AddBlock.js';
 import React from 'react';
-
+import EditAdo from '../Pages/ADO/Components/EditAdo.js';
+import Block from '../Pages/BlockComponent/Blocks';
+import renderBlockComponet from '../Pages/District/District';
+import EditBlock from '../Pages/BlockComponent/components/EditBlock.js';
 const dashboard_routes = [
   {
     exact: true,
@@ -59,6 +62,11 @@ const dashboard_routes = [
   },
   {
     exact: true,
+    path: '/ado/edit/:adoId',
+    component: EditAdo,
+  },
+  {
+    exact: true,
     path: '/dda',
     component: DDA,
   },
@@ -91,6 +99,21 @@ const dashboard_routes = [
     exact: true,
     path: '/locations/completed',
     component: Completed,
+  },
+  {
+    exact: true,
+    path: '/block/:districtId',
+    component: Block,
+  },
+  {
+    exact: true,
+    path: '/block/:district_id/add',
+    component: AddBlock,
+  },
+  {
+    exact: true,
+    path: '/block/:district_id/edit/:blockId',
+    component: EditBlock,
   },
 ];
 

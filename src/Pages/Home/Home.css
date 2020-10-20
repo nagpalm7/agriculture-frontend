@@ -12,3 +12,8 @@
   font-size: x-large;
   font-weight: 700;
 }
+.home-wrapper{
+  padding:30px;
+  border-radius: 20px;
+  background-color: white;
+}

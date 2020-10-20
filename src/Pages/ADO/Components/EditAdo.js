@@ -3,10 +3,11 @@ import { Form, Input, Typography, message, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import '../../formStyle.css';
+import '../ADO.css';
 
 const { Title } = Typography;
 
-class EditDda extends Component {
+class EditAdo extends Component {
   constructor() {
     super();
     this.state = {
@@ -15,49 +16,22 @@ class EditDda extends Component {
       districtList: [],
     };
     this.formRef = createRef();
-    this.ddaId = '';
+    this.adoId = '';
   }
 
-  fetchDistrict = () => {
+  fetchAdoInfo = () => {
     this.setState({ ...this.state, formLoading: true });
+    this.adoId = this.props.history.location.pathname.split('/')[3];
     axiosInstance
-      .get('/api/district/')
-      .then((res) => {
-        const districtList = res.data.map((item) => {
-          return {
-            id: item.id,
-            district: item.district,
-          };
-        });
-        this.setState({
-          ...this.state,
-          districtList: districtList,
-          formLoading: false,
-        });
-      })
-      .catch((err) => {
-        this.setState({ ...this.state, formLoading: false });
-        if (err.response) {
-          console.log(err.response);
-        } else {
-          console.log(err.message);
-        }
-      });
-  };
-
-  fetchDdaInfo = () => {
-    this.setState({ ...this.state, formLoading: true });
-    this.ddaId = this.props.history.location.pathname.split('/')[3];
-    axiosInstance
-      .get(`/api/user/${this.ddaId}/`)
+      .get(`/api/user/${this.adoId}/`)
       .then((res) => {
         console.log(res);
         this.formRef.current.setFieldsValue({
-          dda_name: res.data.user.name,
-          dda_phone: res.data.user.phone,
-          dda_email: res.data.user.email,
-          dda_username: res.data.user.username,
-          dda_district: res.data.district.id,
+          ado_name: res.data.user.name,
+          ado_phone: res.data.user.phone_number,
+          ado_email: res.data.user.email,
+          ado_username: res.data.user.username,
+          ado_district: res.data.district.id,
         });
         this.setState({ ...this.state, formLoading: false });
       })
@@ -75,19 +49,19 @@ class EditDda extends Component {
   handleEditDda = (event) => {
     this.setState({ ...this.state, btnLoading: true });
     const {
-      dda_name,
-      dda_phone,
-      dda_email,
-      dda_district,
-      dda_username,
+      ado_name,
+      ado_phone,
+      ado_email,
+      ado_district,
+      ado_username,
     } = event;
     axiosInstance
-      .put(`/api/user/${this.ddaId}/`, {
-        name: dda_name,
-        phone: dda_phone,
-        email: dda_email,
-        username: dda_username,
-        district: dda_district,
+      .put(`/api/user/${this.adoId}/`, {
+        name: ado_name,
+        phone: ado_phone,
+        email: ado_email,
+        username: ado_username,
+        district: ado_district,
       })
       .then((res) => {
         console.log(res);
@@ -108,8 +82,7 @@ class EditDda extends Component {
   };
 
   componentDidMount() {
-    this.fetchDdaInfo();
-    this.fetchDistrict();
+    this.fetchAdoInfo();
   }
 
   render() {
@@ -117,7 +90,7 @@ class EditDda extends Component {
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
           <div>
-            <Title level={3}>Edit Dda</Title>
+            <Title level={3}>Edit ADO</Title>
           </div>
           <Form
             name="edit_dda"
@@ -125,30 +98,30 @@ class EditDda extends Component {
             ref={this.formRef}
             onFinish={this.handleEditDda}>
             <h3>
-              <b>Dda name</b>
+              <b>Ado name</b>
             </h3>
             <Form.Item
-              name="dda_name"
-              style={{ marginBottom: '10px' }}
+              name="ado_name"
+              style={{ marginBottom: '10px', color: 'crimson' }}
               rules={[
                 {
                   required: true,
                   message: 'Please provide dda name!',
                 },
               ]}>
-              <Input placeholder="Dda name" />
+              <Input placeholder="Ado name" />
             </Form.Item>
             <h3>
               <b>Phone</b>
             </h3>
-            <Form.Item name="dda_phone" style={{ marginBottom: '10px' }}>
+            <Form.Item name="ado_phone" style={{ marginBottom: '10px' }}>
               <Input placeholder="Phone Number" />
             </Form.Item>
             <h3>
               <b>Email Id</b>
             </h3>
             <Form.Item
-              name="dda_email"
+              name="ado_email"
               style={{ marginBottom: '10px' }}
               rules={[
                 {
@@ -159,39 +132,10 @@ class EditDda extends Component {
               <Input placeholder="Email" />
             </Form.Item>
             <h3>
-              <b>District</b>
-            </h3>
-            <Form.Item
-              name="dda_district"
-              style={{ marginBottom: '10px' }}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select district!',
-                },
-              ]}>
-              <Select
-                showSearch
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }
-                placeholder="Select district">
-                {this.state.districtList.map((item) => {
-                  return (
-                    <Select.Option value={item.id}>
-                      {item.district}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-            <h3>
               <b>Username</b>
             </h3>
             <Form.Item
-              name="dda_username"
+              name="ado_username"
               rules={[
                 {
                   required: true,
@@ -222,4 +166,4 @@ class EditDda extends Component {
   }
 }
 
-export default EditDda;
+export default EditAdo;

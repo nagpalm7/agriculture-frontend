@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { Space, Modal, message } from 'antd';
 import './location.css';
 import edit from '../../assets/images/edit.svg';
-import garbage from '../../assets/images/garbage.svg';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
-
+import pencil from '../../assets/images/edit.png';
+import delete_logo from '../../assets/images/trash-can.png';
 const { confirm } = Modal;
 
 class Pending extends Component {
@@ -108,10 +107,10 @@ class Pending extends Component {
         return (
           <Space size="large">
             <Link to={`/locations/pending/edit/${record.id}`}>
-              <img src={edit} alt="edit" className="icons" />
+              <img src={pencil} alt="edit" className="icons" />
             </Link>
             <img
-              src={garbage}
+              src={delete_logo}
               className="icons"
               alt="delete"
               onClick={() => this.showDeleteConfirm(record.village, record.id)}
@@ -221,6 +220,7 @@ class Pending extends Component {
           totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
+          isLocation="true"
         />
       </>
     );

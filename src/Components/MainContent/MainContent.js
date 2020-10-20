@@ -49,7 +49,6 @@ class MainContent extends Component {
   };
   fileSelectedHandler = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
       this.setState({
         ...this.state,
@@ -127,7 +126,6 @@ class MainContent extends Component {
     }
   };
   render() {
-    console.log(this.state);
     const err_text = () => {
       if (this.state.file_upload_err) {
         if (
@@ -170,6 +168,19 @@ class MainContent extends Component {
           subTitle=""
           style={{ borderRadius: '20px' }}
           extra={[
+            !this.props.isLocation ? (
+              <Link to={addlink} key="1">
+                <MyButton
+                  text="Add"
+                  className="filled"
+                  style={{
+                    color: '#e03b3b',
+                    backgroundColor: '#f5f3ff',
+                    border: '0px',
+                  }}
+                />
+              </Link>
+            ) : null,
             <MyButton
               key="2"
               text="Add Bulk"
@@ -182,12 +193,14 @@ class MainContent extends Component {
               onClick={this.showModal}
             />,
 
-            <Search
-              placeholder="Search"
-              onSearch={(value) => onSearch(value)}
-              className="search-bar-style"
-              style={{ width: 200, color: '#000' }}
-            />,
+            !this.props.isBlock ? (
+              <Search
+                placeholder="Search"
+                onSearch={(value) => onSearch(value)}
+                className="search-bar-style"
+                style={{ width: 200, color: '#000' }}
+              />
+            ) : null,
           ]}
         />
         <Modal
@@ -265,10 +278,7 @@ class MainContent extends Component {
             Select File
           </Button>
           <div className="file_name">{this.state.file_name}</div>
-          <div className="err_mess">
-            {console.log(err_text())}
-            {err_text()}
-          </div>
+          <div className="err_mess">{err_text()}</div>
         </Modal>
 
         <TableComponent

@@ -141,8 +141,8 @@ class Login extends Component {
                   loading={loadings}
                   className="login-btn"
                   style={{
-                    background: '#3d0098',
-                    borderColor: '#3d0098',
+                    background: '#e03b3b',
+                    borderColor: '#e03b3b',
                     color: '#ffffff',
                     fontWeight: '500',
                   }}>
@@ -152,7 +152,7 @@ class Login extends Component {
               <a
                 className="login-form-forgot"
                 href="/"
-                style={{ color: '#3d0098' }}>
+                style={{ color: '#e03b3b' }}>
                 Forgot Password?
               </a>
             </Form.Item>

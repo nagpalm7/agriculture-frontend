@@ -101,16 +101,18 @@ class Ongoing extends Component {
       title: 'STATUS',
       render: () => {
         return (
-          <Button
-            style={{
-              backgroundColor: '#e03b3b',
-              borderRadius: '15px',
-              color: 'white',
-            }}
-            className="upload_button">
-            <img src={cloud_logo} />
-            <Link to="/locations/ongoing/1601">View Report</Link>
-          </Button>
+          <Link to="/locations/ongoing/1601">
+            <Button
+              style={{
+                backgroundColor: '#e03b3b',
+                borderRadius: '15px',
+                color: 'white',
+              }}
+              className="upload_button">
+              <img src={cloud_logo} />
+              View Report
+            </Button>
+          </Link>
         );
       },
     },
@@ -173,6 +175,7 @@ class Ongoing extends Component {
           totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
+          isLocation="true"
         />
       </>
     );

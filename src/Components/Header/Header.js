@@ -3,6 +3,7 @@ import { Layout, Button, Space } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import './Header.css';
 import MyButton from '../ButtonComponent/MyButton';
+import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -25,15 +26,17 @@ class Headers extends Component {
           </div>
           <div>
             <Space>
-              <MyButton
-                text="Analysis"
-                className="outlined"
-                style={{
-                  color: '#e03b3b',
-                  backgroundColor: '#f5f3ff',
-                  border: '0px',
-                }}
-              />
+              <Link to="/Analysis">
+                <MyButton
+                  text="Analysis"
+                  className="outlined"
+                  style={{
+                    color: '#e03b3b',
+                    backgroundColor: '#f5f3ff',
+                    border: '0px',
+                  }}
+                />
+              </Link>
               <MyButton
                 text="Logout"
                 className="outlined"
