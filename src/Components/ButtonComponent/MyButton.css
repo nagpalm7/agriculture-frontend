@@ -11,7 +11,7 @@
 
 .outlined:hover,
 .outlined:focus {
-  color: #fff;
+  color: rgb(255, 255, 255);
   background-color: #3d0098;
   border-color: #3d0098;
 }

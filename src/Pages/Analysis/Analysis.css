@@ -1,0 +1,17 @@
+.analysis-wrapper{
+  padding:30px;
+  border-radius: 20px;
+  background-color: white;
+}
+.chart-container{
+    position: relative;
+    margin: auto;
+    height: 60vh;
+    width: 80vw;
+}
+.analysis-wrapper button:hover{
+  border-color: rgba(255, 0, 0, 0.699);
+}
+.analysis-wrapper button:focus{
+  border-color: rgba(255, 0, 0, 0.699);
+}
