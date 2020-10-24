@@ -3,17 +3,21 @@ import { Spin } from 'antd';
 import { Line } from 'react-chartjs-2';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import './Analysis.css';
-import { PageHeader, Button } from 'antd';
+import { PageHeader, Button, Modal, DatePicker, Space } from 'antd';
 import Table from './Table';
+import { withState } from 'recompose';
+import { Redirect } from 'react-router';
 
+const { RangePicker } = DatePicker;
 class Analysis extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      start_date: null,
+      end_date: null,
       loading: false,
-      startDate: '2019-02-01',
-      EndDate: '2019-12-12',
-      active: 'allTime',
+      active: null,
+      visible: false,
       pending_chart_data: {
         labels: [],
         data: [],
@@ -28,61 +32,111 @@ class Analysis extends Component {
       },
     };
   }
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
   changeActive(status) {
     this.setState({
       ...this.state,
       active: status,
     });
   }
-  fetchData = async () => {
+  fetchData = async (status) => {
+    console.log(status);
+    let startDate;
+    let EndDate;
+    if (status == 'allTime') {
+      startDate = '2019-02-01';
+      EndDate = '2019-12-12';
+    } else if (status == 'thisMonth') {
+      let d = new Date();
+      startDate = `${d.getFullYear()}-${d.getMonth() - 1}-${d.getDate()}`;
+      EndDate = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    } else if (status == 'thisYear') {
+      let d = new Date();
+      startDate = `${d.getFullYear() - 1}-${d.getMonth()}-${d.getDate()}`;
+      EndDate = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    } else if (status == 'custom') {
+      console.log('inside', this.state);
+      startDate = this.state.start_date;
+      EndDate = this.state.end_date;
+    }
     this.setState({
       ...this.state,
       loading: true,
+      pending_chart_data: {
+        labels: [],
+        data: [],
+      },
+      ongoing_chart_data: {
+        labels: [],
+        data: [],
+      },
+      completed_chart_data: {
+        labels: [],
+        data: [],
+      },
     });
-    let count = await axiosInstance.get(
-      `https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=${this.state.startDate}&end_date=${this.state.EndDate}&points=5`,
-    );
-    this.setState({
-      ...this.state,
-      loading: false,
-    });
-    count.data.pending_count.map((value) => {
-      this.setState((prevState) => ({
-        pending_chart_data: {
-          labels: [
-            ...prevState.pending_chart_data.labels,
-            `${value.start} - ${value.end}`,
-          ],
-          data: [...prevState.pending_chart_data.data, value.data],
-        },
-      }));
-    });
-    count.data.ongoing_count.map((value) => {
-      this.setState((prevState) => ({
-        ongoing_chart_data: {
-          labels: [
-            ...prevState.ongoing_chart_data.labels,
-            `${value.start} - ${value.end}`,
-          ],
-          data: [...prevState.ongoing_chart_data.data, value.data],
-        },
-      }));
-    });
-    count.data.completed_count.map((value) => {
-      this.setState((prevState) => ({
-        completed_chart_data: {
-          labels: [
-            ...prevState.completed_chart_data.labels,
-            `${value.start} - ${value.end}`,
-          ],
-          data: [...prevState.completed_chart_data.data, value.data],
-        },
-      }));
-    });
-  };
 
+    console.log(startDate, EndDate);
+    try {
+      let count = await axiosInstance.get(
+        `https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=${startDate}&end_date=${EndDate}&points=5`,
+      );
+      this.setState({
+        ...this.state,
+        loading: false,
+        visible: false,
+      });
+      count.data.pending_count.map((value) => {
+        this.setState((prevState) => ({
+          pending_chart_data: {
+            labels: [
+              ...prevState.pending_chart_data.labels,
+              `${value.start} - ${value.end}`,
+            ],
+            data: [...prevState.pending_chart_data.data, value.data],
+          },
+        }));
+      });
+      count.data.ongoing_count.map((value) => {
+        this.setState((prevState) => ({
+          ongoing_chart_data: {
+            labels: [
+              ...prevState.ongoing_chart_data.labels,
+              `${value.start} - ${value.end}`,
+            ],
+            data: [...prevState.ongoing_chart_data.data, value.data],
+          },
+        }));
+      });
+      count.data.completed_count.map((value) => {
+        this.setState((prevState) => ({
+          completed_chart_data: {
+            labels: [
+              ...prevState.completed_chart_data.labels,
+              `${value.start} - ${value.end}`,
+            ],
+            data: [...prevState.completed_chart_data.data, value.data],
+          },
+        }));
+      });
+    } catch (err) {
+      console.log(err);
+      this.setState({
+        ...this.state,
+        loading: false,
+      });
+      return;
+    }
+  };
+  handleButtonClick(status) {
+    this.fetchData(status);
+  }
   componentDidMount() {
-    this.fetchData();
+    this.fetchData('allTime');
   }
   borderColor(status) {
     if (status == 'pending') {
@@ -93,32 +147,14 @@ class Analysis extends Component {
       return '#069d15';
     }
   }
-  buttonStyle(status) {
-    const cond = this.state.active == status;
-    if (cond) {
-      return {
-        color: 'white',
-        backgroundColor: '#e66060',
-        borderRadius: '10px',
-        borderColor: '#e66060',
-        fontWeight: '2em',
-      };
-    } else {
-      return {
-        color: '#e03b3b',
-        backgroundColor: 'white',
-        borderRadius: '10px',
-      };
-    }
-  }
-  handleButtonClick(status, startDate, EndDate) {
-    this.setState({
-      active: status,
-      startDate: startDate,
-      EndDate: EndDate,
-    });
-    this.fetchData();
-  }
+  handleOk = () => {
+    this.setState({ loading: true });
+    this.fetchData('custom');
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
   render() {
     const chartData = {
       labels: !this.state.loading ? this.state.pending_chart_data.labels : null,
@@ -156,35 +192,78 @@ class Analysis extends Component {
           style={{ borderRadius: '20px' }}
           extra={[
             <Button
-              style={this.buttonStyle('allTime')}
               onClick={() => {
                 this.handleButtonClick('allTime');
               }}>
               All Time
             </Button>,
             <Button
-              style={this.buttonStyle('thisMonth')}
               onClick={() => {
                 this.handleButtonClick('thisMonth');
               }}>
               This Month
             </Button>,
             <Button
-              style={this.buttonStyle('thisYear')}
               onClick={() => {
                 this.handleButtonClick('thisYear');
               }}>
               This Year
             </Button>,
-            <Button
-              style={this.buttonStyle('custom')}
-              onClick={() => {
-                this.handleButtonClick('custom');
-              }}>
-              Custom
-            </Button>,
+            <Button onClick={this.showModal}>Custom</Button>,
           ]}
         />
+        <Modal
+          visible={this.state.visible}
+          title="Select Range"
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <div>
+              <Button
+                key="back"
+                type="primary"
+                onClick={this.handleCancel}
+                style={{
+                  backgroundColor: '#f5f3ff',
+                  borderRadius: '10px',
+                  color: 'red',
+                  borderColor: 'white',
+                }}>
+                Cancel
+              </Button>
+              <Button
+                key="submit"
+                style={{
+                  backgroundColor: '#e03b3b',
+                  borderRadius: '10px',
+                  borderColor: 'red',
+                }}
+                type="primary"
+                loading={this.state.loading}
+                onClick={this.handleOk}>
+                Submit
+              </Button>
+              ,
+            </div>,
+          ]}>
+          <div style={{ marginTop: '15px' }}>
+            <RangePicker
+              onChange={(moment) => {
+                const startDate = moment[0]._d;
+                const EndDate = moment[1]._d;
+                this.setState({
+                  ...this.state,
+                  start_date: `${startDate.getFullYear()}-${
+                    startDate.getMonth() + 1
+                  }-${startDate.getDate()}`,
+                  end_date: `${EndDate.getFullYear()}-${
+                    EndDate.getMonth() + 1
+                  }-${EndDate.getDate()}`,
+                });
+              }}
+            />
+          </div>
+        </Modal>
         <Spin spinning={this.state.loading}>
           <div className="chart-container">
             <Line

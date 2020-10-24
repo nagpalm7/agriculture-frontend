@@ -9,9 +9,21 @@
     height: 60vh;
     width: 80vw;
 }
+.analysis-wrapper button{
+  color: #e03b3b;
+  border-radius: 10px;
+  background-color: white;
+}
 .analysis-wrapper button:hover{
   border-color: rgba(255, 0, 0, 0.699);
+  background-color: #e66060;
+  color: white;
 }
 .analysis-wrapper button:focus{
   border-color: rgba(255, 0, 0, 0.699);
+  color: white;
+  background:#e66060;
+  border-radius: 10px;
+  border-color:#e66060;
+  font-weight: 2em;
 }
