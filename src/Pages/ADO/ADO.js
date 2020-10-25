@@ -191,6 +191,7 @@ class ADO extends Component {
     this.fetchADO(1, this.state.search);
   }
   render() {
+    console.log(this.state.adoData);
     return (
       <>
         <MainContent

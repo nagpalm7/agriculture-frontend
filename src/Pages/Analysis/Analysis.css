@@ -27,3 +27,9 @@
   border-color:#e66060;
   font-weight: 2em;
 }
+.table-wrapper{
+  margin-top: 50px;
+  padding:30px;
+  border-radius: 20px;
+  background-color: white;
+}

@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import './Analysis.css';
 import { PageHeader, Button, Modal, DatePicker, Space } from 'antd';
-import Table from './Table';
+import TableComponent from './Table';
 import { withState } from 'recompose';
 import { Redirect } from 'react-router';
 
@@ -18,6 +18,7 @@ class Analysis extends Component {
       loading: false,
       active: null,
       visible: false,
+      table_data: null,
       pending_chart_data: {
         labels: [],
         data: [],
@@ -43,6 +44,7 @@ class Analysis extends Component {
       active: status,
     });
   }
+
   fetchData = async (status) => {
     console.log(status);
     let startDate;
@@ -85,10 +87,12 @@ class Analysis extends Component {
       let count = await axiosInstance.get(
         `https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=${startDate}&end_date=${EndDate}&points=5`,
       );
+
       this.setState({
         ...this.state,
         loading: false,
         visible: false,
+        table_data: count.data.results,
       });
       count.data.pending_count.map((value) => {
         this.setState((prevState) => ({
@@ -184,124 +188,131 @@ class Analysis extends Component {
       ],
     };
     return (
-      <div className="analysis-wrapper">
-        <PageHeader
-          className="analysis-page-header"
-          ghost={false}
-          title="Analysis"
-          style={{ borderRadius: '20px' }}
-          extra={[
-            <Button
-              onClick={() => {
-                this.handleButtonClick('allTime');
-              }}>
-              All Time
-            </Button>,
-            <Button
-              onClick={() => {
-                this.handleButtonClick('thisMonth');
-              }}>
-              This Month
-            </Button>,
-            <Button
-              onClick={() => {
-                this.handleButtonClick('thisYear');
-              }}>
-              This Year
-            </Button>,
-            <Button onClick={this.showModal}>Custom</Button>,
-          ]}
-        />
-        <Modal
-          visible={this.state.visible}
-          title="Select Range"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <div>
+      <>
+        <div className="analysis-wrapper">
+          <PageHeader
+            className="analysis-page-header"
+            ghost={false}
+            title="Analysis"
+            style={{ borderRadius: '20px' }}
+            extra={[
               <Button
-                key="back"
-                type="primary"
-                onClick={this.handleCancel}
-                style={{
-                  backgroundColor: '#f5f3ff',
-                  borderRadius: '10px',
-                  color: 'red',
-                  borderColor: 'white',
+                onClick={() => {
+                  this.handleButtonClick('allTime');
                 }}>
-                Cancel
-              </Button>
+                All Time
+              </Button>,
               <Button
-                key="submit"
-                style={{
-                  backgroundColor: '#e03b3b',
-                  borderRadius: '10px',
-                  borderColor: 'red',
+                onClick={() => {
+                  this.handleButtonClick('thisMonth');
+                }}>
+                This Month
+              </Button>,
+              <Button
+                onClick={() => {
+                  this.handleButtonClick('thisYear');
+                }}>
+                This Year
+              </Button>,
+              <Button onClick={this.showModal}>Custom</Button>,
+            ]}
+          />
+          <Modal
+            visible={this.state.visible}
+            title="Select Range"
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <div>
+                <Button
+                  key="back"
+                  type="primary"
+                  onClick={this.handleCancel}
+                  style={{
+                    backgroundColor: '#f5f3ff',
+                    borderRadius: '10px',
+                    color: 'red',
+                    borderColor: 'white',
+                  }}>
+                  Cancel
+                </Button>
+                <Button
+                  key="submit"
+                  style={{
+                    backgroundColor: '#e03b3b',
+                    borderRadius: '10px',
+                    borderColor: 'red',
+                  }}
+                  type="primary"
+                  loading={this.state.loading}
+                  onClick={this.handleOk}>
+                  Submit
+                </Button>
+                ,
+              </div>,
+            ]}>
+            <div style={{ marginTop: '15px' }}>
+              <RangePicker
+                onChange={(moment) => {
+                  const startDate = moment[0]._d;
+                  const EndDate = moment[1]._d;
+                  this.setState({
+                    ...this.state,
+                    start_date: `${startDate.getFullYear()}-${
+                      startDate.getMonth() + 1
+                    }-${startDate.getDate()}`,
+                    end_date: `${EndDate.getFullYear()}-${
+                      EndDate.getMonth() + 1
+                    }-${EndDate.getDate()}`,
+                  });
                 }}
-                type="primary"
-                loading={this.state.loading}
-                onClick={this.handleOk}>
-                Submit
-              </Button>
-              ,
-            </div>,
-          ]}>
-          <div style={{ marginTop: '15px' }}>
-            <RangePicker
-              onChange={(moment) => {
-                const startDate = moment[0]._d;
-                const EndDate = moment[1]._d;
-                this.setState({
-                  ...this.state,
-                  start_date: `${startDate.getFullYear()}-${
-                    startDate.getMonth() + 1
-                  }-${startDate.getDate()}`,
-                  end_date: `${EndDate.getFullYear()}-${
-                    EndDate.getMonth() + 1
-                  }-${EndDate.getDate()}`,
-                });
-              }}
-            />
-          </div>
-        </Modal>
-        <Spin spinning={this.state.loading}>
-          <div className="chart-container">
-            <Line
-              data={chartData}
-              options={{
-                maintainAspectRatio: false,
-                pointRadius: 2,
-                pointHoverRadius: 3,
-                layout: {
-                  padding: {
-                    left: 10,
-                    right: 20,
-                    top: 0,
-                    bottom: 0,
+              />
+            </div>
+          </Modal>
+          <Spin spinning={this.state.loading}>
+            <div className="chart-container">
+              <Line
+                data={chartData}
+                options={{
+                  maintainAspectRatio: false,
+                  pointRadius: 2,
+                  pointHoverRadius: 3,
+                  layout: {
+                    padding: {
+                      left: 10,
+                      right: 20,
+                      top: 0,
+                      bottom: 0,
+                    },
                   },
-                },
-                scales: {
-                  xAxes: [
-                    {
-                      gridLines: {
-                        display: false,
+                  scales: {
+                    xAxes: [
+                      {
+                        gridLines: {
+                          display: false,
+                        },
                       },
-                    },
-                  ],
-                  yAxes: [
-                    {
-                      stacked: true,
-                      gridLines: {
-                        display: false,
+                    ],
+                    yAxes: [
+                      {
+                        stacked: true,
+                        gridLines: {
+                          display: false,
+                        },
                       },
-                    },
-                  ],
-                },
-              }}
-            />
-          </div>
-        </Spin>
-      </div>
+                    ],
+                  },
+                }}
+              />
+            </div>
+          </Spin>
+        </div>
+        <div className="table-wrapper">
+          <TableComponent
+            data={this.state.table_data}
+            loading={this.state.loading}></TableComponent>
+        </div>
+      </>
     );
   }
 }

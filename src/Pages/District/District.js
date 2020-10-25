@@ -36,10 +36,15 @@ class District extends Component {
     },
     {
       title: 'HAS BLOCK',
-      dataIndex: 'id',
-      key: 'id',
-      render: (district_id) => {
-        return <BlockInfo district_id={district_id}></BlockInfo>;
+      dataIndex: '',
+      key: '',
+      render: (district) => {
+        console.log(district);
+        return (
+          <BlockInfo
+            district_id={district.id}
+            has_blocks={district.has_blocks}></BlockInfo>
+        );
       },
     },
     {
