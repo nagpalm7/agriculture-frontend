@@ -12,21 +12,7 @@ import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
 const { Sider } = Layout;
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <Link to="/locations/pending">Pending</Link>
-    </Menu.Item>
-    <Menu.Item>
-      <Link to="/locations/ongoing">Ongoing</Link>
-    </Menu.Item>
-    <Menu.Item>
-      <Link to="/locations/completed">Completed</Link>
-    </Menu.Item>
-  </Menu>
-);
-
+const { SubMenu } = Menu;
 class Sidebar extends Component {
   render() {
     return (
@@ -81,22 +67,17 @@ class Sidebar extends Component {
             style={{ borderRadius: '0px', marginBottom: '20px' }}>
             <Link to="/ado">ADO</Link>
           </Menu.Item>
-          <Menu.Item
-            key="6"
-            icon={<UserOutlined />}
-            style={{ borderRadius: '0px', marginBottom: '20px' }}>
-            <Link to="/locations">
-              {' '}
-              Locations
-              <Dropdown overlay={menu}>
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => e.preventDefault()}>
-                  <DownOutlined />
-                </a>
-              </Dropdown>
-            </Link>
-          </Menu.Item>
+          <SubMenu key="sub1" icon={<UserOutlined />} title="Locations">
+            <Menu.Item>
+              <Link to="/locations/pending">Pending</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to="/locations/ongoing">Ongoing</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to="/locations/completed">Completed</Link>
+            </Menu.Item>
+          </SubMenu>
         </Menu>
       </Sider>
     );

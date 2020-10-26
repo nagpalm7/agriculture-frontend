@@ -7,54 +7,33 @@ import { Button, loading } from 'antd';
 class BlockInfo extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoaing: true,
-      has_blocks: null,
-    };
-  }
-  componentDidMount() {
-    this.setState({ ...this.state, isloading: true });
-    axiosInstance
-      .get(`api/district/${this.props.district_id}/`)
-      .then((res) => {
-        this.setState({ isLoaing: false, has_blocks: res.data.has_blocks });
-      })
-      .catch((err) => {
-        this.setState({ ...this.state, isLoaing: false });
-        if (err.response) {
-          console.log(err.response);
-        }
-      });
   }
   render() {
     const district_id = this.props.district_id;
-    if (this.state.isLoaing) {
-      return <loading></loading>;
+    const has_blocks = this.props.has_blocks;
+    if (has_blocks == false) {
+      return (
+        <span style={{ paddingLeft: '40px' }}>
+          <img src={cross} width={11}></img>
+        </span>
+      );
     } else {
-      if (this.state.has_blocks == false) {
-        return (
-          <span style={{ paddingLeft: '40px' }}>
-            <img src={cross} width={15}></img>
-          </span>
-        );
-      } else {
-        return (
-          <Link to={`/block/${district_id}`}>
-            <Button
-              type="primary"
-              className="block-button"
-              loading={this.loading}
-              style={{
-                color: 'crimson',
-                backgroundColor: '#f5f3ff',
-                border: '0px',
-                borderRadius: '20px',
-              }}>
-              View Block
-            </Button>
-          </Link>
-        );
-      }
+      return (
+        <Link to={`/block/${district_id}`}>
+          <Button
+            type="primary"
+            className="block-button"
+            loading={this.loading}
+            style={{
+              color: 'crimson',
+              backgroundColor: '#f5f3ff',
+              border: '0px',
+              borderRadius: '20px',
+            }}>
+            View Block
+          </Button>
+        </Link>
+      );
     }
   }
 }
