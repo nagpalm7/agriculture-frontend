@@ -100,7 +100,8 @@
  border-radius: 20px;
 }
 .ant-menu-dark .ant-menu-item>a:hover{
-  color: rgb(0, 0, 0);
+  color: rgba(255, 255, 255, 0.507);
+
 }
 .ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected>a{
   color: #000;

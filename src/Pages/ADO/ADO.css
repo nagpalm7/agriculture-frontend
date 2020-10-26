@@ -1,0 +1,22 @@
+.ant-dropdown-menu{
+    max-height: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-y: scroll;
+    border-radius: 10px 0px 0px 10px;
+}
+.ant-dropdown-menu::-webkit-scrollbar {
+    width: 7px;
+}
+.ant-dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 20px;
+}
+
+.ant-dropdown-menu::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #888; 
+}
+.ant-dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

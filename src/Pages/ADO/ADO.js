@@ -4,11 +4,12 @@ import edit from '../../assets/images/edit.png';
 import garbage from '../../assets/images/trash-can.png';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
-import { Menu, Dropdown, Modal, message } from 'antd';
+import { Menu, Dropdown, Modal, message, Select } from 'antd';
 import MenuItem from 'antd/lib/menu/MenuItem';
 import { DownOutlined } from '@ant-design/icons';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import './ADO.css';
 
 const { confirm } = Modal;
 const { Search } = Input;
@@ -51,7 +52,7 @@ class ADO extends Component {
               return <Menu.Item>{village.village}</Menu.Item>;
             })
           : null;
-        return (
+        return villages.length != 0 ? (
           <Dropdown overlay={<Menu>{menu}</Menu>} placement="bottomCenter">
             <a
               className="ant-dropdown-link"
@@ -64,6 +65,8 @@ class ADO extends Component {
               />
             </a>
           </Dropdown>
+        ) : (
+          'No Villages'
         );
       },
     },
