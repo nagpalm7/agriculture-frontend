@@ -224,8 +224,8 @@ class EditVillage extends Component {
                 className="filled"
                 loading={this.state.btnLoading}
                 style={{
-                  background: '#3d0098',
-                  borderColor: '#3d0098',
+                  background: 'crimson',
+                  borderColor: 'crimson',
                   color: '#ffffff',
                   fontWeight: '500',
                 }}

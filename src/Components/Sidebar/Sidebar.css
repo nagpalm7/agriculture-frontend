@@ -81,38 +81,39 @@
 .ant-menu.ant-menu-dark .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after{
   background: red;
 }
-.ant-menu-dark .ant-menu-submenu-open{
+/* .ant-menu-dark .ant-menu-submenu-open{
   margin-left: 10px;
   margin-right: 10px;
 }
 .ant-menu-dark .ant-menu-submenu{
   margin-left: 10px;
   margin-right: 10px;
-}
+} */
 .ant-menu-dark .ant-menu-inline.ant-menu-sub{
-  background: #e03b3b;
-  border-radius: 20px;
+  background:white;
+  /* border-radius: 20px; */
 }
 .ant-menu-dark .ant-menu-item>a{
-  color:white
+  color:black
 }
 .ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected{
- border-radius: 20px;
+ /* border-radius: 20px; */
 }
 .ant-menu-dark .ant-menu-item>a:hover{
-  color: rgba(255, 255, 255, 0.507);
-
+  color: red
 }
 .ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected>a{
-  color: #000;
+  color: white;
 }
-.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title{
-  margin-left:-10px;
-}
-.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title{
-  margin-left: -10px;
-}
-.ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub{
-  background-color: #e03b3b;
-  border-radius: 20px;
+ .ant-menu-inline > .ant-menu-submenu-open >a:hover{
+   color:white;
+ }
+/* .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title{ */
+  /* margin-left: -10px; */
+ 
+.ant-menu.ant-menu-dark .ant-menu-sub{
+  background-color: white;
+}   
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected * {
+  color: white;
 }

@@ -64,6 +64,7 @@ class MainContent extends Component {
     }
   };
   fileUploadHandler = () => {
+    const uploadUrl = this.props.addlink.split('/')[1];
     try {
       if (!this.state.isUploaded) {
         if (this.state.selectedFile) {
@@ -75,7 +76,7 @@ class MainContent extends Component {
               this.state.selectedFile.name,
             );
             axiosInstance
-              .post('/api/upload/locations/', formData, {
+              .post(`/api/upload/${uploadUrl}/`, formData, {
                 onDownloadProgress: (progressEvent) => {
                   this.setState({
                     ...this.state,
@@ -95,14 +96,15 @@ class MainContent extends Component {
                 });
               })
               .catch((err) => {
+                console.log(err);
                 this.setState({
                   ...this.state,
                   isUploaded: false,
+                  file_upload_err: err,
                 });
                 throw err;
               });
           } else {
-            console.log('here');
             var error2 = new Error('Only .csv format can be uploaded');
             error2.name = 'file_type_error';
             throw error2;
@@ -126,8 +128,14 @@ class MainContent extends Component {
     }
   };
   render() {
+    const uploadUrl = this.props.addlink
+      ? this.props.addlink.split('/')[1]
+      : null;
+    console.log(this.state);
     const err_text = () => {
       if (this.state.file_upload_err) {
+        console.log(this.state.file_upload_err.name);
+        console.log(this.state.file_upload_err.message);
         if (
           this.state.file_upload_err.name == 'file_not_selected' &&
           !this.state.selectedFile
@@ -135,8 +143,8 @@ class MainContent extends Component {
           return this.state.file_upload_err.message;
         } else if (this.state.file_upload_err.name == 'file_type_error') {
           return this.state.file_upload_err.message;
-        } else {
-          return '';
+        } else if (this.state.file_upload_err.name == 'Error') {
+          return this.state.file_upload_err.message;
         }
       } else {
         return '';
@@ -145,7 +153,7 @@ class MainContent extends Component {
     const text = () => {
       if (this.state.isUploaded == true) {
         return 'Uploaded';
-      } else if (this.state.isUploaded == true) {
+      } else if (this.state.isUploaded == false) {
         return 'Failed';
       }
     };
@@ -224,7 +232,9 @@ class MainContent extends Component {
                 }}>
                 <div>
                   <img src={cloud_logo} />
-                  <span>{this.state.isUploaded ? text() : 'Upload'}</span>
+                  <span>
+                    {this.state.isUploaded != null ? text() : 'Upload'}
+                  </span>
                   <Progress
                     type="circle"
                     width={30}
@@ -249,7 +259,7 @@ class MainContent extends Component {
             </div>,
             <div className="new_locations">
               {this.state.location_update_count
-                ? `${this.state.location_update_count} new locations successfully added`
+                ? `${this.state.location_update_count} new ${uploadUrl} successfully added`
                 : ''}
             </div>,
           ]}>

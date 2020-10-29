@@ -45,7 +45,6 @@ class DDA extends Component {
       title: 'OPTIONS',
       key: 'option',
       render: (text, record) => {
-        console.log(record);
         return (
           <Space size="large">
             <Link to={`/dda/edit/${record.id}`}>
@@ -134,7 +133,7 @@ class DDA extends Component {
             dda: item.user.name,
             district: item.district.district,
             email: item.user.email,
-            phone: item.user.phone,
+            phone: item.user.phone_number,
           };
         });
         this.setState({
