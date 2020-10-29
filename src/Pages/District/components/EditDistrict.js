@@ -1,11 +1,11 @@
 import React, { Component, createRef } from 'react';
-import { Form, Input, Typography, message, Spin } from 'antd';
+import { Checkbox, Form, Input, Typography, message, Spin } from 'antd';
 import '../../formStyle.css';
 
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 
 import MyButton from '../../../Components/ButtonComponent/MyButton';
-
+import '../components/EditDistrict.css';
 const { Title } = Typography;
 
 class EditDistrict extends Component {
@@ -25,8 +25,10 @@ class EditDistrict extends Component {
     axiosInstance
       .get(`/api/district/${this.districtId}/`)
       .then((res) => {
+        console.log(res.data);
         this.formRef.current.setFieldsValue({
           district_name: res.data.district,
+          has_blocks: res.data.has_blocks,
         });
         this.setState({ ...this.state, formLoading: false });
       })
@@ -42,11 +44,13 @@ class EditDistrict extends Component {
   };
 
   handleEditDistrict = (e) => {
+    console.log(e);
     this.setState({ ...this.state, btnLoading: true });
-    const { district_name } = e;
+    const { district_name, has_blocks } = e;
     axiosInstance
       .put(`/api/district/${this.districtId}/`, {
         district: district_name,
+        has_blocks: has_blocks,
       })
       .then((res) => {
         console.log(res);
@@ -96,6 +100,12 @@ class EditDistrict extends Component {
               ]}>
               <Input placeholder="District name" />
             </Form.Item>
+            <h3>
+              <b>Has Blocks</b>
+            </h3>
+            <Form.Item name="has_blocks" valuePropName="checked">
+              <Checkbox></Checkbox>
+            </Form.Item>
             <Form.Item style={{ marginBottom: '10px' }}>
               <MyButton
                 htmlType="submit"
@@ -103,8 +113,8 @@ class EditDistrict extends Component {
                 className="filled"
                 loading={this.state.btnLoading}
                 style={{
-                  background: '#3d0098',
-                  borderColor: '#3d0098',
+                  background: 'crimson',
+                  borderColor: 'crimson',
                   color: '#ffffff',
                   fontWeight: '500',
                 }}

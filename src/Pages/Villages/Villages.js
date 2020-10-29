@@ -45,6 +45,9 @@ class Villages extends Component {
       title: 'ADO',
       dataIndex: 'ado',
       key: 'ado',
+      render: (ado) => {
+        return ado ? ado.user.name : '';
+      },
     },
     {
       title: 'OPTIONS',
