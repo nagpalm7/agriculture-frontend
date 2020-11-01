@@ -199,6 +199,7 @@ class ADO extends Component {
       <>
         <MainContent
           title=" List of ADO"
+          addlink="/ado/addAdo"
           loading={this.state.loading}
           dataSource={this.state.adoData}
           columns={this.columns}
