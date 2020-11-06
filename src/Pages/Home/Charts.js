@@ -26,52 +26,116 @@ class Charts extends Component {
       completed_chart_data: { labels: [], data: [] },
     };
   }
-
   processData = async (status) => {
+    console.log(this.props.selectedDist);
     try {
       let count = await axiosInstance.get(
         'https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=5',
       );
+      console.log(count);
       this.setState({
         ...this.state,
         loading: false,
       });
       if (status == 'pending') {
-        count.data.pending_count.map((value) => {
-          this.setState((prevState) => ({
-            pending_chart_data: {
-              labels: [
-                ...prevState.pending_chart_data.labels,
-                `${value.start} - ${value.end}`,
-              ],
-              data: [...prevState.pending_chart_data.data, value.data],
-            },
-          }));
-        });
+        if (this.props.selectedDist == 'ALL DISTRICTS') {
+          count.data.pending_count.map((value) => {
+            this.setState((prevState) => ({
+              pending_chart_data: {
+                labels: [
+                  ...prevState.pending_chart_data.labels,
+                  `${value.start} - ${value.end}`,
+                ],
+                data: [...prevState.pending_chart_data.data, value.data],
+              },
+            }));
+          });
+        } else {
+          const rec = count.data.results;
+          for (var val in rec) {
+            if (rec.hasOwnProperty(val)) {
+              if (val == this.props.selectedDist) {
+                console.log(rec[val]);
+                this.setState((prevState) => ({
+                  ...this.state,
+                  pending_chart_data: {
+                    labels: [...prevState.pending_chart_data.labels, val],
+                    data: [
+                      ...prevState.pending_chart_data.data,
+                      rec[val].pending,
+                    ],
+                  },
+                }));
+              }
+            }
+          }
+        }
       } else if (status == 'ongoing') {
-        count.data.ongoing_count.map((value) => {
-          this.setState((prevState) => ({
-            ongoing_chart_data: {
-              labels: [
-                ...prevState.ongoing_chart_data.labels,
-                `${value.start} - ${value.end}`,
-              ],
-              data: [...prevState.ongoing_chart_data.data, value.data],
-            },
-          }));
-        });
+        if (this.props.selectedDist == 'ALL DISTRICTS') {
+          count.data.ongoing_count.map((value) => {
+            this.setState((prevState) => ({
+              ongoing_chart_data: {
+                labels: [
+                  ...prevState.ongoing_chart_data.labels,
+                  `${value.start} - ${value.end}`,
+                ],
+                data: [...prevState.ongoing_chart_data.data, value.data],
+              },
+            }));
+          });
+        } else {
+          const rec = count.data.results;
+          for (var val in rec) {
+            if (rec.hasOwnProperty(val)) {
+              if (val == this.props.selectedDist) {
+                console.log(rec[val]);
+                this.setState((prevState) => ({
+                  ...this.state,
+                  ongoing_chart_data: {
+                    labels: [...prevState.ongoing_chart_data.labels, val],
+                    data: [
+                      ...prevState.ongoing_chart_data.data,
+                      rec[val].ongoing,
+                    ],
+                  },
+                }));
+              }
+            }
+          }
+        }
       } else if (status == 'completed') {
-        count.data.completed_count.map((value) => {
-          this.setState((prevState) => ({
-            completed_chart_data: {
-              labels: [
-                ...prevState.completed_chart_data.labels,
-                `${value.start} - ${value.end}`,
-              ],
-              data: [...prevState.completed_chart_data.data, value.data],
-            },
-          }));
-        });
+        if (this.props.selectedDist == 'ALL DISTRICTS') {
+          count.data.completed_count.map((value) => {
+            this.setState((prevState) => ({
+              completed_chart_data: {
+                labels: [
+                  ...prevState.completed_chart_data.labels,
+                  `${value.start} - ${value.end}`,
+                ],
+                data: [...prevState.completed_chart_data.data, value.data],
+              },
+            }));
+          });
+        } else {
+          const rec = count.data.results;
+          for (var val in rec) {
+            if (rec.hasOwnProperty(val)) {
+              if (val == this.props.selectedDist) {
+                console.log(rec[val]);
+                this.setState((prevState) => ({
+                  ...this.state,
+                  completed_chart_data: {
+                    labels: [...prevState.completed_chart_data.labels, val],
+                    data: [
+                      ...prevState.completed_chart_data.data,
+                      rec[val].completed,
+                    ],
+                  },
+                }));
+              }
+            }
+          }
+        }
       }
     } catch {
       this.setState({
