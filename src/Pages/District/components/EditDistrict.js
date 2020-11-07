@@ -104,7 +104,9 @@ class EditDistrict extends Component {
               <b>Has Blocks</b>
             </h3>
             <Form.Item name="has_blocks" valuePropName="checked">
-              <Checkbox></Checkbox>
+              <div className="has_blocks">
+              <Checkbox ></Checkbox>
+              </div> 
             </Form.Item>
             <Form.Item style={{ marginBottom: '10px' }}>
               <MyButton

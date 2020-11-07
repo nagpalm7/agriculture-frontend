@@ -65,10 +65,7 @@ class District extends Component {
       ),
     },
   ];
-  Search = (value) => {
-    console.log('search = ', value);
-    this.setState({ ...this.state, search: value });
-    console.log(this.props.history);
+  onSearch = (value) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     console.log(currentPage);
     if (currentPage === undefined) {
@@ -76,13 +73,21 @@ class District extends Component {
     } else {
       this.fetchDistrictList(currentPage, value);
     }
-  };
-  onPageChange = (page) => {
     this.props.history.push({
       pathname: '/district/',
-      search: `?page=${page}`,
+      search: `?page=${currentPage}&search=${value}`,
     });
-    this.fetchDistrictList(this.state.search, page);
+  };
+  onPageChange = (page) => {
+    let search = this.props.history.location.search.split('=')[2];
+
+    console.log(search);
+    this.props.history.push({
+      pathname: '/district/',
+      search: `?page=${page}&search=${search}`,
+    });
+    this.fetchDistrictList(page, search);
+    console.log(page, search);
   };
   showDeleteConfirm = (districtName, districtId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
@@ -139,7 +144,7 @@ class District extends Component {
         }
       });
   };
-  fetchDistrictList = (search = '', page) => {
+  fetchDistrictList = (page, search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
       .get(`/api/district/?page=${page}&search=${search}`)

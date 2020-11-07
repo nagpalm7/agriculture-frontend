@@ -23,7 +23,7 @@ class AdminDashboard extends Component {
     return (
       <div>
         <Layout style={{ height: '100vh' }}>
-          <Sidebar collapsed={this.state.collapsed} />
+          <Sidebar collapsed={this.state.collapsed} type="admin_dashboard"/>
           <Layout
             className="site-layout"
             style={{ backgroundColor: '#f5f3ff' }}>

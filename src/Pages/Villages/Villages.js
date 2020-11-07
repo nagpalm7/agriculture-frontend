@@ -14,7 +14,6 @@ class Villages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
       totalCount: null,
       villageData: [],
       loading: false,
@@ -71,13 +70,17 @@ class Villages extends Component {
   ];
 
   onSearch = (value) => {
-    this.setState({ ...this.state, search: value });
     let currentPage = this.props.history.location.search.split('=')[1];
+    console.log(currentPage);
     if (currentPage === undefined) {
       this.fetchVillageList(1, value);
     } else {
       this.fetchVillageList(currentPage, value);
     }
+    this.props.history.push({
+      pathname: '/villages/',
+      search: `?page=${currentPage}&search=${value}`,
+    });
   };
 
   showDeleteConfirm = (villlageName, villageId) => {
@@ -120,11 +123,16 @@ class Villages extends Component {
 
   onPageChange = (page) => {
     console.log('page = ', page);
+
+    let search = this.props.history.location.search.split('=')[2];
+
+    console.log(search);
     this.props.history.push({
       pathname: '/villages/',
-      search: `?page=${page}`,
+      search: `?page=${page}&search=${search}`,
     });
-    this.fetchVillageList(page, this.state.search);
+    this.fetchVillageList(page, search);
+    console.log(page, search);
   };
 
   fetchVillageList = (page, search = '') => {
@@ -155,7 +163,7 @@ class Villages extends Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.fetchVillageList(1, this.state.search);
+    this.fetchVillageList(1, '');
   }
 
   render() {

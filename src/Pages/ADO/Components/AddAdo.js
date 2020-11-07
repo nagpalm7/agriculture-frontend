@@ -31,7 +31,7 @@ class AddAdo extends Component {
         username: ado_userName,
         password: ado_password,
         state: state,
-        role: 5,
+        role: 2,
       })
       .then((res) => {
         this.setState({ ...this.state, btnLoading: false });
