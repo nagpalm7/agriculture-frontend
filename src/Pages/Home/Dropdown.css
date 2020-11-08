@@ -1,0 +1,3 @@
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector{
+    border-color: rgba(255, 0, 0, 0.452);
+}

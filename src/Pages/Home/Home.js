@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Spin, message } from 'antd';
+import { Row, Col, Spin, message, Select } from 'antd';
 import './Home.css';
 import Map from './Map';
 import Charts from './Charts';
-import DropdownMenu from './Dropdown';
 import { axiosInstance } from '../../utils/axiosIntercepter';
+import DropdownMenu from './Dropdown';
 
 class Home extends Component {
   constructor(props) {
@@ -47,49 +47,44 @@ class Home extends Component {
   };
 
   handleDistrictChange = async (e) => {
+    console.log(e);
     let url = 'https://api.aflmonitoring.com/api/upload/locations/map/';
-    let selectedDist = this.state.districts.filter(
-      (dist) => dist.id == parseInt(e.key),
-    )[0].district;
 
     this.setState({
       ...this.state,
-      selectedDist: selectedDist,
+      selectedDist: e,
       loading: true,
     });
 
-    if (selectedDist == 'ALL DISTRICTS') {
+    if (e == 'ALL DISTRICTS') {
       url = 'https://api.aflmonitoring.com/api/upload/locations/map/';
     } else {
-      url = `https://api.aflmonitoring.com/api/upload/locations/map/?district=${selectedDist}`;
+      url = `https://api.aflmonitoring.com/api/upload/locations/map/?district=${e}`;
     }
 
     let locs = await axiosInstance.get(url);
-
+    console.log(locs);
     this.setState({
       ...this.state,
       locations: locs.data,
-      selectedDist: selectedDist,
+      selectedDist: e,
       loading: false,
     });
 
-    message.info(`Showing data of district ${selectedDist}`);
+    message.info(`Showing data of district ${e}`);
   };
-
   componentDidMount() {
     this.fetchData();
   }
   render() {
-    console.log(this.state);
     return (
       <div className="home-wrapper">
-        <Row>
+        <Row style={{ marginBottom: '10px' }}>
           <h2 style={{ fontWeight: 'bold', flex: 1, fontSize: 26 }}>Map</h2>
-          {/* <DropdownMenu
+          <DropdownMenu
             districts={this.state.districts}
             handleDistrictChange={this.handleDistrictChange}
-            selectedDist={this.state.selectedDist}
-          /> */}
+          />
         </Row>
         <Row justify="center">
           {!this.state.loading ? (
@@ -98,7 +93,7 @@ class Home extends Component {
                 <Map locations={this.state.locations} />
               </Col>
               <Col lg={6} sm={24}>
-                <Charts />
+                <Charts selectedDist={this.state.selectedDist} />
               </Col>
             </>
           ) : (

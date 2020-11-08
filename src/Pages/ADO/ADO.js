@@ -108,9 +108,6 @@ class ADO extends Component {
     },
   ];
   onSearch = (value) => {
-    console.log('search = ', value);
-    this.setState({ ...this.state, search: value });
-    console.log(this.props.history);
     let currentPage = this.props.history.location.search.split('=')[1];
     console.log(currentPage);
     if (currentPage === undefined) {
@@ -118,13 +115,18 @@ class ADO extends Component {
     } else {
       this.fetchADO(currentPage, value);
     }
-  };
-  onPageChange = (page) => {
     this.props.history.push({
       pathname: '/ado/',
-      search: `?page=${page}`,
+      search: `?page=${currentPage}&search=${value}`,
     });
-    this.fetchADO(page, this.state.search);
+  };
+  onPageChange = (page) => {
+    let search = this.props.history.location.search.split('=')[2];
+    this.props.history.push({
+      pathname: '/ado/',
+      search: `?page=${page}&search=${search}`,
+    });
+    this.fetchADO(page, search);
   };
   fetchADO = (page, search = '') => {
     this.setState({ ...this.state, loading: true });
@@ -199,6 +201,7 @@ class ADO extends Component {
       <>
         <MainContent
           title=" List of ADO"
+          addlink="/ado/addAdo"
           loading={this.state.loading}
           dataSource={this.state.adoData}
           columns={this.columns}

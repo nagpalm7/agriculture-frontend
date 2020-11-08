@@ -4,6 +4,7 @@ import District from '../Pages/District/District.js';
 import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
 import ADO from '../Pages/ADO/ADO.js';
+import AddAdo from '../Pages/ADO/Components/AddAdo';
 import Pending from '../Pages/Locations/pending.js';
 import Ongoing from '../Pages/Locations/ongoing.js';
 import Completed from '../Pages/Locations/completed.js';
@@ -84,6 +85,11 @@ const dashboard_routes = [
     exact: true,
     path: '/ado',
     component: ADO,
+  },
+  {
+    exact: true,
+    path: '/ado/addAdo',
+    component: AddAdo,
   },
   {
     exact: true,

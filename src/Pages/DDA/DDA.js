@@ -63,15 +63,17 @@ class DDA extends Component {
   ];
 
   onSearch = (value) => {
-    console.log(value);
-    this.setState({ ...this.state, search: value });
-    console.log(this.props.history.location);
     let currentPage = this.props.history.location.search.split('=')[1];
+    console.log(currentPage);
     if (currentPage === undefined) {
       this.fetchDdaList(1, value);
     } else {
       this.fetchDdaList(currentPage, value);
     }
+    this.props.history.push({
+      pathname: '/dda/',
+      search: `?page=${currentPage}&search=${value}`,
+    });
   };
 
   showDeleteConfirm = (ddaName, ddaId) => {
@@ -114,11 +116,16 @@ class DDA extends Component {
 
   onPageChange = (page) => {
     console.log('page = ', page);
+
+    let search = this.props.history.location.search.split('=')[2];
+
+    console.log(search);
     this.props.history.push({
       pathname: '/dda/',
-      search: `?page=${page}`,
+      search: `?page=${page}&search=${search}`,
     });
-    this.fetchDdaList(page, this.state.search);
+    this.fetchDdaList(page, search);
+    console.log(page, search);
   };
 
   fetchDdaList = (page, search = '') => {

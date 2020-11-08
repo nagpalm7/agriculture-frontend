@@ -144,20 +144,29 @@ class Ongoing extends Component {
   };
   onPageChange = (page) => {
     console.log('page = ', page);
+
+    let search = this.props.history.location.search.split('=')[2];
+
+    console.log(search);
     this.props.history.push({
-      pathname: '/locations/pending/',
-      search: `?page=${page}`,
+      pathname: '/locations/ongoing',
+      search: `?page=${page}&search=${search}`,
     });
-    this.fetchLocations(page, this.state.search);
+    this.fetchLocations(page, search);
+    console.log(page, search);
   };
   onSearch = (value) => {
-    this.setState({ ...this.state, search: value });
     let currentPage = this.props.history.location.search.split('=')[1];
+    console.log(currentPage);
     if (currentPage === undefined) {
       this.fetchLocations(1, value);
     } else {
       this.fetchLocations(currentPage, value);
     }
+    this.props.history.push({
+      pathname: '/locations/ongoing',
+      search: `?page=${currentPage}&search=${value}`,
+    });
   };
   componentDidMount() {
     this.setState({ ...this.state, loading: true });

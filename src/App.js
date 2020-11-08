@@ -66,6 +66,7 @@ export default class App extends React.Component {
 
   render() {
     const { isLoggedIn, role } = this.state;
+    console.log(role);
     if (isLoggedIn) {
       if (role === 5) {
         return (
@@ -97,7 +98,7 @@ export default class App extends React.Component {
           </BrowserRouter>
         );
       } else {
-        return <>hehllp</>;
+        return <>help</>;
       }
     } else {
       return (

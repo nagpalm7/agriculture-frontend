@@ -41,6 +41,7 @@ class Login extends Component {
             },
           })
           .then((res) => {
+            console.log(res);
             const role = res.data.user.role;
             const state =
               res.data.user.state == null ? null : res.data.user.state.state;
@@ -102,10 +103,7 @@ class Login extends Component {
                 },
               ]}
               style={{ marginBottom: '10px' }}>
-              <Input
-                placeholder="Username"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
-              />
+              <Input placeholder="Username" style={{ borderRadius: '7px' }} />
             </Form.Item>
             <h5>
               <b>Password</b>
@@ -121,7 +119,7 @@ class Login extends Component {
               style={{ marginBottom: '0' }}>
               <Input.Password
                 placeholder="Password"
-                style={{ borderRadius: '7px', borderColor: '#707070' }}
+                style={{ borderRadius: '7px' }}
               />
             </Form.Item>
             <Form.Item
