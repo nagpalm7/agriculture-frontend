@@ -35,6 +35,13 @@ class DDA extends Component {
       title: 'PHONE',
       dataIndex: 'phone',
       key: 'phone',
+      render: (phone) => {
+        if (phone == '') {
+          return '------';
+        } else {
+          return phone;
+        }
+      },
     },
     {
       title: 'EMAIL',

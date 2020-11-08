@@ -200,7 +200,6 @@ class MainContent extends Component {
               }}
               onClick={this.showModal}
             />,
-
             !this.props.isBlock ? (
               <Search
                 placeholder="Search"
