@@ -36,7 +36,9 @@ class Sidebar extends Component {
             theme="dark"
             mode="inline"
             defaultSelectedKeys={[
-              this.props.pathname,
+              this.props.pathname.split('/')[1] == ''
+                ? 'home'
+                : this.props.pathname.split('/')[1],
               this.props.pathname.split('/')[2],
             ]}
             className="side-menu-style"
@@ -47,31 +49,31 @@ class Sidebar extends Component {
             }}
             defaultOpenKeys={[this.props.pathname.split('/')[1]]}>
             <Menu.Item
-              key="/"
+              key="home"
               icon={<HomeFilled />}
               style={{ marginBottom: '20px', padding: '0px' }}>
               <Link to="/">Home</Link>
             </Menu.Item>
             <Menu.Item
-              key="/district"
+              key="district"
               icon={<VideoCameraFilled />}
               style={{ borderRadius: '0px', marginBottom: '20px' }}>
               <Link to="/district">District</Link>
             </Menu.Item>
             <Menu.Item
-              key="/villages"
+              key="villages"
               icon={<UploadOutlined />}
               style={{ borderRadius: '0px', marginBottom: '20px' }}>
               <Link to="/villages">Villages</Link>
             </Menu.Item>
             <Menu.Item
-              key="/dda"
+              key="dda"
               icon={<TeamOutlined />}
               style={{ borderRadius: '0px', marginBottom: '20px' }}>
               <Link to="/dda">DDA</Link>
             </Menu.Item>
             <Menu.Item
-              key="/ado"
+              key="ado"
               icon={<UserOutlined />}
               style={{ borderRadius: '0px', marginBottom: '20px' }}>
               <Link to="/ado">ADO</Link>
