@@ -75,7 +75,11 @@ class ADO extends Component {
       dataIndex: 'user',
       key: 'user',
       render: (user) => {
-        return user.phone_number;
+        if (user.phone_number == '') {
+          return '------';
+        } else {
+          return user.phone_number;
+        }
       },
     },
     {

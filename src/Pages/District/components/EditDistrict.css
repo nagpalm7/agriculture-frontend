@@ -19,10 +19,10 @@
   width: 7px;
   height: 13px;
 }
-/* .ant-checkbox-inner:before{
-    width: 10px;
-    height: 10px;
-}  */
+/* .ant-checkbox-inner:before {
+  width: 10px;
+  height: 10px;
+} */
 .has_blocks .ant-checkbox-checked .ant-checkbox-inner::after {
   border: 3px solid #fff;
   border-top: 0;
