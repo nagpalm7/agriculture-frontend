@@ -7,18 +7,42 @@ import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 
 const { Title } = Typography;
-
+const { Option } = Select;
 class AddVillages extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    var children = [];
+
+    children.push(
+      <Option key="1" style={{ display: 'none' }}>
+        dont'display
+      </Option>,
+    );
+
     this.state = {
       formLoading: false,
       btnLoading: false,
       blockData: [],
       adoData: [],
+      children: children,
+      loading: false,
+      page: 1,
+      isRendered: false,
     };
   }
-
+  onScroll = (event) => {
+    var target = event.target;
+    if (
+      !this.state.loading &&
+      target.scrollTop + target.offsetHeight === target.scrollHeight
+    ) {
+      this.setState({ loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        this.fetchAdo(this.state.page + 1);
+        this.setState({ page: this.state.page + 1 });
+      });
+    }
+  };
   fetchBlock = () => {
     this.setState({ ...this.state, formLoading: true });
     axiosInstance
@@ -43,11 +67,10 @@ class AddVillages extends Component {
       });
   };
 
-  fetchAdo = () => {
+  fetchAdo = (page) => {
     axiosInstance
-      .get('/api/users-list/ado/')
+      .get(`/api/users-list/ado/?page=${page}`)
       .then((res) => {
-        console.log(res);
         this.setState({ ...this.state, formLoading: false });
         const adoData = res.data.results.map((item) => {
           return {
@@ -55,7 +78,19 @@ class AddVillages extends Component {
             id: item.user.id,
           };
         });
-        this.setState({ ...this.state, adoData: adoData });
+        var children = [...this.state.children];
+        var length = children.length;
+
+        adoData.map((ado) => {
+          children.push(<Option key={ado.id}>{ado.ado}</Option>);
+        });
+        this.setState({ children: children }, () => {
+          if (length == res.data.count - 5) {
+            this.setState({ ...this.state, isRendered: true });
+          }
+
+          this.setState({ loading: false });
+        });
       })
       .catch((err) => {
         this.setState({ ...this.state, formLoading: false });
@@ -69,7 +104,7 @@ class AddVillages extends Component {
 
   componentDidMount() {
     this.fetchBlock();
-    this.fetchAdo();
+    this.fetchAdo(1);
   }
 
   handleAddVillage = (event) => {
@@ -192,12 +227,27 @@ class AddVillages extends Component {
               <b>Ado</b>
             </h3>
             <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
-              <Select placeholder="Select Ado">
-                {this.state.adoData.map((item) => {
-                  return (
-                    <Select.Option value={item.id}>{item.ado}</Select.Option>
-                  );
-                })}
+              <Select
+                showSearch
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+                optionFilterProp="children"
+                onChange={this.handleChange}
+                onPopupScroll={this.onScroll}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }>
+                {!this.state.loading && !this.state.isRendered
+                  ? this.state.children
+                  : this.state.isRendered == true
+                  ? [
+                      ...this.state.children,
+                      <Option key="loaded">-------------------</Option>,
+                    ]
+                  : [
+                      ...this.state.children,
+                      <Option key="loading">Loading...</Option>,
+                    ]}
               </Select>
             </Form.Item>
             <Form.Item style={{ marginBottom: '10px' }}>

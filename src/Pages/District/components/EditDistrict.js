@@ -1,11 +1,10 @@
 import React, { Component, createRef } from 'react';
 import { Checkbox, Form, Input, Typography, message, Spin } from 'antd';
 import '../../formStyle.css';
-
 import { axiosInstance } from '../../../utils/axiosIntercepter';
-
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import '../components/EditDistrict.css';
+import '../../formStyle.css';
 const { Title } = Typography;
 
 class EditDistrict extends Component {
@@ -25,7 +24,6 @@ class EditDistrict extends Component {
     axiosInstance
       .get(`/api/district/${this.districtId}/`)
       .then((res) => {
-        console.log(res.data);
         this.formRef.current.setFieldsValue({
           district_name: res.data.district,
           has_blocks: res.data.has_blocks,
@@ -44,7 +42,6 @@ class EditDistrict extends Component {
   };
 
   handleEditDistrict = (e) => {
-    console.log(e);
     this.setState({ ...this.state, btnLoading: true });
     const { district_name, has_blocks } = e;
     axiosInstance
@@ -53,7 +50,6 @@ class EditDistrict extends Component {
         has_blocks: has_blocks,
       })
       .then((res) => {
-        console.log(res);
         this.setState({ ...this.state, btnLoading: false });
         message.success('District updated successfully');
         this.props.history.goBack();
@@ -78,51 +74,60 @@ class EditDistrict extends Component {
     return (
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
-          <div>
-            <Title level={3}>Edit District</Title>
+          <div className="form-wrapper">
+            <div className="left-form-content">
+              <div className="edit-fix-button">Edit</div>
+              <h3>
+                <b>District Name</b>
+              </h3>
+              <h3>
+                <b>Has Blocks</b>
+              </h3>
+            </div>
+            <div className="right-form-content">
+              <div style={{ marginBottom: '40px' }}>
+                <Title level={3}>Edit District</Title>
+              </div>
+              <Form
+                name="edit_district"
+                className="edit-district"
+                ref={this.formRef}
+                onFinish={this.handleEditDistrict}>
+                <Form.Item
+                  name="district_name"
+                  style={{ marginBottom: '10px' }}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please provide district name!',
+                    },
+                  ]}>
+                  <Input placeholder="District name" />
+                </Form.Item>
+                <Form.Item
+                  name="has_blocks"
+                  valuePropName="checked"
+                  style={{ marginTop: '24px' }}
+                  className="has_blocks">
+                  <Checkbox></Checkbox>
+                </Form.Item>
+                <Form.Item style={{ marginBottom: '10px', textAlign: 'right' }}>
+                  <MyButton
+                    htmlType="submit"
+                    text="UPDATE"
+                    className="filled"
+                    loading={this.state.btnLoading}
+                    style={{
+                      background: 'rgb(224,59,59)',
+                      borderColor: 'rgb(224,59,59)',
+                      color: '#ffffff',
+                      fontWeight: '500',
+                    }}
+                  />
+                </Form.Item>
+              </Form>
+            </div>
           </div>
-          <Form
-            name="edit_district"
-            className="edit-district"
-            ref={this.formRef}
-            onFinish={this.handleEditDistrict}>
-            <h3>
-              <b>District Name</b>
-            </h3>
-            <Form.Item
-              name="district_name"
-              style={{ marginBottom: '10px' }}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please provide district name!',
-                },
-              ]}>
-              <Input placeholder="District name" />
-            </Form.Item>
-            <h3>
-              <b>Has Blocks</b>
-            </h3>
-            <Form.Item name="has_blocks" valuePropName="checked">
-              <div className="has_blocks">
-              <Checkbox ></Checkbox>
-              </div> 
-            </Form.Item>
-            <Form.Item style={{ marginBottom: '10px' }}>
-              <MyButton
-                htmlType="submit"
-                text="UPDATE"
-                className="filled"
-                loading={this.state.btnLoading}
-                style={{
-                  background: 'crimson',
-                  borderColor: 'crimson',
-                  color: '#ffffff',
-                  fontWeight: '500',
-                }}
-              />
-            </Form.Item>
-          </Form>
         </div>
       </Spin>
     );
