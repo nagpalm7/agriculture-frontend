@@ -19,6 +19,7 @@ class DdaDashboard extends Component {
   };
 
   render() {
+    console.log(this.props.dda_id);
     return (<div>
     <Layout style={{ height: '100vh' }}>
       <Sidebar collapsed={this.state.collapsed} type="dda_dashboard"/>

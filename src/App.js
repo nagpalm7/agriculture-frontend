@@ -11,6 +11,7 @@ export default class App extends React.Component {
     this.state = {
       role: null,
       isLoggedIn: false,
+      ddaId: null,
     };
   }
   /*eslint-disable */
@@ -19,20 +20,26 @@ export default class App extends React.Component {
       localStorage.getItem('token') == null
         ? sessionStorage.getItem('token')
         : localStorage.getItem('token');
-    const isLoggedIn = token === null;
+    console.log(token);
+    let isLoggedIn = token === null;
     console.log(' asdAD', token);
-    if (token)
+    if (token) {
       axiosInstance.interceptors.request.use(function (config) {
         config.headers.Authorization = 'token ' + token;
         return config;
       });
-
+    }
     this.setState({
+      ...this.state,
       isLoggedIn: !isLoggedIn,
       role:
         localStorage.getItem('Role') == null
           ? parseInt(sessionStorage.getItem('Role'))
           : parseInt(localStorage.getItem('Role')),
+      ddaId:
+        localStorage.getItem('dda_id') == null
+          ? parseInt(sessionStorage.getItem('dda_id'))
+          : parseInt(localStorage.getItem('dda_id')),
     });
   }
   /*eslint-enable */
@@ -59,12 +66,14 @@ export default class App extends React.Component {
   logout = () => {
     delete localStorage.token;
     delete sessionStorage.token;
+    delete localStorage.Role;
+    delete sessionStorage.Role;
+    delete localStorage.dda_id;
+    delete sessionStorage.dda_id;
     this.toggleIsLoggedIn();
   };
-
   render() {
-    const { isLoggedIn, role } = this.state;
-    console.log(role);
+    const { isLoggedIn, role, ddaId } = this.state;
     if (isLoggedIn) {
       if (role === 5) {
         return (
@@ -89,7 +98,11 @@ export default class App extends React.Component {
               <Route
                 path="/"
                 render={(props) => (
-                  <DdaDashboard history={props.history} logout={this.logout} />
+                  <DdaDashboard
+                    history={props.history}
+                    logout={this.logout}
+                    ddaId={ddaId}
+                  />
                 )}
               />
             </Switch>

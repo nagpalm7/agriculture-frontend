@@ -18,6 +18,7 @@ class Login extends Component {
   };
 
   handleSubmit = (event) => {
+    console.log(event);
     this.setState({ ...this.state, loadings: true });
     const { username, password } = event;
     axios
@@ -41,18 +42,21 @@ class Login extends Component {
             },
           })
           .then((res) => {
-            console.log(res);
+            console.log(this.state.checked);
             const role = res.data.user.role;
             const state =
               res.data.user.state == null ? null : res.data.user.state.state;
-            if (this.state.checked === true) {
+            const dda_id = role == 4 ? res.data.user.id : null;
+            if (this.state.checked == true) {
               localStorage.setItem('token', token);
               localStorage.setItem('Role', role);
               localStorage.setItem('State', state);
+              localStorage.setItem('dda_id', dda_id);
             } else {
               sessionStorage.setItem('token', token);
               sessionStorage.setItem('Role', role);
               sessionStorage.setItem('State', state);
+              sessionStorage.setItem('dda_id', dda_id);
             }
             message.success('Login Successfull');
             this.props.toggleIsLoggedIn();

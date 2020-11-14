@@ -142,7 +142,9 @@ class Completed extends Component {
   };
   onPageChange = (page) => {
     let search = this.props.history.location.search.split('=')[2];
-
+    if (search == 'undefined') {
+      search = undefined;
+    }
     console.log(search);
     this.props.history.push({
       pathname: '/locations/completed',

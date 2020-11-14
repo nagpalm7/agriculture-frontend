@@ -18,7 +18,6 @@ class Sidebar extends Component {
     super(props);
   }
   render() {
-    console.log(this.props.pathname.split('/')[1]);
     if (this.props.type == 'admin_dashboard') {
       return (
         <Sider

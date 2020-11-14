@@ -125,7 +125,9 @@ class Villages extends Component {
     console.log('page = ', page);
 
     let search = this.props.history.location.search.split('=')[2];
-
+    if (search == 'undefined') {
+      search = undefined;
+    }
     console.log(search);
     this.props.history.push({
       pathname: '/villages/',
@@ -136,6 +138,7 @@ class Villages extends Component {
   };
 
   fetchVillageList = (page, search = '') => {
+    console.log(page);
     this.setState({ ...this.state, loading: true });
     axiosInstance
       .get(`/api/villages-list/?page=${page}&search=${search}`)

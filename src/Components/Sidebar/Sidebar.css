@@ -25,7 +25,10 @@
   color: white;
 }
 
-.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected * {}
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+  .ant-menu-item-selected
+  * {
+}
 
 .ant-menu-inline-collapsed {
   padding: 20px 0;
@@ -38,47 +41,53 @@
 
 .ant-menu-dark .ant-menu-item,
 .ant-menu-dark .ant-menu-item-group-title,
-.ant-menu-dark .ant-menu-item>a,
-.ant-menu-dark .ant-menu-item>span>a {
+.ant-menu-dark .ant-menu-item > a,
+.ant-menu-dark .ant-menu-item > span > a {
   color: black;
 }
 
 .ant-menu-dark .ant-menu-item-selected,
 .ant-menu-dark .ant-menu-item-group-title,
-.ant-menu-dark .ant-menu-item-selected>a,
-.ant-menu-dark .ant-menu-item-selected>span>a {
+.ant-menu-dark .ant-menu-item-selected > a,
+.ant-menu-dark .ant-menu-item-selected > span > a {
   color: white;
 }
 
 .ant-menu-dark .ant-menu-item:hover,
-.ant-menu-dark .ant-menu-item>a,
-.ant-menu-dark .ant-menu-item>span>a:hover {
+.ant-menu-dark .ant-menu-item > a,
+.ant-menu-dark .ant-menu-item > span > a:hover {
   color: red;
 }
 
 .ant-menu-dark .ant-menu-item-selected:hover,
 .ant-menu-dark .ant-menu-item-group-title:hover,
-.ant-menu-dark .ant-menu-item-selected>a,
-.ant-menu-dark .ant-menu-item-selected>span>a:hover {
+.ant-menu-dark .ant-menu-item-selected > a,
+.ant-menu-dark .ant-menu-item-selected > span > a:hover {
   color: white;
 }
 
-.ant-menu-submenu .ant-menu-submenu-title:hover{
+.ant-menu-submenu .ant-menu-submenu-title:hover {
   color: red;
 }
-.ant-menu-submenu-open .ant-menu-submenu-title{
-    color: #e03b3b;
+.ant-menu-submenu-open .ant-menu-submenu-title {
+  color: #e03b3b;
 }
-.ant-menu.ant-menu-dark .ant-menu-submenu-title .ant-menu-submenu-arrow::before{
+.ant-menu.ant-menu-dark
+  .ant-menu-submenu-title
+  .ant-menu-submenu-arrow::before {
   background: black;
 }
-.ant-menu.ant-menu-dark .ant-menu-submenu-title .ant-menu-submenu-arrow::after{
+.ant-menu.ant-menu-dark .ant-menu-submenu-title .ant-menu-submenu-arrow::after {
   background: black;
 }
-.ant-menu.ant-menu-dark .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before{
+.ant-menu.ant-menu-dark
+  .ant-menu-submenu-title:hover
+  .ant-menu-submenu-arrow::before {
   background: red;
 }
-.ant-menu.ant-menu-dark .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after{
+.ant-menu.ant-menu-dark
+  .ant-menu-submenu-title:hover
+  .ant-menu-submenu-arrow::after {
   background: red;
 }
 /* .ant-menu-dark .ant-menu-submenu-open{
@@ -89,31 +98,38 @@
   margin-left: 10px;
   margin-right: 10px;
 } */
-.ant-menu-dark .ant-menu-inline.ant-menu-sub{
-  background:white;
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: white;
   /* border-radius: 20px; */
 }
-.ant-menu-dark .ant-menu-item>a{
-  color:black
+.ant-menu-dark .ant-menu-item > a {
+  color: black;
 }
-.ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected{
- /* border-radius: 20px; */
+.ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected {
+  /* border-radius: 20px; */
 }
-.ant-menu-dark .ant-menu-item>a:hover{
-  color: red
+.ant-menu-dark .ant-menu-item > a:hover {
+  color: red;
 }
-.ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected>a{
+.ant-menu-dark .ant-menu-submenu-open .ant-menu-item-selected > a {
   color: white;
 }
- .ant-menu-inline > .ant-menu-submenu-open >a:hover{
-   color:white;
- }
+.ant-menu-inline > .ant-menu-submenu-open > a:hover {
+  color: white;
+}
 /* .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title{ */
-  /* margin-left: -10px; */
- 
-.ant-menu.ant-menu-dark .ant-menu-sub{
+/* margin-left: -10px; */
+
+.ant-menu.ant-menu-dark .ant-menu-sub {
   background-color: white;
-}   
-.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected * {
+}
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+  .ant-menu-item-selected
+  * {
   color: white;
+}
+
+.ant-menu-dark .ant-menu-submenu-open,
+.ant-menu-dark .ant-menu-submenu-selected {
+  color: #000;
 }
