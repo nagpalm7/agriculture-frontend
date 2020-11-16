@@ -21,7 +21,7 @@ import EditAdo from '../Pages/ADO/Components/EditAdo.js';
 import Block from '../Pages/BlockComponent/Blocks';
 import renderBlockComponet from '../Pages/District/District';
 import EditBlock from '../Pages/BlockComponent/components/EditBlock.js';
-import Dda_villages from '../Pages/DDA_Villages/dda_village'
+import Dda_villages from '../Pages/DDA_Villages/dda_village';
 const role =
   localStorage.getItem('Role') == null
     ? parseInt(sessionStorage.getItem('Role'))
@@ -54,11 +54,11 @@ const dashboard_routes = [
     path: '/district/edit/:districtId',
     component: EditDistrict,
   },
-  {
-    exact: true,
-    path: '/villages',
-    component: (role==4)?Dda_villages:Villages,
-  },
+  // {
+  //   exact: true,
+  //   path: '/villages',
+  //   component: (role==4)?Dda_villages:Villages,
+  // },
   {
     exact: true,
     path: '/villages/add',

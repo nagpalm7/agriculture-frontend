@@ -3,6 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import dashboard_routes from '../../routes/dashboard_routes';
 import { Layout } from 'antd';
 import Report from '../../Pages/Report/ReportRender.js';
+import Villages from '../../Pages/Villages/Villages';
+import Dda_villages from '../../Pages/DDA_Villages/dda_village';
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -10,6 +12,13 @@ class Contents extends Component {
     const renderReport = ({ match }) => {
       console.log(match.params);
       return <Report villageId={match.params.villageId}></Report>;
+    };
+    const renderVillage = () => {
+      if (this.props.role == 5) {
+        return <Villages></Villages>;
+      } else if (this.props.role == 4) {
+        return <Dda_villages></Dda_villages>;
+      }
     };
     return (
       <Content
@@ -31,6 +40,11 @@ class Contents extends Component {
             path="/locations/ongoing/:villageId"
             exact
             component={renderReport}></Route>
+          <Route
+            path="/locations/ongoing/:villageId"
+            exact
+            component={renderReport}></Route>
+          <Route path="/villages" exact component={renderVillage}></Route>
           <Redirect from="/" to="/" />
         </Switch>
       </Content>

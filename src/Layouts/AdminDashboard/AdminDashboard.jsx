@@ -32,7 +32,7 @@ class AdminDashboard extends Component {
               toggle={this.toggle}
               collapsed={this.state.collapsed}
             />
-            <Contents history={this.props.history} />
+            <Contents history={this.props.history} role={5}/>
           </Layout>
         </Layout>
       </div>

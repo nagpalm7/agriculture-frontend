@@ -31,7 +31,7 @@ class DdaDashboard extends Component {
           toggle={this.toggle}
           collapsed={this.state.collapsed}
         />
-        <Contents history={this.props.history} />
+        <Contents history={this.props.history} role={4}/>
       </Layout>
     </Layout>
   </div>);
