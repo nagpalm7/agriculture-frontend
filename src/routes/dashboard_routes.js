@@ -89,11 +89,11 @@ const dashboard_routes = [
     path: '/dda/edit/:ddaId',
     component: EditDda,
   },
-  {
-    exact: true,
-    path: '/ado',
-    component: ADO,
-  },
+  // {
+  //   exact: true,
+  //   path: '/ado',
+  //   component: ADO,
+  // },
   {
     exact: true,
     path: '/ado/addAdo',

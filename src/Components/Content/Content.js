@@ -5,6 +5,8 @@ import { Layout } from 'antd';
 import Report from '../../Pages/Report/ReportRender.js';
 import Villages from '../../Pages/Villages/Villages';
 import Dda_villages from '../../Pages/DDA_Villages/dda_village';
+import DDA from '../../Pages/ADO/ADO';
+import DDA_Ado from '../../Pages/DDA_Ado/dda_ado';
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -18,6 +20,13 @@ class Contents extends Component {
         return <Villages></Villages>;
       } else if (this.props.role == 4) {
         return <Dda_villages></Dda_villages>;
+      }
+    };
+    const renderAdo = () => {
+      if (this.props.role == 5) {
+        return <DDA></DDA>;
+      } else if (this.props.role == 4) {
+        return <DDA_Ado></DDA_Ado>;
       }
     };
     return (
@@ -36,6 +45,7 @@ class Contents extends Component {
               children={<route.component history={this.props.history} />}
             />
           ))}
+          <Route path="/ado" exact component={renderAdo}></Route>
           <Route
             path="/locations/ongoing/:villageId"
             exact
