@@ -22,7 +22,7 @@ class DdaDashboard extends Component {
     console.log(this.props.dda_id);
     return (<div>
     <Layout style={{ height: '100vh' }}>
-      <Sidebar collapsed={this.state.collapsed} type="dda_dashboard"/>
+      <Sidebar collapsed={this.state.collapsed} type="dda_dashboard" pathname={this.props.history.location.pathname}/>
       <Layout
         className="site-layout"
         style={{ backgroundColor: '#f5f3ff' }}>

@@ -99,26 +99,26 @@ const dashboard_routes = [
     path: '/ado/addAdo',
     component: AddAdo,
   },
-  {
-    exact: true,
-    path: '/locations/pending',
-    component: Pending,
-  },
+  // {
+  //   exact: true,
+  //   path: '/locations/pending',
+  //   component: Pending,
+  // },
   {
     exact: true,
     path: '/locations/pending/edit/:locationId',
     component: EditPending,
   },
-  {
-    exact: true,
-    path: '/locations/ongoing',
-    component: Ongoing,
-  },
-  {
-    exact: true,
-    path: '/locations/completed',
-    component: Completed,
-  },
+  // {
+  //   exact: true,
+  //   path: '/locations/ongoing',
+  //   component: Ongoing,
+  // },
+  // {
+  //   exact: true,
+  //   path: '/locations/completed',
+  //   component: Completed,
+  // },
   {
     exact: true,
     path: '/block/:districtId',

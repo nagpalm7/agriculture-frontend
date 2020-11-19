@@ -122,7 +122,7 @@ class Ongoing extends Component {
     axiosInstance
       .get(`/api/locations/ongoing?page=${page}&search=${search}`)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         this.setState({
           ...this.state,
           locationsData: res.data.results,

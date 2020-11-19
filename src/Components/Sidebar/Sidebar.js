@@ -117,34 +117,41 @@ class Sidebar extends Component {
               background: 'white',
               color: 'black',
               padding: '0px',
-            }}>
+            }}
+            defaultSelectedKeys={[
+              this.props.pathname.split('/')[1] == ''
+                ? 'home'
+                : this.props.pathname.split('/')[1],
+              this.props.pathname.split('/')[2],
+            ]}
+            defaultOpenKeys={[this.props.pathname.split('/')[1]]}>
             <Menu.Item
-              key="1"
+              key="home"
               icon={<HomeFilled />}
               style={{ marginBottom: '20px', padding: '0px' }}>
               <Link to="/">Home</Link>
             </Menu.Item>
             <Menu.Item
-              key="2"
+              key="villages"
               icon={<UploadOutlined />}
               style={{ borderRadius: '0px', marginBottom: '20px' }}>
               <Link to="/villages">Villages</Link>
             </Menu.Item>
 
             <Menu.Item
-              key="3"
+              key="ado"
               icon={<UserOutlined />}
               style={{ borderRadius: '0px', marginBottom: '20px' }}>
               <Link to="/ado">ADO</Link>
             </Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Locations">
-              <Menu.Item>
+            <SubMenu key="locations" icon={<UserOutlined />} title="Locations">
+              <Menu.Item key="pending">
                 <Link to="/locations/pending">Pending</Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item key="ongoing">
                 <Link to="/locations/ongoing">Ongoing</Link>
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item key="completed">
                 <Link to="/locations/completed">Completed</Link>
               </Menu.Item>
             </SubMenu>

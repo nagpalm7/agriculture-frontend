@@ -123,7 +123,6 @@ class Villages extends Component {
 
   onPageChange = (page) => {
     console.log('page = ', page);
-
     let search = this.props.history.location.search.split('=')[2];
     if (search == 'undefined') {
       search = undefined;
