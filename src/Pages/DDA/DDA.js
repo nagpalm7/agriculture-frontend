@@ -125,7 +125,9 @@ class DDA extends Component {
     console.log('page = ', page);
 
     let search = this.props.history.location.search.split('=')[2];
-
+    if (search == 'undefined') {
+      search = undefined;
+    }
     console.log(search);
     this.props.history.push({
       pathname: '/dda/',

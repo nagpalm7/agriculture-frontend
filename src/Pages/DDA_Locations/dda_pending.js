@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Space, Modal, message } from 'antd';
-import './location.css';
-import edit from '../../assets/images/edit.svg';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Tooltip, Button, Space, Modal, message } from 'antd';
 import pencil from '../../assets/images/edit.png';
 import delete_logo from '../../assets/images/trash-can.png';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import '../../Pages/Locations/location.css';
+import { Link } from 'react-router-dom';
 const { confirm } = Modal;
-
-class Pending extends Component {
-  constructor() {
-    super();
+class Dda_pending extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       search: '',
       totalCount: null,
@@ -120,7 +118,6 @@ class Pending extends Component {
       },
     },
   ];
-
   onSearch = (value) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     console.log(currentPage);
@@ -134,7 +131,6 @@ class Pending extends Component {
       search: `?page=${currentPage}&search=${value}`,
     });
   };
-
   showDeleteConfirm = (villlageName, locationId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     let instance = this;
@@ -177,10 +173,12 @@ class Pending extends Component {
     console.log('page = ', page);
 
     let search = this.props.history.location.search.split('=')[2];
-
+    if (search == 'undefined') {
+      search = undefined;
+    }
     console.log(search);
     this.props.history.push({
-      pathname: '/locations/pending',
+      pathname: '/locations/dda/pending',
       search: `?page=${page}&search=${search}`,
     });
     this.fetchLocations(page, search);
@@ -190,9 +188,9 @@ class Pending extends Component {
   fetchLocations = (page, search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/locations/pending?page=${page}&search=${search}`)
+      .get(`/api/locations/dda/pending?page=${page}&search=${search}`)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         this.setState({
           ...this.state,
           locationsData: res.data.results,
@@ -237,4 +235,4 @@ class Pending extends Component {
   }
 }
 
-export default Pending;
+export default Dda_pending;

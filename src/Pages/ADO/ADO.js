@@ -126,6 +126,9 @@ class ADO extends Component {
   };
   onPageChange = (page) => {
     let search = this.props.history.location.search.split('=')[2];
+    if (search == 'undefined') {
+      search = undefined;
+    }
     this.props.history.push({
       pathname: '/ado/',
       search: `?page=${page}&search=${search}`,
@@ -134,6 +137,9 @@ class ADO extends Component {
   };
   fetchADO = (page, search = '') => {
     this.setState({ ...this.state, loading: true });
+    if (search == 'undefined') {
+      search = undefined;
+    }
     axiosInstance
       .get(`/api/users-list/ado?page=${page}&search=${search}`)
       .then((res) => {

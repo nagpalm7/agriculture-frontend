@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Space, Modal, message } from 'antd';
-import './Villages.css';
+import { Space, message, Modal } from 'antd';
 import edit from '../../assets/images/edit.png';
 import garbage from '../../assets/images/trash-can.png';
 import { axiosInstance } from '../../utils/axiosIntercepter';
@@ -10,11 +9,13 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 
-class Villages extends Component {
+class Dda_villages extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      search: '',
       totalCount: null,
+      ddaData: null,
       villageData: [],
       loading: false,
     };
@@ -68,21 +69,6 @@ class Villages extends Component {
       },
     },
   ];
-
-  onSearch = (value) => {
-    let currentPage = this.props.history.location.search.split('=')[1];
-    console.log(currentPage);
-    if (currentPage === undefined) {
-      this.fetchVillageList(1, value);
-    } else {
-      this.fetchVillageList(currentPage, value);
-    }
-    this.props.history.push({
-      pathname: '/villages/',
-      search: `?page=${currentPage}&search=${value}`,
-    });
-  };
-
   showDeleteConfirm = (villlageName, villageId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     let instance = this;
@@ -120,9 +106,26 @@ class Villages extends Component {
       },
     });
   };
-
+  onSearch = (value) => {
+    let currentPage = this.props.history.location.search.split('=')[1];
+    console.log(currentPage);
+    if (currentPage === undefined) {
+      this.fetchVillageList(this.state.ddaData.ddaData.district.id, 1, value);
+    } else {
+      this.fetchVillageList(
+        this.state.ddaData.ddaData.district.id,
+        currentPage,
+        value,
+      );
+    }
+    this.props.history.push({
+      pathname: '/villages/',
+      search: `?page=${currentPage}&search=${value}`,
+    });
+  };
   onPageChange = (page) => {
     console.log('page = ', page);
+
     let search = this.props.history.location.search.split('=')[2];
     if (search == 'undefined') {
       search = undefined;
@@ -132,17 +135,54 @@ class Villages extends Component {
       pathname: '/villages/',
       search: `?page=${page}&search=${search}`,
     });
-    this.fetchVillageList(page, search);
+    this.fetchVillageList(this.state.ddaData.district.id, page, search);
     console.log(page, search);
   };
-
-  fetchVillageList = (page, search = '') => {
-    console.log(page);
+  componentDidMount() {
+    let ddaId =
+      localStorage.getItem('dda_id') == null
+        ? sessionStorage.getItem('dda_id')
+        : localStorage.getItem('dda_id');
+    console.log(ddaId);
+    this.setState({ ...this.state, loading: true });
+    this.fetchDetails(ddaId, 1);
+  }
+  fetchDetails = (ddaId, page, search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/villages-list/?page=${page}&search=${search}`)
+      .get(`api/user/${ddaId}/`)
       .then((res) => {
-        console.log(res.data);
+        this.setState({
+          ...this.state,
+          ddaData: res.data,
+          loading: false,
+        });
+        if (res.data.district) {
+          this.fetchVillageList(res.data.district.id, page, search);
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  };
+
+  fetchVillageList = (district_id, page, search = '') => {
+    console.log(district_id);
+    this.setState({ ...this.state, loading: true });
+    axiosInstance
+      .get(
+        `/api/villages-list/district/${district_id}?page=${page}&search=${search}`,
+      )
+      .then((res) => {
+        console.log(res);
         this.setState({
           ...this.state,
           villageData: res.data.results,
@@ -162,12 +202,6 @@ class Villages extends Component {
         }
       });
   };
-
-  componentDidMount() {
-    this.setState({ ...this.state, loading: true });
-    this.fetchVillageList(1, '');
-  }
-
   render() {
     return (
       <>
@@ -186,4 +220,4 @@ class Villages extends Component {
   }
 }
 
-export default Villages;
+export default Dda_villages;

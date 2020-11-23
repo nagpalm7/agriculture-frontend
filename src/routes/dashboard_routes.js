@@ -5,7 +5,8 @@ import Villages from '../Pages/Villages/Villages.js';
 import DDA from '../Pages/DDA/DDA.js';
 import ADO from '../Pages/ADO/ADO.js';
 import AddAdo from '../Pages/ADO/Components/AddAdo';
-import Pending from '../Pages/Locations/pending.js';
+import Pending from '../Pages/Locations/Pending/pending.js';
+import EditPending from '../Pages/Locations/Pending/EditPending';
 import Ongoing from '../Pages/Locations/ongoing.js';
 import Completed from '../Pages/Locations/completed.js';
 import AddVillage from '../Pages/Villages/components/AddVillage.js';
@@ -20,6 +21,13 @@ import EditAdo from '../Pages/ADO/Components/EditAdo.js';
 import Block from '../Pages/BlockComponent/Blocks';
 import renderBlockComponet from '../Pages/District/District';
 import EditBlock from '../Pages/BlockComponent/components/EditBlock.js';
+import Dda_villages from '../Pages/DDA_Villages/dda_village';
+const role =
+  localStorage.getItem('Role') == null
+    ? parseInt(sessionStorage.getItem('Role'))
+    : parseInt(localStorage.getItem('Role'));
+console.log(role);
+
 const dashboard_routes = [
   {
     exact: true,
@@ -46,11 +54,11 @@ const dashboard_routes = [
     path: '/district/edit/:districtId',
     component: EditDistrict,
   },
-  {
-    exact: true,
-    path: '/villages',
-    component: Villages,
-  },
+  // {
+  //   exact: true,
+  //   path: '/villages',
+  //   component: (role==4)?Dda_villages:Villages,
+  // },
   {
     exact: true,
     path: '/villages/add',
@@ -81,31 +89,36 @@ const dashboard_routes = [
     path: '/dda/edit/:ddaId',
     component: EditDda,
   },
-  {
-    exact: true,
-    path: '/ado',
-    component: ADO,
-  },
+  // {
+  //   exact: true,
+  //   path: '/ado',
+  //   component: ADO,
+  // },
   {
     exact: true,
     path: '/ado/addAdo',
     component: AddAdo,
   },
+  // {
+  //   exact: true,
+  //   path: '/locations/pending',
+  //   component: Pending,
+  // },
   {
     exact: true,
-    path: '/locations/pending',
-    component: Pending,
+    path: '/locations/pending/edit/:locationId',
+    component: EditPending,
   },
-  {
-    exact: true,
-    path: '/locations/ongoing',
-    component: Ongoing,
-  },
-  {
-    exact: true,
-    path: '/locations/completed',
-    component: Completed,
-  },
+  // {
+  //   exact: true,
+  //   path: '/locations/ongoing',
+  //   component: Ongoing,
+  // },
+  // {
+  //   exact: true,
+  //   path: '/locations/completed',
+  //   component: Completed,
+  // },
   {
     exact: true,
     path: '/block/:districtId',

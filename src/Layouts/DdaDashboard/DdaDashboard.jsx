@@ -19,9 +19,10 @@ class DdaDashboard extends Component {
   };
 
   render() {
+    console.log(this.props.dda_id);
     return (<div>
     <Layout style={{ height: '100vh' }}>
-      <Sidebar collapsed={this.state.collapsed} type="dda_dashboard"/>
+      <Sidebar collapsed={this.state.collapsed} type="dda_dashboard" pathname={this.props.history.location.pathname}/>
       <Layout
         className="site-layout"
         style={{ backgroundColor: '#f5f3ff' }}>
@@ -30,7 +31,7 @@ class DdaDashboard extends Component {
           toggle={this.toggle}
           collapsed={this.state.collapsed}
         />
-        <Contents history={this.props.history} />
+        <Contents history={this.props.history} role={4}/>
       </Layout>
     </Layout>
   </div>);
