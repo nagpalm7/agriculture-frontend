@@ -26,6 +26,17 @@ class Headers extends Component {
           </div>
           <div>
             <Space>
+              <Link to="/comarison">
+                <MyButton
+                  text="Comparison"
+                  className="outlined"
+                  style={{
+                    color: '#e03b3b',
+                    backgroundColor: '#f5f3ff',
+                    border: '0px',
+                  }}
+                />
+              </Link>
               <Link to="/Analysis">
                 <MyButton
                   text="Analysis"
