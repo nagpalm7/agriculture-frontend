@@ -16,9 +16,7 @@ class Uploader extends Component {
   err_text = (err) => {
     console.log(err);
     if (err) {
-      console.log(err.name);
-      console.log(err.message);
-      return err.message;
+      return err;
     } else {
       return '';
     }
@@ -33,7 +31,7 @@ class Uploader extends Component {
           ref={(inputFile) => (this.inputFile = inputFile)}
           name="myfile"
           onChange={this.fileSelectedHandler}
-          accept=".csv"
+          accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         />
         <Button
           key="upload"
