@@ -17,9 +17,16 @@ import './Comparison.css';
 import { Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import Uploader from './ComparisonModal.js';
+import moment from 'moment';
+import NasaData from './NasaData.js';
+const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 const children = [];
-children.push(<Option key="harsac_points">Harsac Points</Option>);
+children.push(
+  <Option selected={true} key="harsac_points">
+    Harsac Points
+  </Option>,
+);
 children.push(<Option key="modis_points">Modis Points</Option>);
 children.push(<Option key="viirs_noaa_points">Viirs Noaa Points</Option>);
 children.push(<Option key="viirs_npp1_points">Viirs NPP1 Points</Option>);
@@ -74,6 +81,16 @@ class Comparison extends Component {
         this.fetchLocsData(this.state.date, arr);
       },
     );
+  }
+  componentDidMount() {
+    const dateString = moment().format(dateFormat);
+    var selectedStellites = [
+      'harsac_points',
+      'modis_points',
+      'viirs_noaa_points',
+      'viirs_npp1_points',
+    ];
+    this.fetchLocsData(dateString.toString(), selectedStellites);
   }
   fetchLocsData = (dateString, selectedSatellites) => {
     console.log(dateString, selectedSatellites);
@@ -215,7 +232,6 @@ class Comparison extends Component {
     });
   };
   render() {
-    console.log(this.state.uploadDate);
     return (
       <div className="comparison-wrapper">
         <Row style={{ marginBottom: '10px' }}>
@@ -223,10 +239,10 @@ class Comparison extends Component {
             Comparison
           </h2>
         </Row>
-        <Row justify="space-around">
+        <Row justify="space-between">
           <Select
             mode="tags"
-            style={{ width: '60%', marginRight: '10px' }}
+            style={{ width: '45%', marginRight: '10px' }}
             placeholder="Select Satellites"
             onChange={this.handleChange}>
             {children}
@@ -234,22 +250,30 @@ class Comparison extends Component {
 
           <DatePicker
             style={{ width: '20%' }}
-            onChange={this.handleDateChange}></DatePicker>
+            onChange={this.handleDateChange}
+            defaultValue={moment()}
+            format={dateFormat}></DatePicker>
           <Button
             style={{
               color: '#e03b3b',
               backgroundColor: '#f5f3ff',
               border: '0px',
-              width: '10%',
+              width: '15%',
               borderRadius: '10px',
             }}
+            defaultValue={moment()}
             onClick={this.showModal}>
             Upload
           </Button>
+          <NasaData
+            style={{
+              width: '15%',
+            }}></NasaData>
           <Modal
             visible={this.state.isModalOpen}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
+            style={{ width: '80vw' }}
             footer={[
               <div style={{ display: 'flex' }}>
                 <Button

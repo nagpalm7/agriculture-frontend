@@ -16,7 +16,11 @@ const RenderMarkers = (markers) => {
     ? markers.map((markersSet) => {
         return markersSet.map((marker) => {
           return (
-            <Marker position={{ lat: marker[0], lng: marker[1] }}>
+            <Marker
+              position={{
+                lat: parseFloat(marker[0]),
+                lng: parseFloat(marker[1]),
+              }}>
               <InfoBox
                 options={{ closeBoxURL: ``, enableEventPropagation: true }}>
                 <div
