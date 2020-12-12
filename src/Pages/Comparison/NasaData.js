@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, DatePicker, Modal, Spin, message } from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+
 const dateFormat = 'YYYY-MM-DD';
 
 class NasaData extends Component {
@@ -15,20 +15,9 @@ class NasaData extends Component {
       date: null,
     };
     this.handleOpen = this.handleOpen.bind(this);
-    this.toggleVisible = this.toggleVisible.bind(this);
     this.handleGetData = this.handleGetData.bind(this);
+    this.fetchNasaData = this.fetchNasaData.bind(this);
   }
-  toggleVisible = () => {
-    this.setState(
-      {
-        ...this.state,
-        isModalOpen: true,
-      },
-      () => {
-        this.fetchNasaData(moment().format(dateFormat));
-      },
-    );
-  };
   fetchNasaData = (dateString = moment().format(dateFormat)) => {
     this.setState({
       ...this.state,
@@ -78,11 +67,19 @@ class NasaData extends Component {
     this.fetchNasaData(this.state.date);
   };
   handleOpen() {
-    this.toggleVisible();
+    this.setState(
+      {
+        ...this.state,
+        isModalOpen: true,
+      },
+      () => {
+        this.fetchNasaData(moment().format(dateFormat));
+      },
+    );
   }
   render() {
     return (
-      <div style={{ width: '15%' }}>
+      <div style={{ width: '10%' }}>
         <Modal
           visible={this.state.isModalOpen}
           onOk={this.handleOk}
@@ -116,20 +113,20 @@ class NasaData extends Component {
               </Button>
             </div>,
           ]}>
+          <div className="com_header">
+            Get common location of different Satellites
+          </div>
+
+          <DatePicker
+            style={{
+              width: '70%',
+              borderRadius: '20px',
+            }}
+            defaultValue={moment()}
+            format={dateFormat}
+            onChange={this.handleDateChange}></DatePicker>
           {this.state.Loading == false ? (
             <div className="nasa_wrapper">
-              <div className="com_header">
-                Get common location of different Satellites
-              </div>
-
-              <DatePicker
-                style={{
-                  width: '70%',
-                  borderRadius: '20px',
-                }}
-                defaultValue={moment()}
-                format={dateFormat}
-                onChange={this.handleDateChange}></DatePicker>
               {this.state.NasaLinks ? (
                 <div className="nasa_links">
                   <div>

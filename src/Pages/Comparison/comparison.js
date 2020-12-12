@@ -19,6 +19,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import Uploader from './ComparisonModal.js';
 import moment from 'moment';
 import NasaData from './NasaData.js';
+import ComparisonData from './ComparisonData.js';
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 const children = [];
@@ -258,7 +259,7 @@ class Comparison extends Component {
               color: '#e03b3b',
               backgroundColor: '#f5f3ff',
               border: '0px',
-              width: '15%',
+              width: '10%',
               borderRadius: '10px',
             }}
             defaultValue={moment()}
@@ -267,8 +268,10 @@ class Comparison extends Component {
           </Button>
           <NasaData
             style={{
-              width: '15%',
+              width: '10%',
             }}></NasaData>
+          <ComparisonData
+            style={{ width: '10%', textAlign: 'right' }}></ComparisonData>
           <Modal
             visible={this.state.isModalOpen}
             onOk={this.handleOk}
