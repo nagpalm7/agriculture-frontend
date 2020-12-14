@@ -26,7 +26,7 @@ class Headers extends Component {
           </div>
           <div>
             <Space>
-              <Link to="/comarison">
+              <Link to="/comparison">
                 <MyButton
                   text="Comparison"
                   className="outlined"

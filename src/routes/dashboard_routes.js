@@ -42,7 +42,7 @@ const dashboard_routes = [
   },
   {
     exact: true,
-    path: '/comarison',
+    path: '/comparison',
     component: Comparison,
   },
   {
