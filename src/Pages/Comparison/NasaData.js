@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, DatePicker, Modal, Spin, message } from 'antd';
+import { Button, DatePicker, Modal, Empty, Spin, message } from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import moment from 'moment';
 
@@ -174,7 +174,9 @@ class NasaData extends Component {
                     )}
                   </div>
                 </div>
-              ) : null}
+              ) : (
+                <Empty></Empty>
+              )}
             </div>
           ) : (
             <div style={{ paddingTop: '20px' }}>

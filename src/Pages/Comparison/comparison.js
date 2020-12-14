@@ -150,70 +150,65 @@ class Comparison extends Component {
   fileUploadHandler = () => {
     this.setState({ ...this.state, btnLoading: true });
     try {
-      if (!this.state.isUploaded) {
-        if (this.state.selectedFiles) {
-          if (
-            this.state.selectedFiles.harsac.name
-              .toString()
-              .match(/\.(xls|xlsx)$/g) != null
-          ) {
-            const formData = new FormData();
-            console.log(this.state.selectedFiles.harsac);
-            formData.append(
-              'harsac_file',
-              this.state.selectedFiles.harsac,
-              this.state.selectedFiles.harsac.name,
-            );
-            formData.append('force-update', this.state.forceUpdate);
-            console.log(formData);
-            axiosInstance
-              .post('api/compare-data/', formData, {
-                onDownloadProgress: (progressEvent) => {
-                  this.setState({
-                    ...this.state,
-                    file_upload_err: null,
-                    uploadPercent: Math.round(
-                      (progressEvent.loaded * 100) / progressEvent.total,
-                    ),
-                  });
-                },
-              })
-              .then((res) => {
-                console.log(res);
+      if (this.state.selectedFiles) {
+        if (
+          this.state.selectedFiles.harsac.name
+            .toString()
+            .match(/\.(xls|xlsx)$/g) != null
+        ) {
+          const formData = new FormData();
+          console.log(this.state.selectedFiles.harsac);
+          formData.append(
+            'harsac_file',
+            this.state.selectedFiles.harsac,
+            this.state.selectedFiles.harsac.name,
+          );
+          formData.append('force-update', this.state.forceUpdate);
+          console.log(formData);
+          axiosInstance
+            .post('api/compare-data/', formData, {
+              onDownloadProgress: (progressEvent) => {
                 this.setState({
                   ...this.state,
-                  isUploaded: true,
-                  btnLoading: false,
-                  isModalOpen: false,
+                  file_upload_err: null,
+                  uploadPercent: Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total,
+                  ),
                 });
-                message.success(
-                  `Uploaded Successfully\nNewly Added - ${res.data['NEW ADDED']}\n Already Existed - ${res.data['ALREADY EXIST']}`,
-                );
-              })
-              .catch((err) => {
-                console.log(err.response.data.harsac_file[0]);
-                message.warning(err.message);
-                this.setState({
-                  ...this.state,
-                  isUploaded: false,
-                  file_upload_err: err.response.data.harsac_file[0],
-                  btnLoading: false,
-                });
-                throw err;
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              this.setState({
+                ...this.state,
+                btnLoading: false,
+                isModalOpen: false,
+                selectedFiles: null,
+                file_upload_err: null,
+                forceUpdate: false,
               });
-          } else {
-            var error2 = new Error('Only .xls or .xlsx format can be uploaded');
-            error2.name = 'file_type_error';
-            throw error2;
-          }
+              message.success(
+                `Uploaded Successfully\nNewly Added - ${res.data['NEW ADDED']}\n Already Existed - ${res.data['ALREADY EXIST']}`,
+              );
+            })
+            .catch((err) => {
+              console.log(err.response.data);
+              message.warning(err.message);
+              this.setState({
+                ...this.state,
+                file_upload_err: err.response.data,
+                btnLoading: false,
+              });
+              throw err;
+            });
         } else {
-          var error = new Error('Select the file before uploading');
-          error.name = 'file_not_selected';
-          throw error;
+          var error2 = new Error('Only .xls or .xlsx format can be uploaded');
+          error2.name = 'file_type_error';
+          throw error2;
         }
       } else {
-        var error = new Error('File Alreay Uploaded');
-        error.name = 'already_uploaded';
+        var error = new Error('Select the file before uploading');
+        error.name = 'file_not_selected';
         throw error;
       }
     } catch (err) {
@@ -243,6 +238,12 @@ class Comparison extends Component {
         <Row justify="space-between">
           <Select
             mode="tags"
+            defaultValue={[
+              'harsac_points',
+              'modis_points',
+              'viirs_noaa_points',
+              'viirs_npp1_points',
+            ]}
             style={{ width: '45%', marginRight: '10px' }}
             placeholder="Select Satellites"
             onChange={this.handleChange}>
