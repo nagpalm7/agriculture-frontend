@@ -85,15 +85,30 @@ class Comparison extends Component {
   }
   componentDidMount() {
     const dateString = moment().format(dateFormat);
-    var selectedStellites = [
+    this.setState(
+      {
+        ...this.state,
+        selectedSatellites: [
+          'harsac_points',
+          'modis_points',
+          'viirs_noaa_points',
+          'viirs_npp1_points',
+        ],
+      },
+      () => {
+        this.fetchLocsData(dateString.toString());
+      },
+    );
+  }
+  fetchLocsData = (
+    dateString,
+    selectedSatellites = [
       'harsac_points',
       'modis_points',
       'viirs_noaa_points',
       'viirs_npp1_points',
-    ];
-    this.fetchLocsData(dateString.toString(), selectedStellites);
-  }
-  fetchLocsData = (dateString, selectedSatellites) => {
+    ],
+  ) => {
     console.log(dateString, selectedSatellites);
     this.setState({ ...this.state, loading: true });
     axiosInstance
@@ -128,7 +143,7 @@ class Comparison extends Component {
       });
   };
   handleDateChange = (date, dateString) => {
-    console.log(dateString);
+    console.log(this.state.selectedSatellites);
     this.setState({ ...this.state, loading: true, date: dateString }, () => {
       this.fetchLocsData(dateString, this.state.selectedSatellites);
     });
