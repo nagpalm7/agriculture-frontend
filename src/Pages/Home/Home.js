@@ -84,6 +84,9 @@ class Home extends Component {
           <DropdownMenu
             districts={this.state.districts}
             handleDistrictChange={this.handleDistrictChange}
+            style={{
+              borderRadius: '20px',
+            }}
           />
         </Row>
         <Row justify="center">

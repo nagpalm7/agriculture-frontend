@@ -153,7 +153,10 @@ class Charts extends Component {
             status="pending"
             processData={this.processData}
             count={this.state.pending_chart_data}
-            loading={this.state.loading}></ChartComponent>
+            loading={this.state.loading}
+            allFlag={
+              this.props.selectedDist == 'ALL DISTRICTS' ? true : false
+            }></ChartComponent>
         </div>
         <div>
           <ChartComponent
@@ -161,6 +164,7 @@ class Charts extends Component {
             processData={this.processData}
             count={this.state.ongoing_chart_data}
             loading={this.state.loading}
+            allFlag={this.props.selectedDist == 'ALL DISTRICTS' ? true : false}
           />
         </div>
         <div>
@@ -169,6 +173,7 @@ class Charts extends Component {
             processData={this.processData}
             count={this.state.completed_chart_data}
             loading={this.state.loading}
+            allFlag={this.props.selectedDist == 'ALL DISTRICTS' ? true : false}
           />
         </div>
       </div>

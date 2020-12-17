@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-
+import './charts.css';
 class ChartComponent extends Component {
   constructor(props) {
     super(props);
@@ -30,43 +30,53 @@ class ChartComponent extends Component {
         },
       ],
     };
-    return (
-      <Line
-        data={chartData}
-        options={{
-          maintainAspectRatio: true,
-          pointRadius: 2,
-          pointHoverRadius: 3,
-          layout: {
-            padding: {
-              left: 10,
-              right: 20,
-              top: 0,
-              bottom: 0,
+
+    if (this.props.allFlag) {
+      return (
+        <Line
+          data={chartData}
+          options={{
+            maintainAspectRatio: true,
+            pointRadius: 2,
+            pointHoverRadius: 3,
+            layout: {
+              padding: {
+                left: 10,
+                right: 20,
+                top: 0,
+                bottom: 0,
+              },
             },
-          },
-          scales: {
-            xAxes: [
-              {
-                ticks: {
-                  display: false,
+            scales: {
+              xAxes: [
+                {
+                  ticks: {
+                    display: false,
+                  },
+                  gridLines: {
+                    display: false,
+                  },
                 },
-                gridLines: {
-                  display: false,
+              ],
+              yAxes: [
+                {
+                  gridLines: {
+                    display: false,
+                  },
                 },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  display: false,
-                },
-              },
-            ],
-          },
-        }}
-      />
-    );
+              ],
+            },
+          }}
+        />
+      );
+    } else {
+      return (
+        <div className={this.props.status}>
+          <div className="header">{this.props.status}</div>
+          <div className="count">{this.props.count.data[0]}</div>
+        </div>
+      );
+    }
   }
 }
 export default ChartComponent;

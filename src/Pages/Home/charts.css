@@ -1,11 +1,43 @@
-.charts-wrapper div{
-    background-color: white;
-    margin-bottom: 24px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.247);
+.charts-wrapper > div {
+  background-color: white;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.247);
 }
-.charts-wrapper{
-    margin-top: 14px;
-    margin-left: 14px;
-   
+.charts-wrapper {
+  margin-top: 14px;
+  margin-left: 14px;
+}
+.header {
+  font-size: 1.3em;
+
+  text-transform: capitalize;
+  text-align: center;
+  font-weight: 600;
+}
+.count {
+  font-size: 4.4em;
+  text-align: center;
+  font-weight: 600;
+}
+.pending {
+  color: #df6b67;
+  min-height: 20vh;
+}
+.pending .header {
+  border-bottom: 2px dotted #df6b678e;
+}
+.ongoing {
+  color: #ffe00c;
+  min-height: 20vh;
+}
+.ongoing .header {
+  border-bottom: 2px dotted #ffdf0c75;
+}
+.completed {
+  color: #069d15;
+  min-height: 20vh;
+}
+.completed .header {
+  border-bottom: 2px dotted #069d158e;
 }
