@@ -232,6 +232,7 @@ class Pending extends Component {
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
           isLocation="true"
+          locStatus="Pending"
         />
       </>
     );

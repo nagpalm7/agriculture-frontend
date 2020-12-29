@@ -182,6 +182,7 @@ class Completed extends Component {
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
           isLocation="true"
+          locStatus="Completed"
         />
       </>
     );

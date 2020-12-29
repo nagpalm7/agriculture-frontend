@@ -8,6 +8,7 @@ import { Modal, Button } from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import cloud_logo from '../../assets/images/cloud.png';
 import { Progress } from 'antd';
+import LocationReport from './LocationReportModal';
 const { Search } = Input;
 
 class MainContent extends Component {
@@ -188,7 +189,9 @@ class MainContent extends Component {
                   }}
                 />
               </Link>
-            ) : null,
+            ) : (
+              <LocationReport status={this.props.locStatus}></LocationReport>
+            ),
             <MyButton
               key="2"
               text="Add Bulk"
@@ -210,6 +213,7 @@ class MainContent extends Component {
             ) : null,
           ]}
         />
+
         <Modal
           title="You can upload a CSV file"
           centered
