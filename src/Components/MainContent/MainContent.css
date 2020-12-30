@@ -79,3 +79,15 @@
 .err_mess {
   color: rgba(255, 0, 0, 0.781);
 }
+.locationMdalWrapper > div {
+  margin-top: 20px;
+}
+.ant-modal-header {
+  text-align: center;
+}
+#reportform {
+  margin-top: 20px;
+}
+#linksreport {
+  margin-bottom: 20px;
+}

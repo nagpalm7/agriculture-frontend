@@ -25,7 +25,7 @@ class TableComponent extends Component {
         columns={columns}
         loading={loading}
         size="small"
-        style={{ padding: '16px 24px' }}
+        style={{ padding: '16px 24px', overflowX: 'scroll' }}
       />
     );
   }

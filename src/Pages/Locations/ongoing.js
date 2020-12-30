@@ -187,6 +187,7 @@ class Ongoing extends Component {
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
           isLocation="true"
+          locStatus="Ongoing"
         />
       </>
     );

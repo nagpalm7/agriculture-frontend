@@ -60,7 +60,7 @@ class Comparison extends Component {
       isModalOpen: true,
     });
   };
-
+ 
   handleOk = (e) => {
     this.setState({ ...this.state, isModalOpen: false });
   };

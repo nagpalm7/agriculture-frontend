@@ -32,9 +32,10 @@ class AddVillages extends Component {
   }
   onScroll = (event) => {
     var target = event.target;
+
     if (
       !this.state.loading &&
-      target.scrollTop + target.offsetHeight === target.scrollHeight
+      target.scrollTop + target.offsetHeight + 1 >= target.scrollHeight
     ) {
       this.setState({ loading: true }, () => {
         target.scrollTo(0, target.scrollHeight);
@@ -232,11 +233,7 @@ class AddVillages extends Component {
                 style={{ borderRadius: '7px', borderColor: '#707070' }}
                 optionFilterProp="children"
                 onChange={this.handleChange}
-                onPopupScroll={this.onScroll}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
-                }>
+                onPopupScroll={this.onScroll}>
                 {!this.state.loading && !this.state.isRendered
                   ? this.state.children
                   : this.state.isRendered == true
@@ -246,7 +243,9 @@ class AddVillages extends Component {
                     ]
                   : [
                       ...this.state.children,
-                      <Option key="loading">Loading...</Option>,
+                      <Option key="loading" style={{ textAlign: 'center' }}>
+                        <Spin spinning={true}></Spin>
+                      </Option>,
                     ]}
               </Select>
             </Form.Item>
