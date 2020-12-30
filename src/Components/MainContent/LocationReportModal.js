@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, DatePicker, Form, Spin, Select, Button } from 'antd';
+import { Modal, DatePicker, Form, Spin, Select, message, Button } from 'antd';
 import MyButton from '../ButtonComponent/MyButton';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 
@@ -13,11 +13,12 @@ class LocationReport extends Component {
     var villageChildren = [];
 
     villageChildren.push(
-      <Option key="1" style={{ display: 'none' }}>
-        dont'display
-      </Option>,
+      <Option value={undefined} style={{ display: 'none' }}></Option>,
     );
 
+    var ado_children = [];
+
+    ado_children.push(<Option value={undefined}>No ADO</Option>);
     this.state = {
       isLocationModalOpen: false,
       reportLink: null,
@@ -31,8 +32,50 @@ class LocationReport extends Component {
       districtId: null,
       vilPage: 1,
       isVillageRendered: false,
+      ado_loading: true,
+      ado_children: ado_children,
+      isAdoRendered: false,
+      adoPage: 1,
     };
   }
+  fetchAdoList = (page) => {
+    axiosInstance
+      .get(`/api/users-list/ado/?page=${page}`)
+      .then((res) => {
+        this.setState({ ...this.state, ado_loading: false });
+        const adoData = res.data.results.map((item) => {
+          return {
+            ado: item.user.username,
+            id: item.user.id,
+          };
+        });
+        var ado_children = [...this.state.ado_children];
+        var length = ado_children.length;
+
+        adoData.map((ado) => {
+          ado_children.push(
+            <Option key={ado.id} value={ado.ado}>
+              {ado.ado}
+            </Option>,
+          );
+        });
+        this.setState({ ado_children: ado_children }, () => {
+          if (length == res.data.count - 5) {
+            this.setState({ ...this.state, isAdoRendered: true });
+          }
+
+          this.setState({ ado_loading: false });
+        });
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, ado_loading: false });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  };
   fetchVillageList = (distId, page) => {
     this.setState({
       ...this.state,
@@ -96,6 +139,20 @@ class LocationReport extends Component {
       });
     }
   };
+  onAdoScroll = (event) => {
+    var target = event.target;
+    if (
+      !this.state.ado_loading &&
+      !this.state.isAdoRendered &&
+      Math.ceil(target.scrollTop) + target.offsetHeight === target.scrollHeight
+    ) {
+      this.setState({ ado_loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        this.fetchAdoList(this.state.adoPage + 1);
+        this.setState({ ...this.state, adoPage: this.state.adoPage + 1 });
+      });
+    }
+  };
   fetchDistricts = () => {
     this.setState({
       ...this.state,
@@ -120,6 +177,7 @@ class LocationReport extends Component {
   };
   componentDidMount() {
     this.fetchDistricts();
+    this.fetchAdoList(1);
   }
   fetchReportLink = (
     startDate,
@@ -137,12 +195,19 @@ class LocationReport extends Component {
         `api/generate-location-report/?start=${startDate}&end=${EndDate}&status=${status.toLowerCase()}&village=${village}&district=${district}&ado=${adoName}`,
       )
       .then((res) => {
+        console.log(res);
+        if (res.statusText == 'No Content') {
+          message.warning('No report found');
+        } else {
+          message.success('Successfull fetched report');
+        }
         this.setState({
           btnLoading: false,
           reportLink: res.data.csvFile,
         });
       })
       .catch((err) => {
+        message.warning(err);
         this.setState({
           btnLoading: false,
         });
@@ -159,32 +224,37 @@ class LocationReport extends Component {
     const startDate = event.range[0].format(dateFormat);
     const endDate = event.range[0].format(dateFormat);
     const ado = event.Ado;
-    const district = event.District.toString().split(' ')[0];
+    var district;
+    if (event.District) {
+      district = event.District.toString().split(' ')[0];
+    }
     const village = event.village;
 
-    // this.fetchReportLink(
-    //   startDate,
-    //   endDate,
-    //   this.props.status,
-    //   ado,
-    //   district,
-    //   village,
-    // );
+    this.fetchReportLink(
+      startDate,
+      endDate,
+      this.props.status,
+      ado,
+      district,
+      village,
+    );
   };
   changeDistrict = (e) => {
     console.log(e);
-    const districtId = e.toString().split(' ')[1];
-    this.setState(
-      {
-        ...this.state,
-        slectedDistrict: districtId,
-        vilPage: 1,
-        villageChildren: [],
-      },
-      () => {
-        this.fetchVillageList(districtId, 1);
-      },
-    );
+    if (e) {
+      const districtId = e.toString().split(' ')[1];
+      this.setState(
+        {
+          ...this.state,
+          slectedDistrict: districtId,
+          vilPage: 1,
+          villageChildren: [],
+        },
+        () => {
+          this.fetchVillageList(districtId, 1);
+        },
+      );
+    }
   };
   render() {
     const layout = {
@@ -237,6 +307,7 @@ class LocationReport extends Component {
                   showSearch
                   placeholder="Select District"
                   onChange={this.changeDistrict}>
+                  <Option value={undefined}>No District</Option>
                   {!this.state.loading ? (
                     this.state.district.map((district) => {
                       return (
@@ -259,15 +330,14 @@ class LocationReport extends Component {
                   showSearch
                   onPopupScroll={this.onScroll}
                   placeholder="Select Village">
+                  <Option value={undefined}>No Village</Option>
+
                   {this.state.slectedDistrict != null ? (
                     this.state.village_loading == false &&
                     !this.state.isVillageRendered ? (
                       [...this.state.villageChildren]
                     ) : this.state.isVillageRendered == true ? (
-                      [
-                        ...this.state.villageChildren,
-                        <Option key="loaded">-------------------</Option>,
-                      ]
+                      [...this.state.villageChildren]
                     ) : (
                       [
                         ...this.state.villageChildren,
@@ -278,6 +348,7 @@ class LocationReport extends Component {
                     )
                   ) : (
                     <Option
+                      value={undefined}
                       style={{
                         textAlign: 'center',
 
@@ -289,10 +360,22 @@ class LocationReport extends Component {
                 </Select>
               </Form.Item>
               <Form.Item name="Ado" label="Select ADO">
-                <Select showSearch placeholder="Select Ado">
-                  <Option key={1}>Pis</Option>
-                  <Option key={2}>Lis</Option>
-                  <Option key={3}>Pis</Option>
+                <Select
+                  showSearch
+                  style={{ borderRadius: '7px', borderColor: '#707070' }}
+                  optionFilterProp="children"
+                  onPopupScroll={this.onAdoScroll}
+                  placeholder="select ADO">
+                  {!this.state.ado_loading && !this.state.isAdoRendered
+                    ? this.state.ado_children
+                    : this.state.isAdoRendered == true
+                    ? [...this.state.ado_children]
+                    : [
+                        ...this.state.ado_children,
+                        <Option key="loading" style={{ textAlign: 'center' }}>
+                          <Spin spinning={true}></Spin>
+                        </Option>,
+                      ]}
                 </Select>
               </Form.Item>
               <Form.Item
