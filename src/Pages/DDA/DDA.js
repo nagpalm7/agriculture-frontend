@@ -70,16 +70,10 @@ class DDA extends Component {
   ];
 
   onSearch = (value) => {
-    let currentPage = this.props.history.location.search.split('=')[1];
-    console.log(currentPage);
-    if (currentPage === undefined) {
-      this.fetchDdaList(1, value);
-    } else {
-      this.fetchDdaList(currentPage, value);
-    }
+    this.fetchDdaList(1, value);
     this.props.history.push({
       pathname: '/dda/',
-      search: `?page=${currentPage}&search=${value}`,
+      search: `?page=${1}&search=${value}`,
     });
   };
 

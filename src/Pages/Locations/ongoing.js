@@ -158,16 +158,10 @@ class Ongoing extends Component {
     console.log(page, search);
   };
   onSearch = (value) => {
-    let currentPage = this.props.history.location.search.split('=')[1];
-    console.log(currentPage);
-    if (currentPage === undefined) {
-      this.fetchLocations(1, value);
-    } else {
-      this.fetchLocations(currentPage, value);
-    }
+    this.fetchLocations(1, value);
     this.props.history.push({
       pathname: '/locations/ongoing',
-      search: `?page=${currentPage}&search=${value}`,
+      search: `?page=${1}&search=${value}`,
     });
   };
   componentDidMount() {

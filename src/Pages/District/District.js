@@ -39,7 +39,6 @@ class District extends Component {
       dataIndex: '',
       key: '',
       render: (district) => {
-        console.log(district);
         return (
           <BlockInfo
             district_id={district.id}
@@ -66,16 +65,10 @@ class District extends Component {
     },
   ];
   onSearch = (value) => {
-    let currentPage = this.props.history.location.search.split('=')[1];
-    console.log(currentPage);
-    if (currentPage === undefined) {
-      this.fetchDistrictList(1, value);
-    } else {
-      this.fetchDistrictList(currentPage, value);
-    }
+    this.fetchDistrictList(1, value);
     this.props.history.push({
       pathname: '/district/',
-      search: `?page=${currentPage}&search=${value}`,
+      search: `?page=${1}&search=${value}`,
     });
   };
   onPageChange = (page) => {
@@ -102,7 +95,6 @@ class District extends Component {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        console.log('OK');
         axiosInstance
           .delete(`/api/district/${districtId}/`)
           .then((res) => {
@@ -151,7 +143,6 @@ class District extends Component {
     axiosInstance
       .get(`/api/district/?page=${page}&search=${search}`)
       .then((res) => {
-        console.log(res);
         this.setState({
           ...this.state,
           districtData: res.data,
