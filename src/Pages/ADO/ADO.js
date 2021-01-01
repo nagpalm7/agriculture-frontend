@@ -112,16 +112,10 @@ class ADO extends Component {
     },
   ];
   onSearch = (value) => {
-    let currentPage = this.props.history.location.search.split('=')[1];
-    console.log(currentPage);
-    if (currentPage === undefined) {
-      this.fetchADO(1, value);
-    } else {
-      this.fetchADO(currentPage, value);
-    }
+    this.fetchADO(1, value);
     this.props.history.push({
       pathname: '/ado/',
-      search: `?page=${currentPage}&search=${value}`,
+      search: `?page=${1}&search=${value}`,
     });
   };
   onPageChange = (page) => {
