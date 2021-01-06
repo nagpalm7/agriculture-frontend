@@ -13,6 +13,16 @@ class TableComponent extends Component {
     return (
       <Table
         dataSource={dataSource}
+        onRow={(record, rowIndex) => {
+          return {
+            onDoubleClick: (event) => {
+              console.log(record);
+              if (this.props.onRowClick) {
+                this.props.onRowClick(record);
+              }
+            },
+          };
+        }}
         pagination={{
           position: ['bottomCenter'],
           pageSize: '20',

@@ -167,7 +167,9 @@ class District extends Component {
     this.setState({ ...this.state, loading: true });
     this.fetchDistrictList(this.state.search, 1);
   }
-
+  onRowClick = (record) => {
+    this.props.history.push(`/district/village/${record.id}`);
+  };
   render() {
     return (
       <>
@@ -180,6 +182,7 @@ class District extends Component {
           totalPages={this.state.totalCount}
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
+          onRowClick={this.onRowClick}
         />
       </>
     );
