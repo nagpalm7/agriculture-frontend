@@ -89,7 +89,6 @@ class MainContent extends Component {
                 },
               })
               .then((res) => {
-                console.log(res);
                 this.setState({
                   ...this.state,
                   isUploaded: true,
@@ -132,11 +131,9 @@ class MainContent extends Component {
     const uploadUrl = this.props.addlink
       ? this.props.addlink.split('/')[1]
       : null;
-    console.log(this.state);
+
     const err_text = () => {
       if (this.state.file_upload_err) {
-        console.log(this.state.file_upload_err.name);
-        console.log(this.state.file_upload_err.message);
         if (
           this.state.file_upload_err.name == 'file_not_selected' &&
           !this.state.selectedFile
@@ -178,31 +175,35 @@ class MainContent extends Component {
           style={{ borderRadius: '20px' }}
           extra={[
             !this.props.isLocation ? (
-              <Link to={addlink} key="1">
-                <MyButton
-                  text="Add"
-                  className="filled"
-                  style={{
-                    color: '#e03b3b',
-                    backgroundColor: '#f5f3ff',
-                    border: '0px',
-                  }}
-                />
-              </Link>
+              !this.props.isVillageUnderDistrict ? (
+                <Link to={addlink} key="1">
+                  <MyButton
+                    text="Add"
+                    className="filled"
+                    style={{
+                      color: '#e03b3b',
+                      backgroundColor: '#f5f3ff',
+                      border: '0px',
+                    }}
+                  />
+                </Link>
+              ) : null
             ) : (
               <LocationReport status={this.props.locStatus}></LocationReport>
             ),
-            <MyButton
-              key="2"
-              text="Add Bulk"
-              className="filled"
-              style={{
-                color: '#e03b3b',
-                backgroundColor: '#f5f3ff',
-                border: '0px',
-              }}
-              onClick={this.showModal}
-            />,
+            !this.props.isVillageUnderDistrict ? (
+              <MyButton
+                key="2"
+                text="Add Bulk"
+                className="filled"
+                style={{
+                  color: '#e03b3b',
+                  backgroundColor: '#f5f3ff',
+                  border: '0px',
+                }}
+                onClick={this.showModal}
+              />
+            ) : null,
             !this.props.isBlock ? (
               <Search
                 placeholder="Search"
@@ -295,6 +296,7 @@ class MainContent extends Component {
         </Modal>
 
         <TableComponent
+          onRowClick={this.props.onRowClick}
           loading={loading}
           dataSource={dataSource}
           columns={columns}

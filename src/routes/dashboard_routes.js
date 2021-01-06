@@ -23,6 +23,7 @@ import Block from '../Pages/BlockComponent/Blocks';
 import renderBlockComponet from '../Pages/District/District';
 import EditBlock from '../Pages/BlockComponent/components/EditBlock.js';
 import Dda_villages from '../Pages/DDA_Villages/dda_village';
+import villageUnderDistrict from '../Pages/VillagesUnderDitrict/villageUnderDistrict';
 const role =
   localStorage.getItem('Role') == null
     ? parseInt(sessionStorage.getItem('Role'))
@@ -69,6 +70,11 @@ const dashboard_routes = [
     exact: true,
     path: '/villages/add',
     component: AddVillage,
+  },
+  {
+    exact: true,
+    path: '/district/village/:villagesId',
+    component: villageUnderDistrict,
   },
   {
     exact: true,
