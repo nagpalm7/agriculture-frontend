@@ -91,3 +91,49 @@
 #linksreport {
   margin-bottom: 20px;
 }
+
+.search-wrapper {
+  display: inline-block;
+  background-color: white;
+  padding: 2px;
+  padding-left: 10px;
+  border: 1px solid #e03b3b77;
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
+}
+.search-wrapper:hover {
+  border: 1px solid #e03b3b;
+}
+.search-Input {
+  outline: none;
+  border: none;
+}
+.search-wrapper.focused {
+  border: 1px solid #e03b3b;
+  box-shadow: 0px 0px 1px 1px #e03b3b93;
+}
+.search_options {
+  display: inline-block;
+  flex-direction: row;
+
+  padding-left: 5px;
+}
+.search-button {
+  border-left: 1px solid #e03b3b;
+  font-size: 16px;
+  padding: 0px;
+  width: 30px;
+  text-align: center;
+}
+.search-button:hover {
+  color: #e03b3b;
+  cursor: pointer;
+}
+.search-filter {
+  font-size: 16px;
+  padding-right: 5px;
+}
+.search-filter:hover {
+  color: #e03b3b;
+  cursor: pointer;
+}
