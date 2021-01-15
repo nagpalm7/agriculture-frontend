@@ -26,13 +26,13 @@ class AdminDashboard extends Component {
           <Sidebar collapsed={this.state.collapsed} type="admin_dashboard" pathname={this.props.history.location.pathname}/>
           <Layout
             className="site-layout"
-            style={{ backgroundColor: '#f5f3ff' }}>
+            style={{ backgroundColor: '#f5f3ff',overflowY:'auto' }}>
             <Headers
               logout={this.props.logout}
               toggle={this.toggle}
               collapsed={this.state.collapsed}
             />
-            <Contents history={this.props.history} role={5}/>
+            <Contents history={this.props.history} style={{overflowY:'scroll',}} role={5}/>
           </Layout>
         </Layout>
       </div>

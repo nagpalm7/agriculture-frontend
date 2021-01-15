@@ -3,7 +3,6 @@ import { axiosInstance } from '../../../utils/axiosIntercepter';
 import cross from '../../../assets/images/cross-remove-sign.png';
 import { Link } from 'react-router-dom';
 import { Button, loading } from 'antd';
-
 class BlockInfo extends Component {
   constructor(props) {
     super(props);

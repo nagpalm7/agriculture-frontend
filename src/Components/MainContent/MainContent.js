@@ -9,6 +9,8 @@ import { axiosInstance } from '../../utils/axiosIntercepter';
 import cloud_logo from '../../assets/images/cloud.png';
 import { Progress } from 'antd';
 import LocationReport from './LocationReportModal';
+import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import FilterComponent from './FilterComponent';
 const { Search } = Input;
 
 class MainContent extends Component {
@@ -22,6 +24,8 @@ class MainContent extends Component {
       uploadPercent: 0,
       file_upload_err: null,
       location_update_count: '',
+      searchValue: '',
+      isFocused: false,
     };
   }
 
@@ -127,6 +131,11 @@ class MainContent extends Component {
       });
     }
   };
+  _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.props.onSearch(this.state.searchValue);
+    }
+  };
   render() {
     const uploadUrl = this.props.addlink
       ? this.props.addlink.split('/')[1]
@@ -165,6 +174,7 @@ class MainContent extends Component {
       onPageChange,
       onSearch,
     } = this.props;
+    const searchClass = this.state.isFocused ? 'focused' : 'notFocused';
     return (
       <div style={{ backgroundColor: '#fff', borderRadius: 'inherit' }}>
         <PageHeader
@@ -205,12 +215,51 @@ class MainContent extends Component {
               />
             ) : null,
             !this.props.isBlock ? (
-              <Search
-                placeholder="Search"
-                onSearch={(value) => onSearch(value)}
-                className="search-bar-style"
-                style={{ width: 200, color: '#000' }}
-              />
+              //New Search Bar
+              <div className={`search-wrapper ${searchClass}`}>
+                <input
+                  type="text"
+                  id="fname"
+                  name="fname"
+                  placeholder="Search .."
+                  onChange={(e) => {
+                    this.setState({
+                      ...this.state,
+                      searchValue: e.target.value,
+                    });
+                  }}
+                  onKeyDown={this._handleKeyDown}
+                  onBlur={() => {
+                    this.setState({
+                      ...this.state,
+                      isFocused: false,
+                    });
+                  }}
+                  onFocus={() => {
+                    this.setState({
+                      ...this.state,
+                      isFocused: true,
+                    });
+                  }}
+                  className="search-Input"></input>
+                <div className="search_options">
+                  {/* <div
+                    className="search-filter"
+                    style={{ display: 'inline-block' }}>
+                    <FilterOutlined />
+                  </div>
+                   */}
+                  <FilterComponent filter={this.props.filter}></FilterComponent>
+                  <div
+                    style={{ display: 'inline-block', marginLeft: '3px' }}
+                    className="search-button"
+                    onClick={() => {
+                      onSearch(this.state.searchValue);
+                    }}>
+                    <SearchOutlined />
+                  </div>
+                </div>
+              </div>
             ) : null,
           ]}
         />

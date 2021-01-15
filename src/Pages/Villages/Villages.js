@@ -7,7 +7,7 @@ import garbage from '../../assets/images/trash-can.png';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-
+import VillageFilter from './VillageFilter';
 const { confirm } = Modal;
 
 class Villages extends Component {
@@ -17,6 +17,7 @@ class Villages extends Component {
       totalCount: null,
       villageData: [],
       loading: false,
+      filters: null,
     };
   }
   columns = [
@@ -70,11 +71,21 @@ class Villages extends Component {
   ];
 
   onSearch = (value) => {
-    this.fetchVillageList(1, value);
-    this.props.history.push({
-      pathname: '/villages/',
-      search: `?page=${1}&search=${value}`,
-    });
+    if (this.state.filters) {
+      var distId = this.state.filters.district.split(' ')[1];
+
+      this.props.history.push({
+        pathname: '/villages/',
+        search: `?page=${1}&search=${value}`,
+      });
+      this.fetchVillageList(1, value, distId);
+    } else {
+      this.props.history.push({
+        pathname: '/villages/',
+        search: `?page=${1}&search=${value}`,
+      });
+      this.fetchVillageList(1, value, null);
+    }
   };
 
   showDeleteConfirm = (villlageName, villageId) => {
@@ -121,20 +132,33 @@ class Villages extends Component {
     if (search == 'undefined') {
       search = undefined;
     }
-    console.log(search);
-    this.props.history.push({
-      pathname: '/villages/',
-      search: `?page=${page}&search=${search}`,
-    });
-    this.fetchVillageList(page, search);
-    console.log(page, search);
+    console.log(this.state.filters);
+    if (this.state.filters) {
+      var distId = this.state.filters.district.split(' ')[1];
+      this.props.history.push({
+        pathname: `/villages/`,
+        search: `?page=${page}&search=${search}`,
+      });
+      this.fetchVillageList(page, search, distId);
+    } else {
+      console.log(search);
+      this.props.history.push({
+        pathname: '/villages/',
+        search: `?page=${page}&search=${search}`,
+      });
+      this.fetchVillageList(page, search);
+      console.log(page, search, null);
+    }
   };
 
-  fetchVillageList = (page, search = '') => {
+  fetchVillageList = (page, search = '', district) => {
+    var url = district
+      ? `/api/villages-list/district/${district}/?page=${page}&search=${search}`
+      : `/api/villages-list/?page=${page}&search=${search}`;
     console.log(page);
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/villages-list/?page=${page}&search=${search}`)
+      .get(url)
       .then((res) => {
         console.log(res.data);
         this.setState({
@@ -156,7 +180,21 @@ class Villages extends Component {
         }
       });
   };
-
+  applyFilter = (filters) => {
+    console.log(filters);
+    const { district } = filters;
+    const distName = district.split(' ')[0];
+    const distId = district.split(' ')[1];
+    message.success(`Showing villages under ${distName}`);
+    this.setState({ ...this.state, filters: filters }, () => {
+      this.fetchVillageList(1, '', distId);
+    });
+  };
+  removeFilter = () => {
+    this.setState({ ...this.state, filters: null }, () => {
+      this.fetchVillageList(1, '', null);
+    });
+  };
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchVillageList(1, '');
@@ -168,6 +206,14 @@ class Villages extends Component {
         <MainContent
           title="Villages"
           addlink="/villages/add"
+          filter={() => {
+            return (
+              <VillageFilter
+                applyFilters={this.applyFilter}
+                filters={this.state.filters}
+                removeFilter={this.removeFilter}></VillageFilter>
+            );
+          }}
           loading={this.state.loading}
           dataSource={this.state.villageData}
           columns={this.columns}

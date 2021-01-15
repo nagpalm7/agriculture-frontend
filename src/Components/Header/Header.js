@@ -54,9 +54,10 @@ class Headers extends Component {
                 id="logout-button"
                 onClick={this.props.logout}
                 style={{
-                  color: '#e03b3b',
-                  backgroundColor: 'white',
+                  color: 'white',
+                  backgroundColor: '#e03b3b',
                   border: '1px solid #e03b3b',
+                  fontWeight: '500',
                 }}
               />
             </Space>
