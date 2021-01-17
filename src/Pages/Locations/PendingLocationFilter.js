@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
-import { Form, Select, Spin, Divider, Button, Modal, Tag } from 'antd';
+import { Form, Select, Spin, Divider, Switch, Button, Modal, Tag } from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import { FilterOutlined, RedditCircleFilled } from '@ant-design/icons';
-const { Option } = Select;
+import './location.css';
 const layout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 18 },
 };
-
-class villageFilter extends Component {
+const { Option } = Select;
+class PendingFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
       district: [],
+      loading: false,
       isModalVisible: false,
-      tags: [],
     };
   }
+  handleCancel = () => {
+    this.setState({ isModalVisible: false });
+  };
+  handleOk = () => {
+    this.setState({ isModalVisible: false });
+  };
   fetchDistricts = () => {
     this.setState({
       ...this.state,
@@ -40,21 +45,15 @@ class villageFilter extends Component {
         console.log(err);
       });
   };
-  handleCancel = () => {
-    this.setState({ isModalVisible: false });
-  };
-  handleOk = () => {
-    this.setState({ isModalVisible: false });
-  };
   componentDidMount() {
     this.fetchDistricts();
   }
   render() {
-    console.log(this.props.filters);
     let tags = [];
     const x = this.props.filters
       ? Object.keys(this.props.filters).forEach((key, idx) => {
           var val = this.props.filters[key];
+          console.log(val);
           var str = `${key}:${val}`;
           tags.push(<Tag>{str}</Tag>);
         })
@@ -151,10 +150,13 @@ class villageFilter extends Component {
             Add Filters
           </div>
           <Form
-            name="villageFilter"
-            {...layout}
+            name="Pending Location Filter"
             style={{ marginTop: '10px' }}
+            {...layout}
             onFinish={(e) => {
+              if (!e.assignment) {
+                e.assignment = false;
+              }
               this.setState(
                 {
                   ...this.state,
@@ -183,6 +185,16 @@ class villageFilter extends Component {
                   </Option>
                 )}
               </Select>
+            </Form.Item>
+            <Form.Item
+              label="Assignment"
+              name="assignment"
+              style={{ textAlign: 'left' }}>
+              <Switch
+                checkedChildren={<span>Assigned</span>}
+                unCheckedChildren={<span>UnAssigned</span>}
+                defaultChecked={false}
+              />
             </Form.Item>
             <Form.Item
               wrapperCol={{ span: 24, offset: 0 }}
@@ -214,4 +226,4 @@ class villageFilter extends Component {
     );
   }
 }
-export default villageFilter;
+export default PendingFilter;

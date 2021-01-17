@@ -7,6 +7,7 @@ import MainContent from '../../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import pencil from '../../../assets/images/edit.png';
 import delete_logo from '../../../assets/images/trash-can.png';
+import PendingFilter from '../PendingLocationFilter';
 const { confirm } = Modal;
 
 class Pending extends Component {
@@ -17,6 +18,7 @@ class Pending extends Component {
       totalCount: null,
       locationsData: [],
       loading: false,
+      filters: null,
     };
   }
   columns = [
@@ -121,13 +123,22 @@ class Pending extends Component {
   ];
 
   onSearch = (value) => {
-    this.fetchLocations(1, value);
-    this.props.history.push({
-      pathname: '/locations/pending/',
-      search: `?page=${1}&search=${value}`,
-    });
+    if (this.state.filters) {
+      var distId = this.state.filters.district.split(' ')[1];
+      const assign = this.state.filters.assignment ? 'assigned' : 'unassigned';
+      this.props.history.push({
+        pathname: '/locations/pending',
+        search: `?page=${1}&search=${value}`,
+      });
+      this.fetchLocations(1, value, distId, assign);
+    } else {
+      this.props.history.push({
+        pathname: '/locations/pending',
+        search: `?page=${1}&search=${value}`,
+      });
+      this.fetchLocations(1, value, null, null);
+    }
   };
-
   showDeleteConfirm = (villlageName, locationId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
     let instance = this;
@@ -173,19 +184,35 @@ class Pending extends Component {
     if (search == 'undefined') {
       search = undefined;
     }
-    console.log(search);
-    this.props.history.push({
-      pathname: '/locations/pending',
-      search: `?page=${page}&search=${search}`,
-    });
-    this.fetchLocations(page, search);
-    console.log(page, search);
+    console.log(this.state.filters);
+    if (this.state.filters) {
+      var distId = this.state.filters.district.split(' ')[1];
+      const assign = this.state.filters.assignment ? 'assigned' : 'unassigned';
+      this.props.history.push({
+        pathname: '/locations/pending',
+        search: `?page=${page}&search=${search}`,
+      });
+      this.fetchLocations(page, search, distId, assign);
+    } else {
+      this.props.history.push({
+        pathname: '/locations/pending',
+        search: `?page=${page}&search=${search}`,
+      });
+      this.fetchLocations(page, search, null, null);
+    }
   };
 
-  fetchLocations = (page, search = '') => {
+  fetchLocations = (page, search = '', distId, assign) => {
+    var url;
+    if (distId && assign) {
+      url = `/api/location/district/${distId}/${assign}?page=${page}&search=${search}`;
+    } else {
+      url = `/api/locations/pending?page=${page}&search=${search}`;
+    }
+
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/locations/pending?page=${page}&search=${search}`)
+      .get(url)
       .then((res) => {
         console.log(res.data);
         this.setState({
@@ -212,7 +239,23 @@ class Pending extends Component {
     this.setState({ ...this.state, loading: true });
     this.fetchLocations(1, this.state.search);
   }
-
+  applyFilter = (filters) => {
+    console.log(filters);
+    const { district, assignment } = filters;
+    console.log(assignment);
+    const distName = district.split(' ')[0];
+    const distId = district.split(' ')[1];
+    const assign = assignment ? 'assigned' : 'unassigned';
+    message.success(`Showing ${assign} locations under ${distName}`);
+    this.setState({ ...this.state, filters: filters }, () => {
+      this.fetchLocations(1, '', distId, assign);
+    });
+  };
+  removeFilter = () => {
+    this.setState({ ...this.state, filters: null }, () => {
+      this.fetchLocations(1, '', null, null);
+    });
+  };
   render() {
     return (
       <>
@@ -220,6 +263,14 @@ class Pending extends Component {
           title="Pending Locations"
           addlink="/locations/add"
           loading={this.state.loading}
+          filter={() => {
+            return (
+              <PendingFilter
+                applyFilters={this.applyFilter}
+                filters={this.state.filters}
+                removeFilter={this.removeFilter}></PendingFilter>
+            );
+          }}
           dataSource={this.state.locationsData}
           columns={this.columns}
           totalPages={this.state.totalCount}
