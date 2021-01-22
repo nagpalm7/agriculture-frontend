@@ -172,7 +172,7 @@ class villageFilter extends Component {
                     return (
                       <Option
                         key={district.id}
-                        value={`${district.district} ${district.id}`}>
+                        value={`${district.district}_${district.id}`}>
                         {district.district}
                       </Option>
                     );

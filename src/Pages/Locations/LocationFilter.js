@@ -8,7 +8,7 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 const { Option } = Select;
-class PendingFilter extends Component {
+class LocationFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -174,7 +174,7 @@ class PendingFilter extends Component {
                     return (
                       <Option
                         key={district.id}
-                        value={`${district.district} ${district.id}`}>
+                        value={`${district.district}_${district.id}`}>
                         {district.district}
                       </Option>
                     );
@@ -186,16 +186,19 @@ class PendingFilter extends Component {
                 )}
               </Select>
             </Form.Item>
-            <Form.Item
-              label="Assignment"
-              name="assignment"
-              style={{ textAlign: 'left' }}>
-              <Switch
-                checkedChildren={<span>Assigned</span>}
-                unCheckedChildren={<span>UnAssigned</span>}
-                defaultChecked={false}
-              />
-            </Form.Item>
+            {this.props.status == 'Pending' ? (
+              <Form.Item
+                label="Assignment"
+                name="assignment"
+                style={{ textAlign: 'left' }}>
+                <Switch
+                  checkedChildren={<span>Assigned</span>}
+                  unCheckedChildren={<span>UnAssigned</span>}
+                  defaultChecked={false}
+                />
+              </Form.Item>
+            ) : null}
+
             <Form.Item
               wrapperCol={{ span: 24, offset: 0 }}
               labelCol={{ span: 0 }}
@@ -226,4 +229,4 @@ class PendingFilter extends Component {
     );
   }
 }
-export default PendingFilter;
+export default LocationFilter;

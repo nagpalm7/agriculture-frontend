@@ -7,7 +7,7 @@ import MainContent from '../../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import pencil from '../../../assets/images/edit.png';
 import delete_logo from '../../../assets/images/trash-can.png';
-import PendingFilter from '../PendingLocationFilter';
+import LocationFilter from '../LocationFilter';
 const { confirm } = Modal;
 
 class Pending extends Component {
@@ -124,7 +124,7 @@ class Pending extends Component {
 
   onSearch = (value) => {
     if (this.state.filters) {
-      var distId = this.state.filters.district.split(' ')[1];
+      var distId = this.state.filters.district.split('_')[1];
       const assign = this.state.filters.assignment ? 'assigned' : 'unassigned';
       this.props.history.push({
         pathname: '/locations/pending',
@@ -186,7 +186,7 @@ class Pending extends Component {
     }
     console.log(this.state.filters);
     if (this.state.filters) {
-      var distId = this.state.filters.district.split(' ')[1];
+      var distId = this.state.filters.district.split('_')[1];
       const assign = this.state.filters.assignment ? 'assigned' : 'unassigned';
       this.props.history.push({
         pathname: '/locations/pending',
@@ -243,8 +243,8 @@ class Pending extends Component {
     console.log(filters);
     const { district, assignment } = filters;
     console.log(assignment);
-    const distName = district.split(' ')[0];
-    const distId = district.split(' ')[1];
+    const distName = district.split('_')[0];
+    const distId = district.split('_')[1];
     const assign = assignment ? 'assigned' : 'unassigned';
     message.success(`Showing ${assign} locations under ${distName}`);
     this.setState({ ...this.state, filters: filters }, () => {
@@ -265,10 +265,11 @@ class Pending extends Component {
           loading={this.state.loading}
           filter={() => {
             return (
-              <PendingFilter
+              <LocationFilter
                 applyFilters={this.applyFilter}
                 filters={this.state.filters}
-                removeFilter={this.removeFilter}></PendingFilter>
+                removeFilter={this.removeFilter}
+                status="Pending"></LocationFilter>
             );
           }}
           dataSource={this.state.locationsData}
