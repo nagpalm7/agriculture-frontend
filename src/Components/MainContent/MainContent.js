@@ -182,7 +182,7 @@ class MainContent extends Component {
           ghost={false}
           title={title}
           subTitle=""
-          style={{ borderRadius: '20px' }}
+          style={{ borderRadius: '20px', overflowX: 'auto' }}
           extra={[
             !this.props.isLocation ? (
               !this.props.isVillageUnderDistrict ? (

@@ -72,7 +72,7 @@ class Villages extends Component {
 
   onSearch = (value) => {
     if (this.state.filters) {
-      var distId = this.state.filters.district.split(' ')[1];
+      var distId = this.state.filters.district.split('_')[1];
 
       this.props.history.push({
         pathname: '/villages/',
@@ -134,7 +134,7 @@ class Villages extends Component {
     }
     console.log(this.state.filters);
     if (this.state.filters) {
-      var distId = this.state.filters.district.split(' ')[1];
+      var distId = this.state.filters.district.split('_')[1];
       this.props.history.push({
         pathname: `/villages/`,
         search: `?page=${page}&search=${search}`,
@@ -183,8 +183,9 @@ class Villages extends Component {
   applyFilter = (filters) => {
     console.log(filters);
     const { district } = filters;
-    const distName = district.split(' ')[0];
-    const distId = district.split(' ')[1];
+    const distName = district.split('_')[0];
+    const distId = district.split('_')[1];
+    console.log(distName, distId);
     message.success(`Showing villages under ${distName}`);
     this.setState({ ...this.state, filters: filters }, () => {
       this.fetchVillageList(1, '', distId);

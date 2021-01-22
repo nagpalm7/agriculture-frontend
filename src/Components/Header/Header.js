@@ -12,7 +12,7 @@ class Headers extends Component {
     return (
       <Header
         className="site-layout-background"
-        style={{ padding: '0 20px', background: '#fff' }}>
+        style={{ padding: '0 20px', background: '#fff', overflowX: 'auto' }}>
         <div className="header-style">
           <div>
             {React.createElement(

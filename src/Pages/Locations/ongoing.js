@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
-import { Tooltip, Button } from 'antd';
+import { Tooltip, Button, message } from 'antd';
 import cloud_logo from '../../assets/images/cloud-computing.png';
 import './location.css';
 import { Link } from 'react-router-dom';
+import LocationFilter from './LocationFilter';
 class Ongoing extends Component {
   constructor(props) {
     super(props);
@@ -13,9 +14,26 @@ class Ongoing extends Component {
       totalCount: null,
       locationsData: [],
       loading: false,
+      filters: null,
     };
   }
-
+  applyFilter = (filters) => {
+    console.log(filters);
+    const { district, assignment } = filters;
+    console.log(assignment);
+    const distName = district.split('_')[0];
+    const distId = district.split('_')[1];
+    const assign = assignment ? 'assigned' : 'unassigned';
+    message.success(`Showing Ongoing locations under ${distName}`);
+    this.setState({ ...this.state, filters: filters }, () => {
+      this.fetchLocations(1, '', distId);
+    });
+  };
+  removeFilter = () => {
+    this.setState({ ...this.state, filters: null }, () => {
+      this.fetchLocations(1, '', null, null);
+    });
+  };
   columns = [
     {
       title: 'STATE',
@@ -117,10 +135,16 @@ class Ongoing extends Component {
       },
     },
   ];
-  fetchLocations = (page, search = '') => {
+  fetchLocations = (page, search = '', distId) => {
+    var url;
+    if (distId) {
+      url = `/api/location/district/${distId}/ongoing?page=${page}&search=${search}`;
+    } else {
+      url = `/api/locations/ongoing?page=${page}&search=${search}`;
+    }
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`/api/locations/ongoing?page=${page}&search=${search}`)
+      .get(url)
       .then((res) => {
         console.log(res);
         this.setState({
@@ -150,6 +174,20 @@ class Ongoing extends Component {
       search = undefined;
     }
     console.log(search);
+    if (this.state.filters) {
+      var distId = this.state.filters.district.split('_')[1];
+      this.props.history.push({
+        pathname: '/locations/ongoing',
+        search: `?page=${page}&search=${search}`,
+      });
+      this.fetchLocations(page, search, distId);
+    } else {
+      this.props.history.push({
+        pathname: '/locations/ongoing',
+        search: `?page=${page}&search=${search}`,
+      });
+      this.fetchLocations(page, search, null);
+    }
     this.props.history.push({
       pathname: '/locations/ongoing',
       search: `?page=${page}&search=${search}`,
@@ -158,11 +196,20 @@ class Ongoing extends Component {
     console.log(page, search);
   };
   onSearch = (value) => {
-    this.fetchLocations(1, value);
-    this.props.history.push({
-      pathname: '/locations/ongoing',
-      search: `?page=${1}&search=${value}`,
-    });
+    if (this.state.filters) {
+      var distId = this.state.filters.district.split('_')[1];
+      this.props.history.push({
+        pathname: '/locations/ongoing',
+        search: `?page=${1}&search=${value}`,
+      });
+      this.fetchLocations(1, value, distId);
+    } else {
+      this.props.history.push({
+        pathname: '/locations/ongoing',
+        search: `?page=${1}&search=${value}`,
+      });
+      this.fetchLocations(1, value, null);
+    }
   };
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
@@ -181,6 +228,15 @@ class Ongoing extends Component {
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
           isLocation="true"
+          filter={() => {
+            return (
+              <LocationFilter
+                applyFilters={this.applyFilter}
+                filters={this.state.filters}
+                removeFilter={this.removeFilter}
+                status="Ongoing"></LocationFilter>
+            );
+          }}
           locStatus="Ongoing"
         />
       </>

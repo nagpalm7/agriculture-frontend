@@ -27,6 +27,9 @@ class Sidebar extends Component {
           trigger={null}
           collapsible
           collapsed={this.props.collapsed}
+          style={{
+            overflowY: 'auto',
+          }}
           className="sidebar-style">
           <div className="logo">
             {this.props.collapsed ? 'AFL' : 'AFL Monitoring'}
