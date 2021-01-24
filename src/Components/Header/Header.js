@@ -25,7 +25,8 @@ class Headers extends Component {
               },
             )}
           </div>
-          <PopOver></PopOver>
+          <div className="afl_name">AFL Monitoring</div>
+          <PopOver logout={this.props.logout}></PopOver>
           <div className="largeScreenIcons">
             <Space>
               <Link to="/comparison">

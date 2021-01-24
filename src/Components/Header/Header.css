@@ -5,8 +5,15 @@
   justify-content: space-between;
   align-items: center;
 }
+.afl_name {
+  font-size: 18px;
+  font-weight: 700;
+}
 @media only screen and (min-width: 600px) {
   .popover_btn {
+    display: none;
+  }
+  .afl_name {
     display: none;
   }
 }

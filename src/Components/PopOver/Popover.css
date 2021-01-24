@@ -1,0 +1,31 @@
+.popover_content div {
+  text-align: left;
+  padding: 0px;
+  padding-left: 15px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.877);
+  font-weight: 500;
+  transition: all ease-in-out 0.2s;
+}
+.Comparison_btn:hover {
+  color: black;
+}
+.ant-popover-inner-content {
+  padding: 12px 0px;
+  width: 150px;
+  height: 110px;
+  overflow-y: scroll;
+  text-align: left;
+}
+.popover_content div.active {
+  color: white;
+  background-color: #e03b3b;
+}
+.popover_btn {
+  transform: rotate(90deg);
+  transition: all ease-in-out 0.1s;
+}
+.popover_btn.active {
+  transform: rotate(180deg);
+}
