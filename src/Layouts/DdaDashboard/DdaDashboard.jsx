@@ -3,7 +3,7 @@ import {Layout} from 'antd';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Headers from '../../Components/Header/Header';
 import Contents from '../../Components/Content/Content';
-
+import '../Layouts.css';
 class DdaDashboard extends Component {
   constructor() {
     super();
