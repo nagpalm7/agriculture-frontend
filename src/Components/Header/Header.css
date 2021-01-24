@@ -5,6 +5,16 @@
   justify-content: space-between;
   align-items: center;
 }
+@media only screen and (min-width: 600px) {
+  .popover_btn {
+    display: none;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .largeScreenIcons {
+    display: none;
+  }
+}
 
 /* .main-header>.ant-page-header-heading {
     display: block;

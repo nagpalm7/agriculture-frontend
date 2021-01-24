@@ -1,0 +1,11 @@
+@media only screen and (min-width: 600px) {
+  .ant-drawer.ant-drawer-left.ant-drawer-open {
+    display: none;
+  }
+}
+.ant-drawer-body {
+  padding: 0px;
+}
+.ant-drawer-title {
+  font-weight: 1000;
+}

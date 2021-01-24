@@ -4,6 +4,7 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import './Header.css';
 import MyButton from '../ButtonComponent/MyButton';
 import { Link } from 'react-router-dom';
+import PopOver from '../../Components/PopOver/Popover.js';
 
 const { Header } = Layout;
 
@@ -24,7 +25,8 @@ class Headers extends Component {
               },
             )}
           </div>
-          <div>
+          <PopOver></PopOver>
+          <div className="largeScreenIcons">
             <Space>
               <Link to="/comparison">
                 <MyButton

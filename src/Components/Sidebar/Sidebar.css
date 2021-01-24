@@ -133,3 +133,11 @@
 .ant-menu-dark .ant-menu-submenu-selected {
   color: #000;
 }
+.large_screen_sider {
+  display: none;
+}
+@media only screen and (max-width: 600px) {
+  .ant-layout-sider.ant-layout-sider-dark.sidebar-style {
+    display: none;
+  }
+}

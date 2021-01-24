@@ -27,6 +27,7 @@ class Sidebar extends Component {
           trigger={null}
           collapsible
           collapsed={this.props.collapsed}
+          className="large_screen_sider"
           style={{
             overflowY: 'auto',
           }}
