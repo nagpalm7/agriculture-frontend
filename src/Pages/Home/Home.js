@@ -92,10 +92,10 @@ class Home extends Component {
         <Row justify="center">
           {!this.state.loading ? (
             <>
-              <Col lg={18} sm={24}>
+              <Col lg={18} sm={24} xs={24}>
                 <Map locations={this.state.locations} />
               </Col>
-              <Col lg={6} sm={24}>
+              <Col lg={6} sm={24} xs={24}>
                 <Charts selectedDist={this.state.selectedDist} />
               </Col>
             </>

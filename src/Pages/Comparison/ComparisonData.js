@@ -89,7 +89,7 @@ class ComparisonData extends Component {
             borderRadius: '10px',
           }}
           onClick={this.handleOpen}>
-          ComparisonData
+          Comparison
         </Button>
         <Modal
           visible={this.state.isModalOpen}

@@ -79,7 +79,7 @@ class NasaData extends Component {
   }
   render() {
     return (
-      <div style={{ width: '10%' }}>
+      <div>
         <Modal
           visible={this.state.isModalOpen}
           onOk={this.handleOk}
