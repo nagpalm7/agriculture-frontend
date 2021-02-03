@@ -60,7 +60,7 @@ class Comparison extends Component {
       isModalOpen: true,
     });
   };
- 
+
   handleOk = (e) => {
     this.setState({ ...this.state, isModalOpen: false });
   };
@@ -251,115 +251,127 @@ class Comparison extends Component {
           </h2>
         </Row>
         <Row justify="space-between">
-          <Select
-            mode="tags"
-            defaultValue={[
-              'harsac_points',
-              'modis_points',
-              'viirs_noaa_points',
-              'viirs_npp1_points',
-            ]}
-            style={{ width: '45%', marginRight: '10px' }}
-            placeholder="Select Satellites"
-            onChange={this.handleChange}>
-            {children}
-          </Select>
+          <Col lg={10} md={14} sm={14} xs={24}>
+            <Select
+              mode="tags"
+              defaultValue={[
+                'harsac_points',
+                'modis_points',
+                'viirs_noaa_points',
+                'viirs_npp1_points',
+              ]}
+              style={{ width: '100%', marginRight: '10px' }}
+              placeholder="Select Satellites"
+              onChange={this.handleChange}>
+              {children}
+            </Select>
+          </Col>
+          <Col lg={6} md={10} sm={10} xs={24}>
+            <div className="date_pick">
+              <DatePicker
+                style={{ width: '100%' }}
+                onChange={this.handleDateChange}
+                defaultValue={moment()}
+                format={dateFormat}></DatePicker>
+            </div>
+          </Col>
+          <Col lg={8} md={24} sm={24} xs={24}>
+            <div
+              className="bottom_btns"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+              }}>
+              <Button
+                style={{
+                  color: '#e03b3b',
+                  backgroundColor: '#f5f3ff',
+                  border: '0px',
 
-          <DatePicker
-            style={{ width: '20%' }}
-            onChange={this.handleDateChange}
-            defaultValue={moment()}
-            format={dateFormat}></DatePicker>
-          <Button
-            style={{
-              color: '#e03b3b',
-              backgroundColor: '#f5f3ff',
-              border: '0px',
-              width: '10%',
-              borderRadius: '10px',
-            }}
-            defaultValue={moment()}
-            onClick={this.showModal}>
-            Upload
-          </Button>
-          <NasaData
-            style={{
-              width: '10%',
-            }}></NasaData>
-          <ComparisonData
-            style={{ width: '10%', textAlign: 'right' }}></ComparisonData>
-          <Modal
-            visible={this.state.isModalOpen}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            style={{ width: '80vw' }}
-            footer={[
-              <div style={{ display: 'flex' }}>
-                <Button
-                  style={{
-                    color: '#e03b3b',
-                    backgroundColor: '#f5f3ff',
-                    border: '0px',
-                    width: '100%',
-                    borderRadius: '10px',
-                  }}
-                  key="Upload"
-                  onClick={this.fileUploadHandler}
-                  loading={this.state.btnLoading}>
-                  Upload
-                </Button>
-                <Button
-                  style={{
-                    color: 'white',
-                    backgroundColor: '#e03b3b',
-                    border: '0px',
-                    width: '100%',
-                    borderRadius: '20px',
-                  }}
-                  key="cancel"
-                  onClick={this.handleCancel}>
-                  Cancel
-                </Button>
-              </div>,
-            ]}>
-            <div className="data">
-              <div className="modal_header">
-                You can upload Excel(.xls or .xlsx) file
-              </div>
-              <div className="modal_sub_head" style={{ marginBottom: '20px' }}>
-                Select the files you want to upload
-              </div>
-              <Uploader
-                type="Upload HARSAAC Files"
-                style={{ marginTop: '20px' }}
-                addFiles={this.addFiles}
-                file_type="harsac"
-                file_err={this.state.file_upload_err}
-                file_name={
-                  this.state.selectedFiles
-                    ? this.state.selectedFiles.harsac.name
-                    : null
-                }></Uploader>
-              {/* <div className="date">Select Date*</div> */}
-              {/* <DatePicker
+                  borderRadius: '10px',
+                }}
+                defaultValue={moment()}
+                onClick={this.showModal}>
+                Upload
+              </Button>
+              <NasaData></NasaData>
+              <ComparisonData style={{ textAlign: 'right' }}></ComparisonData>
+              <Modal
+                visible={this.state.isModalOpen}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+                style={{ width: '80vw' }}
+                footer={[
+                  <div style={{ display: 'flex' }}>
+                    <Button
+                      style={{
+                        color: '#e03b3b',
+                        backgroundColor: '#f5f3ff',
+                        border: '0px',
+                        width: '100%',
+                        borderRadius: '10px',
+                      }}
+                      key="Upload"
+                      onClick={this.fileUploadHandler}
+                      loading={this.state.btnLoading}>
+                      Upload
+                    </Button>
+                    <Button
+                      style={{
+                        color: 'white',
+                        backgroundColor: '#e03b3b',
+                        border: '0px',
+                        width: '100%',
+                        borderRadius: '20px',
+                      }}
+                      key="cancel"
+                      onClick={this.handleCancel}>
+                      Cancel
+                    </Button>
+                  </div>,
+                ]}>
+                <div className="data">
+                  <div className="modal_header">
+                    You can upload Excel(.xls or .xlsx) file
+                  </div>
+                  <div
+                    className="modal_sub_head"
+                    style={{ marginBottom: '20px' }}>
+                    Select the files you want to upload
+                  </div>
+                  <Uploader
+                    type="Upload HARSAAC Files"
+                    style={{ marginTop: '20px' }}
+                    addFiles={this.addFiles}
+                    file_type="harsac"
+                    file_err={this.state.file_upload_err}
+                    file_name={
+                      this.state.selectedFiles
+                        ? this.state.selectedFiles.harsac.name
+                        : null
+                    }></Uploader>
+                  {/* <div className="date">Select Date*</div> */}
+                  {/* <DatePicker
                 style={{
                   width: '70%',
                   borderRadius: '20px',
                 }}
                 onChange={this.handleUploadDateChange}></DatePicker> */}
+                </div>
+                <div className="force_update">
+                  <div>Force Update</div>
+                  <Checkbox
+                    onChange={this.handleForceUpdate}
+                    checked={this.state.forceUpdate}></Checkbox>
+                </div>
+              </Modal>
             </div>
-            <div className="force_update">
-              <div>Force Update</div>
-              <Checkbox
-                onChange={this.handleForceUpdate}
-                checked={this.state.forceUpdate}></Checkbox>
-            </div>
-          </Modal>
+          </Col>
         </Row>
         <Row justify="center" style={{ marginTop: '20px' }}>
           {!this.state.loading ? (
             <>
-              <Col lg={24} sm={24}>
+              <Col span={24}>
                 <ComparisonMap locations={this.state.locations}></ComparisonMap>
               </Col>
             </>

@@ -45,7 +45,7 @@ const MapView = compose(
   console.log(props.locations);
   return (
     <GoogleMap
-      defaultZoom={6}
+      defaultZoom={7}
       defaultCenter={{ lat: 30.9002697, lng: 75.7165881 }}>
       <MarkerClusterer
         imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
