@@ -5,10 +5,12 @@ import { axiosInstance } from '../../utils/axiosIntercepter';
 import './Analysis.css';
 import { PageHeader, Button, Modal, DatePicker, Space } from 'antd';
 import TableComponent from './Table';
+import moment from 'moment';
 import { withState } from 'recompose';
 import { Redirect } from 'react-router';
 
 const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 class Analysis extends Component {
   constructor(props) {
     super(props);
@@ -46,20 +48,20 @@ class Analysis extends Component {
   }
 
   fetchData = async (status) => {
-    console.log(status);
+    console.log(status, moment().format(dateFormat));
     let startDate;
     let EndDate;
     if (status == 'allTime') {
       startDate = '2019-02-01';
-      EndDate = '2019-12-12';
+      EndDate = moment().format(dateFormat);
     } else if (status == 'thisMonth') {
       let d = new Date();
-      startDate = `${d.getFullYear()}-${d.getMonth() - 1}-${d.getDate()}`;
-      EndDate = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      startDate = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      EndDate = moment().format(dateFormat);
     } else if (status == 'thisYear') {
       let d = new Date();
-      startDate = `${d.getFullYear() - 1}-${d.getMonth()}-${d.getDate()}`;
-      EndDate = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      startDate = `${d.getFullYear() - 1}-${d.getMonth() + 1}-${d.getDate()}`;
+      EndDate = moment().format(dateFormat);
     } else if (status == 'custom') {
       console.log('inside', this.state);
       startDate = this.state.start_date;
@@ -194,7 +196,7 @@ class Analysis extends Component {
             className="analysis-page-header"
             ghost={false}
             title="Analysis"
-            style={{ borderRadius: '20px' }}
+            style={{ borderRadius: '20px', overflowX: 'auto' }}
             extra={[
               <Button
                 onClick={() => {
@@ -275,12 +277,12 @@ class Analysis extends Component {
                 data={chartData}
                 options={{
                   maintainAspectRatio: false,
-                  pointRadius: 2,
-                  pointHoverRadius: 3,
+                  pointRadius: 4,
+                  pointHoverRadius: 7,
                   layout: {
                     padding: {
-                      left: 10,
-                      right: 20,
+                      left: 0,
+                      right: 0,
                       top: 0,
                       bottom: 0,
                     },
@@ -295,7 +297,7 @@ class Analysis extends Component {
                     ],
                     yAxes: [
                       {
-                        stacked: true,
+                        stacked: false,
                         gridLines: {
                           display: false,
                         },
