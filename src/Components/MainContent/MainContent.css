@@ -159,7 +159,7 @@
   }
   #large_screen_search_active {
     display: flex;
-    width: 100%;
+    width: 100vw;
 
     display: flex;
     justify-content: space-between;
@@ -210,4 +210,13 @@
 }
 .search_btn.inactive {
   display: none;
+}
+#large_screen_search_active div:nth-child(1) {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+#large_screen_search_active div:nth-child(2) {
+  display: flex;
+  justify-content: center;
 }
