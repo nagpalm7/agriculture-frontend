@@ -155,7 +155,11 @@
   }
   .back {
     display: inline-block;
-    margin-right: 4px;
+    margin-right: 6px;
+    cursor: pointer;
+  }
+  .back:hover {
+    color: red;
   }
   #large_screen_search_active {
     display: flex;
@@ -214,7 +218,18 @@
 #large_screen_search_active div:nth-child(1) {
   display: flex;
   /* justify-content: center; */
+
   align-items: center;
+}
+/* #large_screen_search_active>div:nth-child(1) input {
+  width: 100%;
+}
+*/
+#large_screen_search_active .left-wrapper {
+  width: 100%;
+}
+#large_screen_search_active .left-wrapper input {
+  width: 100%;
 }
 #large_screen_search_active div:nth-child(2) {
   display: flex;

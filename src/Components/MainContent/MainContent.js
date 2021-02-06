@@ -341,7 +341,7 @@ class MainContent extends Component {
                       : 'large_screen_search_inactive'
                   }
                   className={`large_screen_search search-wrapper ${searchClass}`}>
-                  <div>
+                  <div className="left-wrapper">
                     <div
                       className="back"
                       onClick={() => {
