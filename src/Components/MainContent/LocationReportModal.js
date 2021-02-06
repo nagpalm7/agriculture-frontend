@@ -268,7 +268,7 @@ class LocationReport extends Component {
     return (
       <>
         <MyButton
-          text="Location Report"
+          text="Report"
           className="filled"
           style={{
             color: '#e03b3b',

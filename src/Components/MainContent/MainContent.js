@@ -7,10 +7,18 @@ import MyButton from '../ButtonComponent/MyButton';
 import { Modal, Button } from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import cloud_logo from '../../assets/images/cloud.png';
+import search_solid from '../../assets/images/search-solid.svg';
 import { Progress } from 'antd';
 import LocationReport from './LocationReportModal';
-import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  FilterOutlined,
+  CaretLeftOutlined,
+  ArrowLeftOutlined,
+} from '@ant-design/icons';
 import FilterComponent from './FilterComponent';
+import { Row, Col } from 'antd';
+
 const { Search } = Input;
 
 class MainContent extends Component {
@@ -25,6 +33,7 @@ class MainContent extends Component {
       file_upload_err: null,
       location_update_count: '',
       searchValue: '',
+      isSearchVisible: false,
       isFocused: false,
     };
   }
@@ -177,16 +186,17 @@ class MainContent extends Component {
     const searchClass = this.state.isFocused ? 'focused' : 'notFocused';
     return (
       <div style={{ backgroundColor: '#fff', borderRadius: 'inherit' }}>
-        <PageHeader
+        {/* <PageHeader
           className="site-page-header"
           ghost={false}
           title={title}
           subTitle=""
-          style={{ borderRadius: '20px', overflowX: 'auto' }}
+          style={{ borderRadius: '20px' }}
           extra={[
+
             !this.props.isLocation ? (
               !this.props.isVillageUnderDistrict ? (
-                <Link to={addlink} key="1">
+                <Link to={addlink} key="1" >
                   <MyButton
                     text="Add"
                     className="filled"
@@ -214,6 +224,7 @@ class MainContent extends Component {
                 onClick={this.showModal}
               />
             ) : null,
+            // <SearchOutlined />,
             !this.props.isBlock ? (
               //New Search Bar
               <div className={`search-wrapper ${searchClass}`}>
@@ -243,12 +254,7 @@ class MainContent extends Component {
                   }}
                   className="search-Input"></input>
                 <div className="search_options">
-                  {/* <div
-                    className="search-filter"
-                    style={{ display: 'inline-block' }}>
-                    <FilterOutlined />
-                  </div>
-                   */}
+                
                   <FilterComponent filter={this.props.filter}></FilterComponent>
                   <div
                     style={{ display: 'inline-block', marginLeft: '3px' }}
@@ -261,9 +267,141 @@ class MainContent extends Component {
                 </div>
               </div>
             ) : null,
-          ]}
-        />
+          ]}>
+          <div className="small_size">
+            <SearchOutlined />
+          </div>
+        </PageHeader> */}
+        <Row className="header_wrapper">
+          <Col xs={24} sm={24} lg={4} md={3} style={{ marginBottom: '5px' }}>
+            <span className="header_title">{title}</span>
+          </Col>
+          <Col xs={24} sm={24} lg={20} md={21} className="seconday_header">
+            <div
+              className={
+                this.state.isSearchVisible ? 'option_inactive' : 'option_active'
+              }>
+              {!this.props.isLocation ? (
+                !this.props.isVillageUnderDistrict ? (
+                  <Link to={addlink} key="1">
+                    <MyButton
+                      text="Add"
+                      className="filled"
+                      style={{
+                        color: '#e03b3b',
+                        backgroundColor: '#f5f3ff',
+                        border: '0px',
+                        marginRight: '10px',
+                      }}
+                    />
+                  </Link>
+                ) : null
+              ) : (
+                <span style={{ marginRight: '10px' }}>
+                  <LocationReport
+                    status={this.props.locStatus}></LocationReport>
+                </span>
+              )}
+              {!this.props.isVillageUnderDistrict ? (
+                <MyButton
+                  key="2"
+                  text="Add Bulk"
+                  className="filled"
+                  style={{
+                    color: '#e03b3b',
+                    backgroundColor: '#f5f3ff',
+                    border: '0px',
+                    marginRight: '10px',
+                  }}
+                  onClick={this.showModal}
+                />
+              ) : null}
+            </div>
+            {!this.props.isBlock ? (
+              <>
+                <div
+                  className={
+                    this.state.isSearchVisible
+                      ? 'search_btn inactive'
+                      : 'search_btn active'
+                  }
+                  onClick={() => {
+                    this.setState({
+                      ...this.state,
+                      isSearchVisible: !this.state.isSearchVisible,
+                    });
+                  }}>
+                  <SearchOutlined />
+                </div>
 
+                <div
+                  id={
+                    this.state.isSearchVisible
+                      ? 'large_screen_search_active'
+                      : 'large_screen_search_inactive'
+                  }
+                  className={`large_screen_search search-wrapper ${searchClass}`}>
+                  <div>
+                    <div
+                      className="back"
+                      onClick={() => {
+                        this.setState({
+                          ...this.state,
+                          isSearchVisible: !this.state.isSearchVisible,
+                        });
+                      }}>
+                      <ArrowLeftOutlined />{' '}
+                    </div>
+                    <input
+                      type="text"
+                      id="fname"
+                      name="fname"
+                      placeholder="Search .."
+                      onChange={(e) => {
+                        this.setState({
+                          ...this.state,
+                          searchValue: e.target.value,
+                        });
+                      }}
+                      onKeyDown={this._handleKeyDown}
+                      onBlur={() => {
+                        this.setState({
+                          ...this.state,
+                          isFocused: false,
+                        });
+                      }}
+                      onFocus={() => {
+                        this.setState({
+                          ...this.state,
+                          isFocused: true,
+                        });
+                      }}
+                      className="search-Input"></input>
+                  </div>
+
+                  <div className="search_options">
+                    {/* <div
+                        className="search-filter"
+                        style={{ display: 'inline-block' }}>
+                        <FilterOutlined />
+                      </div>
+                       */}
+                    <FilterComponent
+                      filter={this.props.filter}></FilterComponent>
+                    <div
+                      style={{ display: 'inline-block', marginLeft: '3px' }}
+                      className="search-button"
+                      onClick={() => {
+                        onSearch(this.state.searchValue);
+                      }}>
+                      <SearchOutlined />
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : null}
+          </Col>
+        </Row>
         <Modal
           title="You can upload a CSV file"
           centered
