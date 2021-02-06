@@ -9,7 +9,7 @@
   font-size: 18px;
   font-weight: 700;
 }
-@media only screen and (min-width: 600px) {
+@media (min-width: 600px) {
   .popover_btn {
     display: none;
   }
@@ -17,7 +17,7 @@
     display: none;
   }
 }
-@media only screen and (max-width: 600px) {
+@media (max-width: 600px) {
   .largeScreenIcons {
     display: none;
   }

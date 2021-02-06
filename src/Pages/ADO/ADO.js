@@ -10,7 +10,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import './ADO.css';
-
+import ADOFilter from './Components/ADOFilter';
 const { confirm } = Modal;
 const { Search } = Input;
 
@@ -22,6 +22,7 @@ class ADO extends Component {
       totalCount: null,
       adoData: [],
       loading: false,
+      filters: null,
     };
   }
 
@@ -206,6 +207,14 @@ class ADO extends Component {
         <MainContent
           title=" List of ADO"
           addlink="/ado/addAdo"
+          filter={() => {
+            return (
+              <ADOFilter
+                applyFilters={this.applyFilter}
+                filters={this.state.filters}
+                removeFilter={this.removeFilter}></ADOFilter>
+            );
+          }}
           loading={this.state.loading}
           dataSource={this.state.adoData}
           columns={this.columns}
