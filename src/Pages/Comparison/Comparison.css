@@ -71,3 +71,27 @@
     margin-top: 0px;
   }
 }
+@media screen and (max-width: 785px) {
+  div.bottom_btns {
+    display: none;
+  }
+  .small_screen_action {
+    margin-top: 20px;
+  }
+}
+@media screen and (min-width: 785px) {
+  .small_screen_action {
+    display: none;
+  }
+}
+.bottom_btns {
+  display: flex;
+  justify-content: space-around;
+}
+.bottom_drawer_btns {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 20px;
+}

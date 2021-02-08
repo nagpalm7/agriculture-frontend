@@ -185,7 +185,13 @@ class NasaData extends Component {
           )}
         </Modal>
         <Button
-          onClick={this.handleOpen}
+          onClick={() => {
+            if (this.props.closeDrawer) {
+              this.props.closeDrawer();
+            }
+
+            this.handleOpen();
+          }}
           style={{
             color: '#e03b3b',
             backgroundColor: '#f5f3ff',
