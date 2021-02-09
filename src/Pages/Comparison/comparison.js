@@ -20,6 +20,7 @@ import Uploader from './ComparisonModal.js';
 import moment from 'moment';
 import NasaData from './NasaData.js';
 import ComparisonData from './ComparisonData.js';
+import ComparisonDrawer from './ComparisonDrawer.js';
 const dateFormat = 'YYYY-MM-DD';
 const { Option } = Select;
 const children = [];
@@ -276,12 +277,10 @@ class Comparison extends Component {
             </div>
           </Col>
           <Col lg={8} md={24} sm={24} xs={24}>
-            <div
-              className="bottom_btns"
-              style={{
-                display: 'flex',
-                justifyContent: 'space-around',
-              }}>
+            <div className="small_screen_action">
+              <ComparisonDrawer showModal={this.showModal}></ComparisonDrawer>
+            </div>
+            <div className="bottom_btns">
               <Button
                 style={{
                   color: '#e03b3b',

@@ -88,7 +88,12 @@ class ComparisonData extends Component {
             width: '100%',
             borderRadius: '10px',
           }}
-          onClick={this.handleOpen}>
+          onClick={() => {
+            if (this.props.closeDrawer) {
+              this.props.closeDrawer();
+            }
+            this.handleOpen();
+          }}>
           Comparison
         </Button>
         <Modal

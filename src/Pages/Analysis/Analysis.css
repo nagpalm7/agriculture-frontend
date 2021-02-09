@@ -8,17 +8,63 @@
   height: 60vh;
   width: 100%;
 }
-.analysis-wrapper button {
+#time_range {
   color: #e03b3b;
   border-radius: 10px;
   background-color: white;
+  margin-right: 10px;
 }
-.analysis-wrapper button:hover {
+#time_range:hover {
   border-color: rgba(255, 0, 0, 0.699);
   background-color: #e66060;
   color: white;
 }
-.analysis-wrapper button:focus {
+#time_range:focus {
+  border-color: rgba(255, 0, 0, 0.699);
+  color: white;
+  background: #e66060;
+  border-radius: 10px;
+  border-color: #e66060;
+  font-weight: 2em;
+}
+.drawer_buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  padding-left: 10px;
+}
+.drawer_buttons button {
+  color: #e03b3b;
+  border-radius: 10px;
+  background-color: white;
+  margin-right: 10px;
+}
+.drawer_buttons button:hover {
+  border-color: rgba(255, 0, 0, 0.699);
+  background-color: #e66060;
+  color: white;
+}
+.drawer_buttons button:focus {
+  border-color: rgba(255, 0, 0, 0.699);
+  color: white;
+  background: #e66060;
+  border-radius: 10px;
+  border-color: #e66060;
+  font-weight: 2em;
+}
+.large_screen_buttons button {
+  color: #e03b3b;
+  border-radius: 10px;
+  background-color: white;
+  margin-right: 10px;
+}
+.large_screen_buttons button:hover {
+  border-color: rgba(255, 0, 0, 0.699);
+  background-color: #e66060;
+  color: white;
+}
+.large_screen_buttons button:focus {
   border-color: rgba(255, 0, 0, 0.699);
   color: white;
   background: #e66060;
@@ -31,4 +77,14 @@
   padding: 30px;
   border-radius: 20px;
   background-color: white;
+}
+@media screen and (min-width: 770px) {
+  .small_screen_drawer {
+    display: none;
+  }
+}
+@media screen and (max-width: 770px) {
+  .large_screen_buttons {
+    display: none;
+  }
 }

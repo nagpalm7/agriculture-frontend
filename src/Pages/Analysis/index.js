@@ -3,12 +3,12 @@ import { Spin } from 'antd';
 import { Line } from 'react-chartjs-2';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import './Analysis.css';
-import { PageHeader, Button, Modal, DatePicker, Space } from 'antd';
+import { PageHeader, Button, Modal, DatePicker, Space, Drawer } from 'antd';
 import TableComponent from './Table';
 import moment from 'moment';
 import { withState } from 'recompose';
 import { Redirect } from 'react-router';
-
+import OptionDrawer from './OptionDrawer';
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 class Analysis extends Component {
@@ -21,6 +21,7 @@ class Analysis extends Component {
       active: null,
       visible: false,
       table_data: null,
+      isOptionVisible: false,
       pending_chart_data: {
         labels: [],
         data: [],
@@ -40,6 +41,7 @@ class Analysis extends Component {
       visible: true,
     });
   };
+
   changeActive(status) {
     this.setState({
       ...this.state,
@@ -198,27 +200,33 @@ class Analysis extends Component {
             title="Analysis"
             style={{ borderRadius: '20px', overflowX: 'auto' }}
             extra={[
-              <Button
-                onClick={() => {
-                  this.handleButtonClick('allTime');
-                }}>
-                All Time
-              </Button>,
-              <Button
-                onClick={() => {
-                  this.handleButtonClick('thisMonth');
-                }}>
-                This Month
-              </Button>,
-              <Button
-                onClick={() => {
-                  this.handleButtonClick('thisYear');
-                }}>
-                This Year
-              </Button>,
-              <Button onClick={this.showModal}>Custom</Button>,
-            ]}
-          />
+              <div className="small_screen_drawer">
+                <OptionDrawer
+                  handleButtonClick={this.fetchData}
+                  showModal={this.showModal}></OptionDrawer>
+              </div>,
+              <div className="large_screen_buttons">
+                <Button
+                  onClick={() => {
+                    this.handleButtonClick('allTime');
+                  }}>
+                  All Time
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.handleButtonClick('thisMonth');
+                  }}>
+                  This Month
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.handleButtonClick('thisYear');
+                  }}>
+                  This Year
+                </Button>
+                <Button onClick={this.showModal}>Custom</Button>
+              </div>,
+            ]}></PageHeader>
           <Modal
             visible={this.state.visible}
             title="Select Range"
@@ -232,7 +240,7 @@ class Analysis extends Component {
                   onClick={this.handleCancel}
                   style={{
                     backgroundColor: '#f5f3ff',
-                    borderRadius: '10px',
+                    borderRadius: '20px',
                     color: 'red',
                     borderColor: 'white',
                   }}>
@@ -242,7 +250,7 @@ class Analysis extends Component {
                   key="submit"
                   style={{
                     backgroundColor: '#e03b3b',
-                    borderRadius: '10px',
+                    borderRadius: '20px',
                     borderColor: 'red',
                   }}
                   type="primary"
@@ -250,11 +258,13 @@ class Analysis extends Component {
                   onClick={this.handleOk}>
                   Submit
                 </Button>
-                ,
               </div>,
             ]}>
             <div style={{ marginTop: '15px' }}>
               <RangePicker
+                style={{
+                  borderRadius: '20px',
+                }}
                 onChange={(moment) => {
                   const startDate = moment[0]._d;
                   const EndDate = moment[1]._d;

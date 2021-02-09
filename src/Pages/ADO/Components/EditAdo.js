@@ -1,12 +1,25 @@
 import React, { Component, createRef } from 'react';
-import { Form, Input, Typography, message, Select, Spin } from 'antd';
+import { Form, Input, Typography, message, Row, Col, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import '../../formStyle.css';
 import '../ADO.css';
+import TransferList from 'antd/lib/transfer/list';
 
 const { Title } = Typography;
-
+const layout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
+const formTailLayout = {
+  wrapperCol: { span: 24 },
+};
 class EditAdo extends Component {
   constructor() {
     super();
@@ -89,7 +102,91 @@ class EditAdo extends Component {
     return (
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
-          <div className="form-wrapper">
+          <Row style={{ marginBottom: '20px' }}>
+            <Col
+              sm={6}
+              md={6}
+              style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="edit-fix-button">Edit</div>
+            </Col>
+            <Col md={18} md={18}>
+              <Title level={3}>Edit ADO</Title>
+            </Col>
+          </Row>
+          <Row>
+            <Form
+              name="edit_dda"
+              className="edit-dda"
+              ref={this.formRef}
+              colon={false}
+              {...layout}
+              style={{ width: '100%' }}
+              onFinish={this.handleEditDda}>
+              <Form.Item
+                name="ado_name"
+                label="Name"
+                style={{ marginBottom: '25px', color: 'crimson' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide dda name!',
+                  },
+                ]}>
+                <Input placeholder="Ado name" />
+              </Form.Item>
+
+              <Form.Item
+                name="ado_phone"
+                label="Phone No"
+                style={{ marginBottom: '25px' }}>
+                <Input placeholder="Phone Number" />
+              </Form.Item>
+
+              <Form.Item
+                name="ado_email"
+                label="Email"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide email id!',
+                  },
+                ]}>
+                <Input placeholder="Email" />
+              </Form.Item>
+
+              <Form.Item
+                label="User Name"
+                name="ado_username"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your username!',
+                  },
+                ]}
+                style={{ marginBottom: '25px' }}>
+                <Input placeholder="Username" />
+              </Form.Item>
+              <Form.Item
+                {...formTailLayout}
+                style={{ marginBottom: '10px', textAlign: 'right' }}>
+                <MyButton
+                  htmlType="submit"
+                  text="UPDATE"
+                  className="filled"
+                  loading={this.state.btnLoading}
+                  style={{
+                    textAlign: 'right',
+                    background: '#e03b3b',
+                    borderColor: '#e03b3b',
+                    color: '#ffffff',
+                    fontWeight: '500',
+                  }}
+                />
+              </Form.Item>
+            </Form>
+          </Row>
+          {/* <div className="form-wrapper">
             <div className="left-form-content">
               <div className="edit-fix-button">Edit</div>
               <h3>
@@ -169,7 +266,7 @@ class EditAdo extends Component {
                 </Form.Item>
               </Form>
             </div>
-          </div>
+          </div> */}
         </div>
       </Spin>
     );
