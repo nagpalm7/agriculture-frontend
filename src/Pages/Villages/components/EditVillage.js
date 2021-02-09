@@ -1,11 +1,25 @@
 import React, { Component, createRef } from 'react';
-import { Form, Input, Typography, message, Select, Spin } from 'antd';
+import { Form, Input, Row, Col, Typography, message, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import '../../formStyle.css';
 import './EditVillage.css';
 const { Title } = Typography;
 const { Option } = Select;
+const layout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
+const formTailLayout = {
+  wrapperCol: { span: 24 },
+};
+
 class EditVillage extends Component {
   constructor(props) {
     super(props);
@@ -168,6 +182,142 @@ class EditVillage extends Component {
     return (
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
+          <Row style={{ marginBottom: '20px' }}>
+            <Col
+              sm={6}
+              md={6}
+              style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="edit-fix-button">Edit</div>
+            </Col>
+            <Col md={18} md={18}>
+              <Title level={3}>Edit Village</Title>
+            </Col>
+          </Row>
+          <Row>
+            <Form
+              {...layout}
+              colon={false}
+              style={{
+                width: '100%',
+              }}
+              ref={this.formRef}
+              name="edit_village"
+              className="edit-village"
+              onFinish={this.handleEditVillage}>
+              <Form.Item
+                name="village_name"
+                label="Village Name"
+                style={{ marginBottom: '25px', width: '100%' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide village name!',
+                  },
+                ]}>
+                <Input placeholder="Village name" />
+              </Form.Item>
+
+              <Form.Item
+                name="village_code"
+                label="Village Code"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide village code!',
+                  },
+                ]}>
+                <Input placeholder="Village Code" />
+              </Form.Item>
+
+              <Form.Item
+                name="village_subcode"
+                label="Village Code"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide village subcode!',
+                  },
+                ]}>
+                <Input placeholder="Village Sub Code" />
+              </Form.Item>
+
+              <Form.Item
+                name="blocklist"
+                label="Block"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select block!',
+                  },
+                ]}>
+                <Select placeholder="Select Block">
+                  {this.state.blockData.map((item) => {
+                    return (
+                      <Select.Option value={item.id}>
+                        {item.block}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                name="adolist"
+                label="ADO"
+                style={{ marginBottom: '16px' }}>
+                <Select
+                  showSearch
+                  style={{ borderRadius: '7px', borderColor: '#707070' }}
+                  optionFilterProp="children"
+                  onChange={this.handleChange}
+                  onPopupScroll={this.onScroll}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }>
+                  {!this.state.loading && !this.state.isRendered
+                    ? this.state.children
+                    : this.state.isRendered == true
+                    ? [
+                        ...this.state.children,
+                        <Option key="loaded">-------------------</Option>,
+                      ]
+                    : [
+                        ...this.state.children,
+                        <Option key="loading">Loading...</Option>,
+                      ]}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label=""
+                style={{
+                  marginBottom: '10px',
+                  textAlign: 'right',
+                }}
+                {...formTailLayout}>
+                <MyButton
+                  htmlType="submit"
+                  text="UPDATE"
+                  className="filled"
+                  loading={this.state.btnLoading}
+                  style={{
+                    background: 'rgb(224, 59, 59)',
+                    borderColor: 'rgb(224, 59, 59)',
+                    color: '#ffffff',
+                    fontWeight: '500',
+                  }}
+                />
+              </Form.Item>
+            </Form>
+          </Row>
+        </div>
+
+        {/* <div className="form-container">
           <div className="form-wrapper">
             <div className="left-form-content">
               <div className="edit-fix-button">Edit</div>
@@ -298,8 +448,8 @@ class EditVillage extends Component {
                 </Form.Item>
               </Form>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </Spin>
     );
   }
