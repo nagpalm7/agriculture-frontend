@@ -1,23 +1,65 @@
 import React, { Component, createRef } from 'react';
 import '../../formStyle.css';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
-import { Spin, Typography, Form, Input, message, Select } from 'antd';
+import { Spin, Typography, Row, Col, Form, Input, message, Select } from 'antd';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 const { Title } = Typography;
 const { Option } = Select;
+const layout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
+const formTailLayout = {
+  wrapperCol: { span: 24 },
+};
 class EditPending extends Component {
   constructor(props) {
     super(props);
+    var children = [];
+    children.push(
+      <Option key="1" style={{ display: 'none' }}>
+        dont'display
+      </Option>,
+    );
     this.state = {
       formLoading: false,
       districtData: null,
       villageData: null,
+      children: children,
+      isRendered: false,
+      loading: false,
+      page: 1,
       btnLoading: false,
+      districtSlelectId: null,
     };
     this.formRef = createRef();
   }
+  onScroll = (event) => {
+    console.log(this.state.districtSlelectId);
+    var target = event.target;
+    if (
+      !this.state.loading &&
+      Math.ceil(target.scrollTop) + target.offsetHeight === target.scrollHeight
+    ) {
+      this.setState({ loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        this.fetchVillageData(
+          this.state.districtSlelectId,
+          this.state.page + 1,
+        );
+        this.setState({ page: this.state.page + 1 });
+      });
+    }
+  };
   componentDidMount() {
     this.fetchLocationInfo();
+
     this.fetchDistrictData();
   }
   fetchDistrictData = () => {
@@ -47,33 +89,62 @@ class EditPending extends Component {
       });
   };
 
-  fetchVillageData=(district_id)=>{
-    this.setState({ ...this.state, formLoading: true });
-    axiosInstance.get(`api/villages-list/district/${district_id}/`)
-    .then((res)=>{
-      console.log(res);
-      const villageData =(res.data.results)? res.data.results.map((village) => {
-        return {
-          village_id: village.id,
-          village_name: village.village,
-        };
-      }):null;
-      this.setState({
-        ...this.state,
-        villageData: villageData,
-        formLoading: false,
+  fetchVillageData = (district_id, page) => {
+    axiosInstance
+      .get(`api/villages-list/district/${district_id}/?page=${page}`)
+      .then((res) => {
+        console.log(res);
+        const villageData = res.data.results
+          ? res.data.results.map((village) => {
+              return {
+                village_id: village.id,
+                village_name: village.village,
+              };
+            })
+          : null;
+        var children = [...this.state.children];
+        var length = children.length;
+
+        villageData.map((village) => {
+          children.push(
+            <Option value={village.village_id}>{village.village_name}</Option>,
+          );
+        });
+        this.setState(
+          {
+            ...this.state,
+            children: children,
+            loading: false,
+            formLoading: false,
+          },
+          () => {
+            if (length == res.data.count) {
+              this.setState({ ...this.state, isRendered: true });
+            }
+
+            this.setState({
+              ...this.state,
+              formLoading: false,
+              loading: false,
+            });
+          },
+        );
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          loading: false,
+          isRendered: true,
+          formLoading: false,
+        });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          message.error(err.message);
+          console.log(err.message);
+        }
       });
-    })
-    .catch((err) => {
-      this.setState({ ...this.state, formLoading: false });
-      if (err.response) {
-        console.log(err.response);
-      } else {
-        message.error(err.message);
-        console.log(err.message);
-      }
-    });
-  }
+  };
   fetchLocationInfo = () => {
     let locationId = this.props.history.location.pathname.split('/')[4];
     this.setState({ ...this.state, formLoading: true });
@@ -85,8 +156,12 @@ class EditPending extends Component {
           district: res.data.district.id,
           village: res.data.village_name.id,
         });
-        this.fetchVillageData(res.data.district.id);
-        this.setState({ ...this.state, formLoading: false });
+        this.fetchVillageData(res.data.district.id, 1);
+        this.setState({
+          ...this.state,
+          districtSlelectId: res.data.district.id,
+          formLoading: false,
+        });
       })
       .catch((err) => {
         this.setState({ ...this.state, formLoading: false });
@@ -98,40 +173,151 @@ class EditPending extends Component {
         }
       });
   };
-  handleEditPending=(event)=>{
+  handleEditPending = (event) => {
     this.setState({ ...this.state, btnLoading: true });
-    const{district,village}=event;
+    const { district, village } = event;
     let locationId = this.props.history.location.pathname.split('/')[4];
     axiosInstance
-    .put(`api/location/${locationId}/`,{
-      district_name:district,
-      village_name:village,
-    })
-    .then((res)=>{
-      console.log(res);
-      this.setState({ ...this.state, btnLoading: false });
-      message.success('Pending Location updated successfully');
-      this.props.history.goBack();
-    })
-    .catch((err) => {
-      this.setState({ ...this.state, btnLoading: false });
-      if (err.response) {
-        message.error('Unable to update Pending Location');
-        console.log(err.response);
-      } else {
-        message.error(err.message);
-        console.log(err.message);
-      }
-    });
-  }
-  handleDistrictSelect=(event)=>{
-    this.fetchVillageData(event);
-  }
+      .put(`api/location/${locationId}/`, {
+        district_name: district,
+        village_name: village,
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({ ...this.state, btnLoading: false });
+        message.success('Pending Location updated successfully');
+        this.props.history.goBack();
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, btnLoading: false });
+        if (err.response) {
+          message.error('Unable to update Pending Location');
+          console.log(err.response);
+        } else {
+          message.error(err.message);
+          console.log(err.message);
+        }
+      });
+  };
+  handleDistrictSelect = (event) => {
+    this.setState(
+      {
+        ...this.state,
+        districtSlelectId: event,
+        children: [],
+        page: 1,
+      },
+      () => {
+        this.fetchVillageData(event, 1);
+      },
+    );
+  };
   render() {
     return (
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
-          <div className="form-wrapper">
+          <Row style={{ marginBottom: '20px' }}>
+            <Col
+              sm={6}
+              md={6}
+              style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="edit-fix-button">Edit</div>
+            </Col>
+            <Col md={18} md={18}>
+              <Title level={3}>Edit Pending Location</Title>
+            </Col>
+          </Row>
+          <Row>
+            <Form
+              {...layout}
+              name="edit_pending"
+              className="edit-pending"
+              colon={false}
+              style={{ width: '100%' }}
+              ref={this.formRef}
+              onFinish={this.handleEditPending}>
+              <Form.Item
+                name="district"
+                label="District"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide district name!',
+                  },
+                ]}>
+                <Select
+                  showSearch
+                  placeholder="Select District"
+                  optionFilterProp="children"
+                  onChange={this.handleDistrictSelect}>
+                  {this.state.districtData
+                    ? this.state.districtData.map((item) => {
+                        return (
+                          <Option value={item.district_id}>
+                            {item.district_name}
+                          </Option>
+                        );
+                      })
+                    : null}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Village"
+                name="village"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide district name!',
+                  },
+                ]}>
+                <Select
+                  showSearch
+                  placeholder="Select Village"
+                  optionFilterProp="children"
+                  onPopupScroll={this.onScroll}>
+                  {/* {this.state.villageData
+                    ? this.state.villageData.map((item) => {
+                        return (
+                          <Option value={item.village_id}>
+                            {item.village_name}
+                          </Option>
+                        );
+                      })
+                    : null} */}
+                  {!this.state.loading && !this.state.isRendered
+                    ? this.state.children
+                    : this.state.isRendered == true
+                    ? [...this.state.children]
+                    : [
+                        ...this.state.children,
+                        <Option key="loading">Loading...</Option>,
+                      ]}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                style={{
+                  marginBottom: '10px',
+                  textAlign: 'right',
+                }}
+                {...formTailLayout}>
+                <MyButton
+                  htmlType="submit"
+                  text="UPDATE"
+                  className="filled"
+                  loading={this.state.btnLoading}
+                  style={{
+                    background: 'rgb(224, 59, 59)',
+                    borderColor: 'rgb(224, 59, 59)',
+                    color: '#ffffff',
+                    fontWeight: '500',
+                  }}
+                />
+              </Form.Item>
+            </Form>
+          </Row>
+          {/* <div className="form-wrapper">
             <div className="left-form-content">
               <div className="edit-fix-button">Edit</div>
               <h3>
@@ -232,7 +418,7 @@ class EditPending extends Component {
                 </Form.Item>
               </Form>
             </div>
-          </div>
+          </div> */}
         </div>
       </Spin>
     );

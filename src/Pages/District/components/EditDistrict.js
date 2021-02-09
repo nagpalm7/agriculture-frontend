@@ -1,12 +1,33 @@
 import React, { Component, createRef } from 'react';
-import { Checkbox, Form, Input, Typography, message, Spin } from 'antd';
+import {
+  Checkbox,
+  Form,
+  Input,
+  Row,
+  Col,
+  Typography,
+  message,
+  Spin,
+} from 'antd';
 import '../../formStyle.css';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import '../components/EditDistrict.css';
 import '../../formStyle.css';
 const { Title } = Typography;
-
+const layout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
+const formTailLayout = {
+  wrapperCol: { span: 24 },
+};
 class EditDistrict extends Component {
   constructor() {
     super();
@@ -74,60 +95,65 @@ class EditDistrict extends Component {
     return (
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
-          <div className="form-wrapper">
-            <div className="left-form-content">
+          <Row style={{ marginBottom: '20px' }}>
+            <Col
+              sm={6}
+              md={6}
+              style={{ display: 'flex', justifyContent: 'center' }}>
               <div className="edit-fix-button">Edit</div>
-              <h3>
-                <b>District Name</b>
-              </h3>
-              <h3>
-                <b>Has Blocks</b>
-              </h3>
-            </div>
-            <div className="right-form-content">
-              <div style={{ marginBottom: '40px' }}>
-                <Title level={3}>Edit District</Title>
-              </div>
-              <Form
-                name="edit_district"
-                className="edit-district"
-                ref={this.formRef}
-                onFinish={this.handleEditDistrict}>
-                <Form.Item
-                  name="district_name"
-                  style={{ marginBottom: '10px' }}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please provide district name!',
-                    },
-                  ]}>
-                  <Input placeholder="District name" />
-                </Form.Item>
-                <Form.Item
-                  name="has_blocks"
-                  valuePropName="checked"
-                  style={{ marginTop: '24px' }}
-                  className="has_blocks">
-                  <Checkbox></Checkbox>
-                </Form.Item>
-                <Form.Item style={{ marginBottom: '10px', textAlign: 'right' }}>
-                  <MyButton
-                    htmlType="submit"
-                    text="UPDATE"
-                    className="filled"
-                    loading={this.state.btnLoading}
-                    style={{
-                      background: 'rgb(224,59,59)',
-                      borderColor: 'rgb(224,59,59)',
-                      color: '#ffffff',
-                      fontWeight: '500',
-                    }}
-                  />
-                </Form.Item>
-              </Form>
-            </div>
-          </div>
+            </Col>
+            <Col md={18} md={18}>
+              <Title level={3}>Edit District</Title>
+            </Col>
+          </Row>
+          <Row>
+            <Form
+              name="edit_district"
+              className="edit-district"
+              ref={this.formRef}
+              {...layout}
+              colon={false}
+              style={{ width: '100%' }}
+              onFinish={this.handleEditDistrict}>
+              <Form.Item
+                label="District Name"
+                name="district_name"
+                style={{ marginBottom: '10px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide district name!',
+                  },
+                ]}>
+                <Input placeholder="District name" />
+              </Form.Item>
+              <Form.Item
+                label="Has Block"
+                name="has_blocks"
+                valuePropName="checked"
+                style={{ marginTop: '24px' }}
+                className="has_blocks">
+                <Checkbox></Checkbox>
+              </Form.Item>
+              <Form.Item
+                {...formTailLayout}
+                style={{ marginBottom: '10px', textAlign: 'right' }}>
+                <MyButton
+                  htmlType="submit"
+                  text="UPDATE"
+                  className="filled"
+                  loading={this.state.btnLoading}
+                  style={{
+                    textAlign: 'right',
+                    background: 'rgb(224,59,59)',
+                    borderColor: 'rgb(224,59,59)',
+                    color: '#ffffff',
+                    fontWeight: '500',
+                  }}
+                />
+              </Form.Item>
+            </Form>
+          </Row>
         </div>
       </Spin>
     );

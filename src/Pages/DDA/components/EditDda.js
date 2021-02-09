@@ -1,11 +1,23 @@
 import React, { Component, createRef } from 'react';
-import { Form, Input, Typography, message, Select, Spin } from 'antd';
+import { Form, Input, Row, Col, Typography, message, Select, Spin } from 'antd';
 import { axiosInstance } from '../../../utils/axiosIntercepter';
 import MyButton from '../../../Components/ButtonComponent/MyButton';
 import '../../formStyle.css';
 
 const { Title } = Typography;
-
+const layout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
+const formTailLayout = {
+  wrapperCol: { span: 24 },
+};
 class EditDda extends Component {
   constructor() {
     super();
@@ -116,7 +128,119 @@ class EditDda extends Component {
     return (
       <Spin spinning={this.state.formLoading}>
         <div className="form-container">
-          <div className="form-wrapper">
+          <Row style={{ marginBottom: '20px' }}>
+            <Col
+              sm={6}
+              md={6}
+              style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="edit-fix-button">Edit</div>
+            </Col>
+            <Col md={18} md={18}>
+              <Title level={3}>Edit DDA</Title>
+            </Col>
+          </Row>
+          <Row>
+            <Form
+              style={{ width: '100%' }}
+              colon={false}
+              name="edit_dda"
+              className="edit-dda"
+              ref={this.formRef}
+              {...layout}
+              onFinish={this.handleEditDda}>
+              <Form.Item
+                name="dda_name"
+                label="Name"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide dda name!',
+                  },
+                ]}>
+                <Input placeholder="Dda name" />
+              </Form.Item>
+
+              <Form.Item
+                label="Phone Number"
+                name="dda_phone"
+                style={{ marginBottom: '25px' }}>
+                <Input placeholder="Phone Number" />
+              </Form.Item>
+
+              <Form.Item
+                label="Email"
+                name="dda_email"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please provide email id!',
+                  },
+                ]}>
+                <Input placeholder="Email" />
+              </Form.Item>
+
+              <Form.Item
+                label="District"
+                name="dda_district"
+                style={{ marginBottom: '25px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select district!',
+                  },
+                ]}>
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  placeholder="Select district">
+                  {this.state.districtList.map((item) => {
+                    return (
+                      <Select.Option value={item.id}>
+                        {item.district}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label="User Name"
+                name="dda_username"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your username!',
+                  },
+                ]}
+                style={{ marginBottom: '25px' }}>
+                <Input placeholder="Username" />
+              </Form.Item>
+              <Form.Item
+                {...formTailLayout}
+                style={{ marginBottom: '10px', textAlign: 'right' }}>
+                <MyButton
+                  htmlType="submit"
+                  text="UPDATE"
+                  className="filled"
+                  loading={this.state.btnLoading}
+                  style={{
+                    background: '#e03b3b',
+                    borderColor: '#e03b3b',
+                    color: '#ffffff',
+                    fontWeight: '500',
+                  }}
+                />
+              </Form.Item>
+            </Form>
+          </Row>
+          {/* <div className="form-wrapper">
             <div className="left-form-content">
               <div className="edit-fix-button">Edit</div>
               <h3>
@@ -230,7 +354,7 @@ class EditDda extends Component {
                 </Form.Item>
               </Form>
             </div>
-          </div>
+                  </div>*/}
         </div>
       </Spin>
     );

@@ -53,7 +53,7 @@ class EditVillage extends Component {
     var target = event.target;
     if (
       !this.state.loading &&
-      target.scrollTop + target.offsetHeight === target.scrollHeight
+      Math.ceil(target.scrollTop) + target.offsetHeight === target.scrollHeight
     ) {
       this.setState({ loading: true }, () => {
         target.scrollTo(0, target.scrollHeight);
@@ -316,140 +316,6 @@ class EditVillage extends Component {
             </Form>
           </Row>
         </div>
-
-        {/* <div className="form-container">
-          <div className="form-wrapper">
-            <div className="left-form-content">
-              <div className="edit-fix-button">Edit</div>
-              <h3>
-                <b>Village</b>
-              </h3>
-              <h3>
-                <b>Village Code</b>
-              </h3>
-              <h3>
-                <b>Village Sub Code</b>
-              </h3>
-              <h3>
-                <b>Block</b>
-              </h3>
-              <h3>
-                <b>ADO</b>
-              </h3>
-            </div>
-            <div className="right-form-content">
-              <div style={{ marginBottom: '40px' }}>
-                <Title level={3}>Edit Village</Title>
-              </div>
-              <Form
-                ref={this.formRef}
-                name="edit_village"
-                className="edit-village"
-                onFinish={this.handleEditVillage}>
-                <Form.Item
-                  name="village_name"
-                  style={{ marginBottom: '25px', width: '100%' }}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please provide village name!',
-                    },
-                  ]}>
-                  <Input placeholder="Village name" />
-                </Form.Item>
-
-                <Form.Item
-                  name="village_code"
-                  style={{ marginBottom: '25px' }}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please provide village code!',
-                    },
-                  ]}>
-                  <Input placeholder="Village Code" />
-                </Form.Item>
-
-                <Form.Item
-                  name="village_subcode"
-                  style={{ marginBottom: '25px' }}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please provide village subcode!',
-                    },
-                  ]}>
-                  <Input placeholder="Village Sub Code" />
-                </Form.Item>
-
-                <Form.Item
-                  name="blocklist"
-                  style={{ marginBottom: '25px' }}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please select block!',
-                    },
-                  ]}>
-                  <Select placeholder="Select Block">
-                    {this.state.blockData.map((item) => {
-                      return (
-                        <Select.Option value={item.id}>
-                          {item.block}
-                        </Select.Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-
-                <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
-                  <Select
-                    showSearch
-                    style={{ borderRadius: '7px', borderColor: '#707070' }}
-                    optionFilterProp="children"
-                    onChange={this.handleChange}
-                    onPopupScroll={this.onScroll}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }>
-                    {!this.state.loading && !this.state.isRendered
-                      ? this.state.children
-                      : this.state.isRendered == true
-                      ? [
-                          ...this.state.children,
-                          <Option key="loaded">-------------------</Option>,
-                        ]
-                      : [
-                          ...this.state.children,
-                          <Option key="loading">Loading...</Option>,
-                        ]}
-                  </Select>
-                </Form.Item>
-
-                <Form.Item
-                  style={{
-                    marginBottom: '10px',
-                    textAlign: 'right',
-                  }}>
-                  <MyButton
-                    htmlType="submit"
-                    text="UPDATE"
-                    className="filled"
-                    loading={this.state.btnLoading}
-                    style={{
-                      background: 'rgb(224, 59, 59)',
-                      borderColor: 'rgb(224, 59, 59)',
-                      color: '#ffffff',
-                      fontWeight: '500',
-                    }}
-                  />
-                </Form.Item>
-              </Form>
-            </div>
-          </div> */}
-        {/* </div> */}
       </Spin>
     );
   }
