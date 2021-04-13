@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { compose, withProps } from 'recompose';
 import {
   withScriptjs,
@@ -13,18 +13,13 @@ const RenderMarkers = (markers) => {
   return markers.map(({ latitude, longitude, village_name }, index) => {
     return (
       <Marker
-        position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }}>
-        <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}>
-          <div
-            style={{
-              backgroundColor: `white`,
-              opacity: 0.75,
-              padding: `12px`,
-            }}>
-            <div style={{ fontSize: `16px`, fontColor: `Black` }}>
-              {village_name}
-            </div>
+        position={{ lat: parseFloat(latitude), lng: parseFloat(longitude) }} >
+        <InfoBox options={{ closeBoxURL: ``, enableEventPropagation: true }}> 
+        <div style={{ backgroundColor: `white`, opacity: 0.75, padding: `12px` }}>
+          <div style={{ fontSize: `16px`, fontColor: `#08233B` }}>
+          {village_name}
           </div>
+        </div>
         </InfoBox>
       </Marker>
     );
@@ -43,16 +38,16 @@ const MapView = compose(
   withGoogleMap,
 )((props) => {
   console.log(props.locations);
+  const loc=props.locations;
+ 
   return (
     <GoogleMap
       defaultZoom={7}
       defaultCenter={{ lat: 30.9002697, lng: 75.7165881 }}>
       <MarkerClusterer
         imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-        gridSize={100}
-        zoomOnClick={true}
-        maxZoom={10}>
-        {RenderMarkers(props.locations)}
+        maxZoom={14}>
+        {RenderMarkers(loc)}
       </MarkerClusterer>
     </GoogleMap>
   );
