@@ -169,6 +169,7 @@ class DDA extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchDdaList(1, this.state.search);
+    document.title = 'AFL - DDA';
   }
 
   render() {

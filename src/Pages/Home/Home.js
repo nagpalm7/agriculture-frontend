@@ -14,7 +14,7 @@ class Home extends Component {
       locations: null,
       renderLocations: null,
       districts: null,
-      selectedDist: null,
+      selectedDist: 'ALL DISTRICTS',
       loading: true,
       times: 1,
     };
@@ -64,23 +64,32 @@ class Home extends Component {
 
     if (e == 'ALL DISTRICTS') {
       url = 'https://api.aflmonitoring.com/api/upload/locations/map/';
+      let locs = await axiosInstance.get(url);
+      var toRender = locs.data.slice(0, locs.data.length / 4);
+      this.setState({
+        ...this.state,
+        locations: locs.data,
+        selectedDist: e,
+        loading: false,
+        renderLocations: toRender,
+        times: 1,
+      });
     } else {
       url = `https://api.aflmonitoring.com/api/upload/locations/map/?district=${e}`;
+      let locs = await axiosInstance.get(url);
+      this.setState({
+        ...this.state,
+        locations: locs.data,
+        selectedDist: e,
+        loading: false,
+        renderLocations: null,
+      });
     }
-
-    let locs = await axiosInstance.get(url);
-    console.log(locs);
-    this.setState({
-      ...this.state,
-      locations: locs.data,
-      selectedDist: e,
-      loading: false,
-    });
-
     message.info(`Showing data of district ${e}`);
   };
   componentDidMount() {
     this.fetchData();
+    document.title = 'ALF - Home';
   }
   render() {
     console.log(this.state);
@@ -96,17 +105,25 @@ class Home extends Component {
             }}
           />
         </Row>
-        <Divider></Divider>
-        <Row className="add_more_locs">
+
+        <Row
+          className={
+            this.state.selectedDist == 'ALL DISTRICTS'
+              ? 'add_more_locs'
+              : 'add_more_locs no_disp'
+          }>
           <Tooltip
             title={`Add locations.Page might go unresponsive until new locations are rendered.`}>
             <Button
               disabled={!(this.state.times < 4)}
               style={{
-                backgroundColor: '#e03b3b',
-                color: 'white',
+                backgroundColor: 'rgb(245, 243, 255)',
+                color: 'rgb(224, 59, 59)',
                 marginBottom: '5px',
                 borderRadius: '10px',
+                border: '0px',
+                fontWeight: '600',
+                borderColor: 'rgb(224, 59, 59)',
               }}
               onClick={() => {
                 var n = this.state.locations.length;
@@ -133,7 +150,7 @@ class Home extends Component {
           </Tooltip>
 
           <div className="count_displayer">
-            Locations currently displayed -{' '}
+            * Locations currently rendered -{' '}
             {this.state.renderLocations
               ? this.state.renderLocations.length
               : '0'}
@@ -143,7 +160,13 @@ class Home extends Component {
           {!this.state.loading ? (
             <>
               <Col lg={18} sm={24} xs={24}>
-                <Map locations={this.state.renderLocations} />
+                <Map
+                  locations={
+                    this.state.selectedDist.toString() == 'ALL DISTRICTS'
+                      ? this.state.renderLocations
+                      : this.state.locations
+                  }
+                />
               </Col>
 
               <Col lg={6} sm={24} xs={24}>

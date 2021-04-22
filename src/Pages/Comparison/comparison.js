@@ -100,6 +100,7 @@ class Comparison extends Component {
         this.fetchLocsData(dateString.toString());
       },
     );
+    document.title = 'AFL - Comparison';
   }
   fetchLocsData = (
     dateString,

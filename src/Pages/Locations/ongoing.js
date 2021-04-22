@@ -221,6 +221,7 @@ class Ongoing extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchLocations(1, this.state.search);
+    document.title = 'AFL - Ongoing Locations';
   }
   render() {
     return (

@@ -80,6 +80,9 @@ class Login extends Component {
         }
       });
   };
+  componentDidMount() {
+    document.title = 'AFL Monitoring';
+  }
   render() {
     const { loadings } = this.state;
     return (
