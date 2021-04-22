@@ -36,6 +36,9 @@ class Pending extends Component {
       title: 'VILLAGE',
       dataIndex: 'village_name',
       key: 'village_name',
+      render: (vill) => {
+        return <span>{vill ? vill.village : ''}</span>;
+      },
     },
     {
       title: 'DDA',

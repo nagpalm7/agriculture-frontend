@@ -12,6 +12,7 @@ class Report extends Component {
     this.state = {
       isLoading: false,
       location_report: '',
+      images: [],
     };
   }
   componentDidMount() {
@@ -23,11 +24,29 @@ class Report extends Component {
       .get(`api/report-ado/${this.props.villageId}`)
       .then((res) => {
         console.log(res.data);
-        this.setState({
-          ...this.state,
-          isLoading: false,
-          location_report: res.data,
-        });
+        this.setState(
+          {
+            ...this.state,
+
+            location_report: res.data,
+          },
+          () => {
+            axiosInstance
+              .get(
+                `https://api.aflmonitoring.com/api/report/images/${this.state.location_report.id}`,
+              )
+              .then((res) => {
+                this.setState({
+                  ...this.state,
+                  isLoading: false,
+                  images: res.data,
+                });
+              })
+              .catch((err) => {
+                throw err;
+              });
+          },
+        );
       })
       .catch((err) => {
         this.setState({
@@ -60,44 +79,33 @@ class Report extends Component {
           <>
             <Row gutter={[28, 28]}>
               <Col sm={{ span: 24 }} md={{ span: 8 }}>
-                <Carousel
-                  autoplay
-                  dotPosition="bottom"
-                  style={{ border: '1px solid black' }}>
-                  <div>
-                    <div
-                      style={{
-                        height: '400px',
-                        color: 'white',
-                        backgroundColor: 'white',
-                        textAlign: 'center',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'crimson',
-                      }}>
-                      <Image width={100} src={edit}></Image>
-                    </div>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        height: '400px',
-                        color: 'white',
-                        backgroundColor: 'white',
-                        textAlign: 'center',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'crimson',
-                      }}>
-                      <Image width={100} src={garbage}></Image>
-                    </div>
-                  </div>
+                <Carousel autoplay>
+                  {this.state.images.map((image) => {
+                    return (
+                      <div>
+                        <div
+                          style={{
+                            height: '400px',
+                            color: 'white',
+                            border: '0px',
+                            backgroundColor: 'white',
+                            textAlign: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <img
+                            style={{ width: '100%', height: '100%' }}
+                            width={100}
+                            src={image.image}></img>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </Carousel>
               </Col>
               <Col sm={{ span: 18 }} md={{ span: 12 }} className="Info">
-                <div className="villageName">
+                {/* <div className="villageName">
                   {this.state.location_report.location.village_name
                     ? this.state.location_report.location.village_name.village
                     : 'No Info'}
@@ -111,12 +119,12 @@ class Report extends Component {
                   {/* {this.state.location_report.location.ado
                     ? this.state.location_report.location.ado.user.name
                     : 'No Info'} */}
-                  |
-                  {this.state.location_report.location.dda
+                |
+                {/* {this.state.location_report.location.dda
                     ? this.state.location_report.location.dda.user.name
-                    : 'No Info'}
-                  {/* Submitted by DDA1011-DDA | Under Sh.Subhash | ADO */}
-                </div>
+                    : 'No Info'} */}
+                {/* Submitted by DDA1011-DDA | Under Sh.Subhash | ADO */}
+                {/* </div> */} */
                 <Divider style={{ background: 'rgba(0, 0, 0, 0.467)' }} />
                 <div className="ado_details">
                   <h3>ADO Appointed</h3>
@@ -163,7 +171,7 @@ class Report extends Component {
               <Col span={24}>
                 <div className="report_heading">Report</div>
                 <div className="report_card">
-                  {reportDetail(this.state.location_report)}
+                  {/* {reportDetail(this.state.location_report)} */}
                 </div>
               </Col>
             </Row>

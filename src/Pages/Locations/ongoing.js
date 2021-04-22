@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
 import { Tooltip, Button, message } from 'antd';
-import cloud_logo from '../../assets/images/cloud-computing.png';
+import cloud_logo from '../../assets/images/uploadCloud.png';
 import './location.css';
 import { Link } from 'react-router-dom';
 import LocationFilter from './LocationFilter';
@@ -42,13 +42,16 @@ class Ongoing extends Component {
     },
     {
       title: 'BLOCK',
-      dataIndex: 'district',
+      dataIndex: 'block',
       key: 'block',
     },
     {
       title: 'VILLAGE',
       dataIndex: 'village_name',
       key: 'village_name',
+      render: (vill) => {
+        return <span>{vill ? vill.village : ''}</span>;
+      },
     },
     {
       title: 'DDA',
@@ -117,14 +120,18 @@ class Ongoing extends Component {
     },
     {
       title: 'STATUS',
-      render: () => {
+      dataIndex: 'id',
+      key: 'id',
+      render: (loc_id) => {
         return (
-          <Link to="/locations/ongoing/1601">
+          <Link to={`/locations/ongoing/${loc_id}`}>
             <Button
               style={{
-                backgroundColor: '#e03b3b',
+                backgroundColor: 'rgb(245, 243, 255)',
                 borderRadius: '15px',
-                color: 'white',
+                color: 'red',
+                textAlign: 'center',
+                border: '0px',
               }}
               className="upload_button">
               <img src={cloud_logo} />

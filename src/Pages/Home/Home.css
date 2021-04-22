@@ -20,3 +20,23 @@
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
   border-radius: 20px;
 }
+.map_wrapper {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+.count_displayer {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e03b3b;
+}
+.add_more_locs {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.add_more_locs button {
+  width: 160px;
+}
