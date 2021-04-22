@@ -162,6 +162,7 @@ class Completed extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchLocations(1, this.state.search);
+    document.title = 'AFL - Completed Locations';
   }
   render() {
     return (

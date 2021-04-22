@@ -166,6 +166,7 @@ class District extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchDistrictList(this.state.search, 1);
+    document.title = 'AFL - Districts';
   }
   onRowClick = (record) => {
     this.props.history.push(`/district/village/${record.id}`);

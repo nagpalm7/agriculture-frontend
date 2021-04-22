@@ -199,6 +199,7 @@ class ADO extends Component {
   };
   componentDidMount() {
     this.fetchADO(1, this.state.search);
+    document.title = 'AFL - DDA';
   }
   render() {
     console.log(this.state.adoData);

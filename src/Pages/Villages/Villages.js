@@ -199,6 +199,7 @@ class Villages extends Component {
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
     this.fetchVillageList(1, '');
+    document.title = 'AFL - Villages';
   }
 
   render() {

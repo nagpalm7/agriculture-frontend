@@ -145,6 +145,7 @@ class Analysis extends Component {
   }
   componentDidMount() {
     this.fetchData('allTime');
+    document.title = 'AFL - Analysis';
   }
   borderColor(status) {
     if (status == 'pending') {
