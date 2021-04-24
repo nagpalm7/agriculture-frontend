@@ -60,7 +60,8 @@ class LocationReport extends Component {
           );
         });
         this.setState({ ado_children: ado_children }, () => {
-          if (length == res.data.count - 5) {
+          let next = res.data.next;
+          if (next == null) {
             this.setState({ ...this.state, isAdoRendered: true });
           }
 

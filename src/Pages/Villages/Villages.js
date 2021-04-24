@@ -17,7 +17,10 @@ class Villages extends Component {
       totalCount: null,
       villageData: [],
       loading: false,
-      filters: null,
+      filters: {
+        district: null,
+        ado: null,
+      },
     };
   }
   columns = [
@@ -71,21 +74,19 @@ class Villages extends Component {
   ];
 
   onSearch = (value) => {
-    if (this.state.filters) {
-      var distId = this.state.filters.district.split('_')[1];
-
-      this.props.history.push({
-        pathname: '/villages/',
-        search: `?page=${1}&search=${value}`,
-      });
-      this.fetchVillageList(1, value, distId);
-    } else {
-      this.props.history.push({
-        pathname: '/villages/',
-        search: `?page=${1}&search=${value}`,
-      });
-      this.fetchVillageList(1, value, null);
+    this.props.history.push({
+      pathname: '/villages/',
+      search: `?page=${1}&search=${value}`,
+    });
+    const { district, ado } = this.state.filters;
+    let distName, adoId;
+    if (district) {
+      distName = district.split('_')[0];
     }
+    if (ado) {
+      adoId = ado.split('_')[1];
+    }
+    this.fetchVillageList(1, value, distName, adoId);
   };
 
   showDeleteConfirm = (villlageName, villageId) => {
@@ -127,34 +128,34 @@ class Villages extends Component {
   };
 
   onPageChange = (page) => {
-    console.log('page = ', page);
     let search = this.props.history.location.search.split('=')[2];
     if (search == 'undefined') {
       search = undefined;
     }
-    console.log(this.state.filters);
-    if (this.state.filters) {
-      var distId = this.state.filters.district.split('_')[1];
-      this.props.history.push({
-        pathname: `/villages/`,
-        search: `?page=${page}&search=${search}`,
-      });
-      this.fetchVillageList(page, search, distId);
-    } else {
-      console.log(search);
-      this.props.history.push({
-        pathname: '/villages/',
-        search: `?page=${page}&search=${search}`,
-      });
-      this.fetchVillageList(page, search);
-      console.log(page, search, null);
+    const { district, ado } = this.state.filters;
+    let distName, adoId;
+    if (district) {
+      distName = district.split('_')[0];
     }
+    if (ado) {
+      adoId = ado.split('_')[1];
+    }
+    this.props.history.push({
+      pathname: '/villages/',
+      search: `?page=${page}&search=${search}`,
+    });
+    this.fetchVillageList(page, search, distName, adoId);
   };
 
-  fetchVillageList = (page, search = '', district) => {
-    var url = district
-      ? `/api/villages-list/district/${district}/?page=${page}&search=${search}`
-      : `/api/villages-list/?page=${page}&search=${search}`;
+  fetchVillageList = (page, search = '', district, ado) => {
+    var url = `/api/villages-list/?page=${page}&search=${search}`;
+    if (district) {
+      url = url + `&block__district__district=${district}`;
+    }
+    if (ado) {
+      url = url + `&ado=${ado}`;
+    }
+
     console.log(page);
     this.setState({ ...this.state, loading: true });
     axiosInstance
@@ -182,18 +183,37 @@ class Villages extends Component {
   };
   applyFilter = (filters) => {
     console.log(filters);
-    const { district } = filters;
-    const distName = district.split('_')[0];
-    const distId = district.split('_')[1];
-    console.log(distName, distId);
-    message.success(`Showing villages under ${distName}`);
+    const { district, ado } = filters;
+    let distName, distId, adoName, adoId;
+    if (district) {
+      distName = district.split('_')[0];
+      distId = district.split('_')[1];
+    }
+    if (ado) {
+      adoName = ado.split('_')[0];
+      adoId = ado.split('_')[1];
+    }
+
+    if (district && ado) {
+      message.success(`Showing villages under ${distName} and ADO ${adoName}`);
+    } else if (district) {
+      message.success(`Showing villages under ${distName}`);
+    } else if (ado) {
+      message.success(`Showing villages under ADO ${adoName}`);
+    }
+
     this.setState({ ...this.state, filters: filters }, () => {
-      this.fetchVillageList(1, '', distId);
+      this.fetchVillageList(1, '', distName, adoId);
     });
   };
-  removeFilter = () => {
-    this.setState({ ...this.state, filters: null }, () => {
-      this.fetchVillageList(1, '', null);
+  removeFilter = (key) => {
+    console.log(key);
+    console.log(this.state.filters);
+    let filterObj = this.state.filters;
+    filterObj[key] = null;
+
+    this.setState({ ...this.state, filters: filterObj }, () => {
+      this.applyFilter(this.state.filters);
     });
   };
   componentDidMount() {
