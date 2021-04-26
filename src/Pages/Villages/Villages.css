@@ -6,3 +6,35 @@
 .icons:hover {
   cursor: pointer;
 }
+.filter_tag div {
+  display: inline;
+  padding-left: 10px;
+  cursor: pointer;
+}
+.filter_tag {
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 4px;
+  border-radius: 10px;
+  margin-right: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.753);
+  background-color: rgba(135, 207, 235, 0.205);
+  border: 1px solid skyblue;
+}
+.filter_tag img {
+  margin-top: -3px;
+  margin-right: 1px;
+  border-radius: 50%;
+  /* border: 1px solid skyblue; */
+}
+.no_filter_disp {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.753);
+  padding: 6px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid skyblue;
+  background-color: rgba(135, 207, 235, 0.205);
+}

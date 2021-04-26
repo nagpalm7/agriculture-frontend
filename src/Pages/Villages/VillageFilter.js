@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { Form, Select, Spin, Divider, Button, Modal, Tag } from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import { FilterOutlined, RedditCircleFilled } from '@ant-design/icons';
+import RemoveIco from '../../assets/images/letterX.svg';
 const { Option } = Select;
 const layout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 18 },
 };
+var ado_children = [];
+ado_children.push(<Option value={undefined}>No ADO</Option>);
 
 class villageFilter extends Component {
   constructor(props) {
@@ -16,8 +19,68 @@ class villageFilter extends Component {
       district: [],
       isModalVisible: false,
       tags: [],
+      ado_loading: false,
+      ado: [],
+      ado_children: ado_children,
+      isAdoRendered: false,
+      adoPage: 1,
     };
   }
+
+  fetchAdoList = (page) => {
+    axiosInstance
+      .get(`/api/users-list/ado/?page=${page}`)
+      .then((res) => {
+        this.setState({ ...this.state, ado_loading: false });
+        const adoData = res.data.results.map((item) => {
+          return {
+            ado: item.user.username,
+            id: item.user.id,
+          };
+        });
+        var ado_children = [...this.state.ado_children];
+        var length = ado_children.length;
+
+        adoData.map((ado) => {
+          ado_children.push(
+            <Option key={ado.id} value={`${ado.ado}_${ado.id}`}>
+              {ado.ado}
+            </Option>,
+          );
+        });
+        this.setState({ ado_children: ado_children }, () => {
+          console.log(length);
+          let next = res.data.next;
+          if (next == null) {
+            this.setState({ ...this.state, isAdoRendered: true });
+          }
+
+          this.setState({ ado_loading: false });
+        });
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, ado_loading: false });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  };
+  onAdoScroll = (event) => {
+    var target = event.target;
+    if (
+      !this.state.ado_loading &&
+      !this.state.isAdoRendered &&
+      Math.ceil(target.scrollTop) + target.offsetHeight === target.scrollHeight
+    ) {
+      this.setState({ ado_loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        this.fetchAdoList(this.state.adoPage + 1);
+        this.setState({ ...this.state, adoPage: this.state.adoPage + 1 });
+      });
+    }
+  };
   fetchDistricts = () => {
     this.setState({
       ...this.state,
@@ -48,15 +111,27 @@ class villageFilter extends Component {
   };
   componentDidMount() {
     this.fetchDistricts();
+    this.fetchAdoList(1);
   }
   render() {
-    console.log(this.props.filters);
     let tags = [];
     const x = this.props.filters
       ? Object.keys(this.props.filters).forEach((key, idx) => {
-          var val = this.props.filters[key];
-          var str = `${key}:${val}`;
-          tags.push(<Tag>{str}</Tag>);
+          if (this.props.filters[key]) {
+            var val = this.props.filters[key].split('_')[0];
+            var str = `${key} : ${val}`;
+            tags.push(
+              <div className="filter_tag">
+                <span>{str}</span>
+                <div
+                  onClick={() => {
+                    this.props.removeFilter(key);
+                  }}>
+                  <img style={{ width: '10px' }} src={RemoveIco}></img>
+                </div>
+              </div>,
+            );
+          }
         })
       : 'No filters active';
     return (
@@ -91,56 +166,15 @@ class villageFilter extends Component {
               }}>
               Filters Active
             </div>
-            {this.props.filters ? (
+            {this.props.filters.district || this.props.filters.ado ? (
               <div>
                 {tags.map((tag) => {
                   return tag;
                 })}
               </div>
             ) : (
-              <span
-                style={{
-                  fontSize: '15px',
-                  color: '#e03b3b',
-                  padding: '5px',
-                  borderRadius: '5px',
-
-                  border: '1px solid #e03b3b',
-                  backgroundColor: 'white',
-                }}>
-                No active filters
-              </span>
+              <span className="no_filter_disp">No active filters</span>
             )}
-          </div>
-          <div
-            class="removefilter-modal-footer"
-            style={{
-              marginBottom: '20px',
-            }}>
-            {this.props.filters ? (
-              <Button
-                onClick={() => {
-                  this.setState(
-                    {
-                      ...this.state,
-                      isModalVisible: false,
-                    },
-                    () => {
-                      this.props.removeFilter();
-                    },
-                  );
-                }}
-                style={{
-                  color: 'white',
-                  backgroundColor: 'rgb(224, 59, 59)',
-                  borderRadius: '20px',
-                  fontSize: '12px',
-                  height: '26px',
-                  border: '0px',
-                }}>
-                Remove Filters
-              </Button>
-            ) : null}
           </div>
           <Divider></Divider>
           <div
@@ -155,18 +189,12 @@ class villageFilter extends Component {
             {...layout}
             style={{ marginTop: '10px' }}
             onFinish={(e) => {
-              this.setState(
-                {
-                  ...this.state,
-                  isModalVisible: false,
-                },
-                () => {
-                  this.props.applyFilters(e);
-                },
-              );
+              console.log(e);
+              this.props.applyFilters(e);
             }}>
             <Form.Item label="Select District" name="district">
               <Select showSearch placeholder="Select District">
+                <Option value={undefined}>No District</Option>
                 {!this.state.loading ? (
                   this.state.district.map((district) => {
                     return (
@@ -184,6 +212,25 @@ class villageFilter extends Component {
                 )}
               </Select>
             </Form.Item>
+            <Form.Item label="Select Ado" name="ado">
+              <Select
+                showSearch
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+                optionFilterProp="children"
+                onPopupScroll={this.onAdoScroll}
+                placeholder="select ADO">
+                {!this.state.ado_loading && !this.state.isAdoRendered
+                  ? this.state.ado_children
+                  : this.state.isAdoRendered == true
+                  ? [...this.state.ado_children]
+                  : [
+                      ...this.state.ado_children,
+                      <Option key="loading" style={{ textAlign: 'center' }}>
+                        <Spin spinning={true}></Spin>
+                      </Option>,
+                    ]}
+              </Select>
+            </Form.Item>
             <Form.Item
               wrapperCol={{ span: 24, offset: 0 }}
               labelCol={{ span: 0 }}
@@ -197,12 +244,12 @@ class villageFilter extends Component {
                   key="submit"
                   type="primary"
                   style={{
-                    color: 'white',
-                    backgroundColor: 'rgb(224, 59, 59)',
+                    color: '#e03b3b',
+                    backgroundColor: '#f6f6f6',
                     borderRadius: '20px',
                     height: '26px',
                     border: '0px',
-                    fontSize: '12px',
+                    fontSize: '15px',
                   }}>
                   Add Filters
                 </Button>

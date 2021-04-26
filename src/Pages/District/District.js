@@ -143,6 +143,7 @@ class District extends Component {
     axiosInstance
       .get(`/api/district/?page=${page}&search=${search}`)
       .then((res) => {
+        console.log(res);
         this.setState({
           ...this.state,
           districtData: res.data,
