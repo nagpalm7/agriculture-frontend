@@ -22,8 +22,11 @@ class ADO extends Component {
       totalCount: null,
       adoData: [],
       loading: false,
-      filters: null,
+      filters: {
+        dda: null,
+      },
     };
+    this.applyFilter = this.applyFilter.bind(this);
   }
 
   columns = [
@@ -113,30 +116,69 @@ class ADO extends Component {
     },
   ];
   onSearch = (value) => {
-    this.fetchADO(1, value);
     this.props.history.push({
       pathname: '/ado/',
       search: `?page=${1}&search=${value}`,
     });
+    const { district } = this.state.filters;
+    let distId;
+    if (district) {
+      distId = district.split('_')[1];
+    }
+    this.fetchADO(1, value, distId);
   };
   onPageChange = (page) => {
     let search = this.props.history.location.search.split('=')[2];
     if (search == 'undefined') {
       search = undefined;
     }
+    const { district } = this.state.filters;
+    let distId;
+    if (district) {
+      distId = district.split('_')[1];
+    }
     this.props.history.push({
       pathname: '/ado/',
       search: `?page=${page}&search=${search}`,
     });
-    this.fetchADO(page, search);
+    this.fetchADO(page, search, distId);
   };
-  fetchADO = (page, search = '') => {
-    this.setState({ ...this.state, loading: true });
+  applyFilter(filters) {
+    let { district } = filters;
+    let distName, distId;
+
+    if (district) {
+      distName = district.split('_')[0];
+      distId = district.split('_')[1];
+      message.success(`Showing ADO's under ${distName}`);
+    }
+
+    this.setState({ ...this.state, filters: filters }, () => {
+      this.fetchADO(1, '', distId);
+    });
+  }
+  removeFilter = (key) => {
+    console.log(this.state.filters);
+    let filterObj = this.state.filters;
+    filterObj[key] = null;
+
+    this.setState({ ...this.state, filters: filterObj }, () => {
+      this.applyFilter(this.state.filters);
+    });
+  };
+  fetchADO = (page, search = '', distId) => {
     if (search == 'undefined') {
       search = undefined;
     }
+    let url = `/api/users-list/ado/?page=${page}&search=${search}`;
+
+    if (distId) {
+      url += `&district=${distId}`;
+    }
+    this.setState({ ...this.state, loading: true });
+
     axiosInstance
-      .get(`/api/users-list/ado?page=${page}&search=${search}`)
+      .get(url)
       .then((res) => {
         console.log(res.data);
         this.setState({
@@ -202,7 +244,6 @@ class ADO extends Component {
     document.title = 'AFL - DDA';
   }
   render() {
-    console.log(this.state.adoData);
     return (
       <>
         <MainContent

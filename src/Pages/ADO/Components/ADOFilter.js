@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import { axiosInstance } from '../../../utils/axiosIntercepter.js';
 import { FilterOutlined, RedditCircleFilled } from '@ant-design/icons';
-import { Form, Select, Spin, Divider, Switch, Button, Modal, Tag } from 'antd';
+import {
+  Form,
+  Select,
+  Spin,
+  Divider,
+  Switch,
+  Button,
+  Modal,
+  Tag,
+  message,
+} from 'antd';
+import RemoveIco from '../../../assets/images/letterX.svg';
 
 let Option = Select.Option;
 const layout = {
@@ -13,6 +24,8 @@ class ADOFilter extends Component {
     super(props);
     this.state = {
       isModalVisible: false,
+      distLoading: false,
+      district: null,
     };
   }
   handleCancel = () => {
@@ -21,7 +34,53 @@ class ADOFilter extends Component {
   handleOk = () => {
     this.setState({ isModalVisible: false });
   };
+  fetchDistricts = () => {
+    this.setState({
+      ...this.state,
+      distLoading: true,
+    });
+    axiosInstance
+      .get('/api/district/')
+      .then((res) => {
+        this.setState({
+          ...this.state,
+          distLoading: false,
+          district: res.data,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          distLoading: false,
+        });
+        console.log(err);
+      });
+  };
+  componentDidMount() {
+    this.fetchDistricts();
+  }
+
   render() {
+    let tags = [];
+    const x = this.props.filters
+      ? Object.keys(this.props.filters).forEach((key, idx) => {
+          if (this.props.filters[key]) {
+            var val = this.props.filters[key].split('_')[0];
+            var str = `${key} : ${val}`;
+            tags.push(
+              <div className="filter_tag">
+                <span>{str}</span>
+                <div
+                  onClick={() => {
+                    this.props.removeFilter(key);
+                  }}>
+                  <img style={{ width: '10px' }} src={RemoveIco}></img>
+                </div>
+              </div>,
+            );
+          }
+        })
+      : 'No filters active';
     return (
       <>
         <div
@@ -54,56 +113,15 @@ class ADOFilter extends Component {
               }}>
               Filters Active
             </div>
-            {this.props.filters ? (
+            {this.props.filters.district ? (
               <div>
-                {/* {tags.map((tag) => {
+                {tags.map((tag) => {
                   return tag;
-                })} */}
+                })}
               </div>
             ) : (
-              <span
-                style={{
-                  fontSize: '15px',
-                  color: '#e03b3b',
-                  padding: '5px',
-                  borderRadius: '5px',
-
-                  border: '1px solid #e03b3b',
-                  backgroundColor: 'white',
-                }}>
-                No active filters
-              </span>
+              <span className="no_filter_disp">No active filters</span>
             )}
-          </div>
-          <div
-            class="removefilter-modal-footer"
-            style={{
-              marginBottom: '20px',
-            }}>
-            {this.props.filters ? (
-              <Button
-                onClick={() => {
-                  this.setState(
-                    {
-                      ...this.state,
-                      isModalVisible: false,
-                    },
-                    () => {
-                      this.props.removeFilter();
-                    },
-                  );
-                }}
-                style={{
-                  color: 'white',
-                  backgroundColor: 'rgb(224, 59, 59)',
-                  borderRadius: '20px',
-                  fontSize: '12px',
-                  height: '26px',
-                  border: '0px',
-                }}>
-                Remove Filters
-              </Button>
-            ) : null}
           </div>
           <Divider></Divider>
           <div
@@ -114,26 +132,16 @@ class ADOFilter extends Component {
             Add Filters
           </div>
           <Form
-            name="Pending Location Filter"
+            name="pending_location_filter"
             style={{ marginTop: '10px' }}
             {...layout}
             onFinish={(e) => {
-              if (!e.assignment) {
-                e.assignment = false;
-              }
-              this.setState(
-                {
-                  ...this.state,
-                  isModalVisible: false,
-                },
-                () => {
-                  this.props.applyFilters(e);
-                },
-              );
+              this.props.applyFilters(e);
             }}>
-            {/* <Form.Item label="Select District" name="district">
+            <Form.Item label="Select District" name="district">
               <Select showSearch placeholder="Select District">
-                {!this.state.loading ? (
+                <Option value={undefined}>No District</Option>
+                {!this.state.distLoading && this.state.district ? (
                   this.state.district.map((district) => {
                     return (
                       <Option
@@ -149,20 +157,7 @@ class ADOFilter extends Component {
                   </Option>
                 )}
               </Select>
-            </Form.Item> */}
-            {this.props.status == 'Pending' ? (
-              <Form.Item
-                label="Assignment"
-                name="assignment"
-                style={{ textAlign: 'left' }}>
-                <Switch
-                  checkedChildren={<span>Assigned</span>}
-                  unCheckedChildren={<span>UnAssigned</span>}
-                  defaultChecked={false}
-                />
-              </Form.Item>
-            ) : null}
-
+            </Form.Item>
             <Form.Item
               wrapperCol={{ span: 24, offset: 0 }}
               labelCol={{ span: 0 }}
@@ -176,12 +171,12 @@ class ADOFilter extends Component {
                   key="submit"
                   type="primary"
                   style={{
-                    color: 'white',
-                    backgroundColor: 'rgb(224, 59, 59)',
+                    color: '#e03b3b',
+                    backgroundColor: '#f6f6f6',
                     borderRadius: '20px',
                     height: '26px',
                     border: '0px',
-                    fontSize: '12px',
+                    fontSize: '15px',
                   }}>
                   Add Filters
                 </Button>
