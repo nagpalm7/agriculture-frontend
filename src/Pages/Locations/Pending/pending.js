@@ -18,7 +18,13 @@ class Pending extends Component {
       totalCount: null,
       locationsData: [],
       loading: false,
-      filters: null,
+      filters: {
+        village: null,
+        dda: null,
+        ado: null,
+        district: null,
+        assignment: null,
+      },
     };
   }
   columns = [
@@ -126,21 +132,26 @@ class Pending extends Component {
   ];
 
   onSearch = (value) => {
-    if (this.state.filters) {
-      var distId = this.state.filters.district.split('_')[1];
-      const assign = this.state.filters.assignment ? 'assigned' : 'unassigned';
-      this.props.history.push({
-        pathname: '/locations/pending',
-        search: `?page=${1}&search=${value}`,
-      });
-      this.fetchLocations(1, value, distId, assign);
-    } else {
-      this.props.history.push({
-        pathname: '/locations/pending',
-        search: `?page=${1}&search=${value}`,
-      });
-      this.fetchLocations(1, value, null, null);
+    const { district, assigned, village, dda, Ado } = this.state.filters;
+    let distName, assign, villName, ddaId, adoId;
+    if (district) {
+      distName = district.split('_')[0];
     }
+    if (village) {
+      villName = village;
+    }
+    if (Ado) {
+      adoId = Ado.split('_')[1];
+    }
+    if (dda) {
+      ddaId = dda.split('_')[1];
+    }
+
+    this.props.history.push({
+      pathname: '/locations/pending',
+      search: `?page=${1}&search=${value}`,
+    });
+    this.fetchLocations(1, value, distName, villName, adoId, ddaId, assigned);
   };
   showDeleteConfirm = (villlageName, locationId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
@@ -182,35 +193,71 @@ class Pending extends Component {
 
   onPageChange = (page) => {
     console.log('page = ', page);
-
+    const { district, assigned, village, dda, Ado } = this.state.filters;
+    let distName, assign, villName, ddaId, adoId;
+    if (district) {
+      distName = district.split('_')[0];
+    }
+    if (village) {
+      villName = village;
+    }
+    if (Ado) {
+      adoId = Ado.split('_')[1];
+    }
+    if (dda) {
+      ddaId = dda.split('_')[1];
+    }
     let search = this.props.history.location.search.split('=')[2];
     if (search == 'undefined') {
       search = undefined;
     }
     console.log(this.state.filters);
-    if (this.state.filters) {
-      var distId = this.state.filters.district.split('_')[1];
-      const assign = this.state.filters.assignment ? 'assigned' : 'unassigned';
-      this.props.history.push({
-        pathname: '/locations/pending',
-        search: `?page=${page}&search=${search}`,
-      });
-      this.fetchLocations(page, search, distId, assign);
-    } else {
-      this.props.history.push({
-        pathname: '/locations/pending',
-        search: `?page=${page}&search=${search}`,
-      });
-      this.fetchLocations(page, search, null, null);
-    }
+
+    this.props.history.push({
+      pathname: '/locations/pending',
+      search: `?page=${page}&search=${search}`,
+    });
+    this.fetchLocations(
+      page,
+      search,
+      distName,
+      villName,
+      adoId,
+      ddaId,
+      assigned,
+    );
   };
 
-  fetchLocations = (page, search = '', distId, assign) => {
-    var url;
-    if (distId && assign) {
-      url = `/api/location/district/${distId}/${assign}?page=${page}&search=${search}`;
-    } else {
+  fetchLocations = (
+    page,
+    search = '',
+    distName,
+    villageName,
+    ddaId,
+    adoId,
+    assign,
+  ) => {
+    console.log(distName, villageName, ddaId, adoId, assign);
+    var url = `/api/locations/pending?page=${page}&search=${search}`;
+    if (assign == 'a') {
       url = `/api/locations/pending?page=${page}&search=${search}`;
+    } else if (assign == 'b') {
+      url = `/api/locations/assigned?page=${page}&search=${search}`;
+    } else if (assign == 'c') {
+      url = `/api/locations/unassigned?page=${page}&search=${search}`;
+    }
+
+    if (distName) {
+      url += `&district__district=${distName}`;
+    }
+    if (villageName) {
+      url += `&village_name__village=${villageName}`;
+    }
+    if (ddaId) {
+      url += `&dda=${ddaId}`;
+    }
+    if (adoId) {
+      url += `&ado=${adoId}`;
     }
 
     this.setState({ ...this.state, loading: true });
@@ -240,24 +287,35 @@ class Pending extends Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.fetchLocations(1, this.state.search);
+    this.fetchLocations(1, this.state.search, null, null, null, null, null);
     document.title = 'AFL - Pending Locations';
   }
-  applyFilter = (filters) => {
-    console.log(filters);
-    const { district, assignment } = filters;
-    console.log(assignment);
-    const distName = district.split('_')[0];
-    const distId = district.split('_')[1];
-    const assign = assignment ? 'assigned' : 'unassigned';
-    message.success(`Showing ${assign} locations under ${distName}`);
-    this.setState({ ...this.state, filters: filters }, () => {
-      this.fetchLocations(1, '', distId, assign);
+  removeFilter = (key) => {
+    console.log(this.state.filters);
+    let filterObj = this.state.filters;
+    filterObj[key] = null;
+
+    this.setState({ ...this.state, filters: filterObj }, () => {
+      this.applyFilter(this.state.filters);
     });
   };
-  removeFilter = () => {
-    this.setState({ ...this.state, filters: null }, () => {
-      this.fetchLocations(1, '', null, null);
+  applyFilter = (filters) => {
+    const { district, assignment, village, dda, ado } = filters;
+    let distName, villName, ddaId, adoId;
+    if (district) {
+      distName = district.split('_')[0];
+    }
+    if (village) {
+      villName = village;
+    }
+    if (ado) {
+      adoId = ado.split('_')[1];
+    }
+    if (dda) {
+      ddaId = dda.split('_')[1];
+    }
+    this.setState({ ...this.state, filters: filters }, () => {
+      this.fetchLocations(1, '', distName, villName, ddaId, adoId, assignment);
     });
   };
   render() {

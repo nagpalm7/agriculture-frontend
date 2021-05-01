@@ -35,7 +35,7 @@ class villageFilter extends Component {
         const adoData = res.data.results.map((item) => {
           return {
             ado: item.user.username,
-            id: item.user.id,
+            id: item.id,
           };
         });
         var ado_children = [...this.state.ado_children];

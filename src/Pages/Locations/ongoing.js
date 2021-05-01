@@ -14,20 +14,83 @@ class Ongoing extends Component {
       totalCount: null,
       locationsData: [],
       loading: false,
-      filters: null,
+      filters: {
+        village: null,
+        dda: null,
+        ado: null,
+        district: null,
+      },
     };
   }
   applyFilter = (filters) => {
     console.log(filters);
-    const { district, assignment } = filters;
-    console.log(assignment);
-    const distName = district.split('_')[0];
-    const distId = district.split('_')[1];
-    const assign = assignment ? 'assigned' : 'unassigned';
-    message.success(`Showing Ongoing locations under ${distName}`);
+    const { district, village, dda, Ado } = filters;
+    let distName, assign, villName, ddaId, adoId;
+    if (district) {
+      distName = district.split('_')[0];
+    }
+    if (village) {
+      villName = village;
+    }
+    if (Ado) {
+      adoId = Ado.split('_')[1];
+    }
+    if (dda) {
+      ddaId = dda.split('_')[1];
+    }
     this.setState({ ...this.state, filters: filters }, () => {
-      this.fetchLocations(1, '', distId);
+      this.fetchLocations(1, '', distName, villName, ddaId, adoId);
     });
+  };
+  removeFilter = (key) => {
+    console.log(this.state.filters);
+    let filterObj = this.state.filters;
+    filterObj[key] = null;
+
+    this.setState({ ...this.state, filters: filterObj }, () => {
+      this.applyFilter(this.state.filters);
+    });
+  };
+  fetchLocations = (page, search = '', distName, villageName, ddaId, adoId) => {
+    console.log(distName, villageName, ddaId, adoId);
+    var url = `/api/locations/ongoing?page=${page}&search=${search}`;
+
+    if (distName) {
+      url += `&district__district=${distName}`;
+    }
+    if (villageName) {
+      url += `&village_name__village=${villageName}`;
+    }
+    if (ddaId) {
+      url += `&dda=${ddaId}`;
+    }
+    if (adoId) {
+      url += `&ado=${adoId}`;
+    }
+
+    this.setState({ ...this.state, loading: true });
+    axiosInstance
+      .get(url)
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          ...this.state,
+          locationsData: res.data.results,
+          loading: false,
+          totalCount: res.data.count,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          loading: false,
+        });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
   };
   removeFilter = () => {
     this.setState({ ...this.state, filters: null }, () => {
@@ -142,81 +205,56 @@ class Ongoing extends Component {
       },
     },
   ];
-  fetchLocations = (page, search = '', distId) => {
-    var url;
-    if (distId) {
-      url = `/api/location/district/${distId}/ongoing?page=${page}&search=${search}`;
-    } else {
-      url = `/api/locations/ongoing?page=${page}&search=${search}`;
-    }
-    this.setState({ ...this.state, loading: true });
-    axiosInstance
-      .get(url)
-      .then((res) => {
-        console.log(res);
-        this.setState({
-          ...this.state,
-          locationsData: res.data.results,
-          loading: false,
-          totalCount: res.data.count,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-        });
-        if (err.response) {
-          console.log(err.response);
-        } else {
-          console.log(err.message);
-        }
-      });
-  };
   onPageChange = (page) => {
     console.log('page = ', page);
-
+    const { district, village, dda, Ado } = this.state.filters;
+    let distName, villName, ddaId, adoId;
+    if (district) {
+      distName = district.split('_')[0];
+    }
+    if (village) {
+      villName = village;
+    }
+    if (Ado) {
+      adoId = Ado.split('_')[1];
+    }
+    if (dda) {
+      ddaId = dda.split('_')[1];
+    }
     let search = this.props.history.location.search.split('=')[2];
     if (search == 'undefined') {
       search = undefined;
     }
-    console.log(search);
-    if (this.state.filters) {
-      var distId = this.state.filters.district.split('_')[1];
-      this.props.history.push({
-        pathname: '/locations/ongoing',
-        search: `?page=${page}&search=${search}`,
-      });
-      this.fetchLocations(page, search, distId);
-    } else {
-      this.props.history.push({
-        pathname: '/locations/ongoing',
-        search: `?page=${page}&search=${search}`,
-      });
-      this.fetchLocations(page, search, null);
-    }
+    console.log(this.state.filters);
+
     this.props.history.push({
       pathname: '/locations/ongoing',
       search: `?page=${page}&search=${search}`,
     });
-    this.fetchLocations(page, search);
-    console.log(page, search);
+    this.fetchLocations(page, search, distName, villName, adoId, ddaId);
   };
+
   onSearch = (value) => {
-    if (this.state.filters) {
-      var distId = this.state.filters.district.split('_')[1];
-      this.props.history.push({
-        pathname: '/locations/ongoing',
-        search: `?page=${1}&search=${value}`,
-      });
-      this.fetchLocations(1, value, distId);
-    } else {
-      this.props.history.push({
-        pathname: '/locations/ongoing',
-        search: `?page=${1}&search=${value}`,
-      });
-      this.fetchLocations(1, value, null);
+    const { district, village, dda, Ado } = this.state.filters;
+    let distName, villName, ddaId, adoId;
+    if (district) {
+      distName = district.split('_')[0];
     }
+    if (village) {
+      villName = village;
+    }
+    if (Ado) {
+      adoId = Ado.split('_')[1];
+    }
+    if (dda) {
+      ddaId = dda.split('_')[1];
+    }
+
+    this.props.history.push({
+      pathname: '/locations/ongoing',
+      search: `?page=${1}&search=${value}`,
+    });
+    this.fetchLocations(1, value, distName, villName, adoId, ddaId);
   };
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
