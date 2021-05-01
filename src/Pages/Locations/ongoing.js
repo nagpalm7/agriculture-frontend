@@ -24,16 +24,16 @@ class Ongoing extends Component {
   }
   applyFilter = (filters) => {
     console.log(filters);
-    const { district, village, dda, Ado } = filters;
-    let distName, assign, villName, ddaId, adoId;
+    const { district, village, dda, ado } = filters;
+    let distName, villName, ddaId, adoId;
     if (district) {
       distName = district.split('_')[0];
     }
     if (village) {
       villName = village;
     }
-    if (Ado) {
-      adoId = Ado.split('_')[1];
+    if (ado) {
+      adoId = ado.split('_')[1];
     }
     if (dda) {
       ddaId = dda.split('_')[1];
@@ -92,11 +92,7 @@ class Ongoing extends Component {
         }
       });
   };
-  removeFilter = () => {
-    this.setState({ ...this.state, filters: null }, () => {
-      this.fetchLocations(1, '', null, null);
-    });
-  };
+
   columns = [
     {
       title: 'STATE',
