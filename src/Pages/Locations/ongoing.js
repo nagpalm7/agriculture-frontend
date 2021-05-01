@@ -203,7 +203,7 @@ class Ongoing extends Component {
   ];
   onPageChange = (page) => {
     console.log('page = ', page);
-    const { district, village, dda, Ado } = this.state.filters;
+    const { district, village, dda, ado } = this.state.filters;
     let distName, villName, ddaId, adoId;
     if (district) {
       distName = district.split('_')[0];
@@ -211,8 +211,8 @@ class Ongoing extends Component {
     if (village) {
       villName = village;
     }
-    if (Ado) {
-      adoId = Ado.split('_')[1];
+    if (ado) {
+      adoId = ado.split('_')[1];
     }
     if (dda) {
       ddaId = dda.split('_')[1];
@@ -227,11 +227,11 @@ class Ongoing extends Component {
       pathname: '/locations/ongoing',
       search: `?page=${page}&search=${search}`,
     });
-    this.fetchLocations(page, search, distName, villName, adoId, ddaId);
+    this.fetchLocations(page, search, distName, villName, ddaId, adoId);
   };
 
   onSearch = (value) => {
-    const { district, village, dda, Ado } = this.state.filters;
+    const { district, village, dda, ado } = this.state.filters;
     let distName, villName, ddaId, adoId;
     if (district) {
       distName = district.split('_')[0];
@@ -239,8 +239,8 @@ class Ongoing extends Component {
     if (village) {
       villName = village;
     }
-    if (Ado) {
-      adoId = Ado.split('_')[1];
+    if (ado) {
+      adoId = ado.split('_')[1];
     }
     if (dda) {
       ddaId = dda.split('_')[1];
@@ -250,7 +250,7 @@ class Ongoing extends Component {
       pathname: '/locations/ongoing',
       search: `?page=${1}&search=${value}`,
     });
-    this.fetchLocations(1, value, distName, villName, adoId, ddaId);
+    this.fetchLocations(1, value, distName, villName, ddaId, adoId);
   };
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
