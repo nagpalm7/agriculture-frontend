@@ -132,7 +132,7 @@ class Pending extends Component {
   ];
 
   onSearch = (value) => {
-    const { district, assigned, village, dda, Ado } = this.state.filters;
+    const { district, assignment, village, dda, ado } = this.state.filters;
     let distName, assign, villName, ddaId, adoId;
     if (district) {
       distName = district.split('_')[0];
@@ -140,8 +140,8 @@ class Pending extends Component {
     if (village) {
       villName = village;
     }
-    if (Ado) {
-      adoId = Ado.split('_')[1];
+    if (ado) {
+      adoId = ado.split('_')[1];
     }
     if (dda) {
       ddaId = dda.split('_')[1];
@@ -151,7 +151,7 @@ class Pending extends Component {
       pathname: '/locations/pending',
       search: `?page=${1}&search=${value}`,
     });
-    this.fetchLocations(1, value, distName, villName, adoId, ddaId, assigned);
+    this.fetchLocations(1, value, distName, villName, ddaId, adoId, assignment);
   };
   showDeleteConfirm = (villlageName, locationId) => {
     let currentPage = this.props.history.location.search.split('=')[1];
@@ -193,16 +193,16 @@ class Pending extends Component {
 
   onPageChange = (page) => {
     console.log('page = ', page);
-    const { district, assigned, village, dda, Ado } = this.state.filters;
-    let distName, assign, villName, ddaId, adoId;
+    const { district, assignment, village, dda, ado } = this.state.filters;
+    let distName, villName, ddaId, adoId;
     if (district) {
       distName = district.split('_')[0];
     }
     if (village) {
       villName = village;
     }
-    if (Ado) {
-      adoId = Ado.split('_')[1];
+    if (ado) {
+      adoId = ado.split('_')[1];
     }
     if (dda) {
       ddaId = dda.split('_')[1];
@@ -222,9 +222,9 @@ class Pending extends Component {
       search,
       distName,
       villName,
-      adoId,
       ddaId,
-      assigned,
+      adoId,
+      assignment,
     );
   };
 
