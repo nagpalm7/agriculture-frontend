@@ -38,6 +38,7 @@
     "react-scripts": "3.4.1",
     "reactstrap": "^8.5.1",
     "recompose": "^0.30.0",
+    "unicode": "^13.0.0",
     "yup": "^0.29.3"
   },
   "scripts": {
