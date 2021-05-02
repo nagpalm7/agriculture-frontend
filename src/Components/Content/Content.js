@@ -13,6 +13,9 @@ import Completed from '../../Pages/Locations/completed';
 import Dda_ongoing from '../../Pages/DDA_Locations/dda_ongoing';
 import Dda_completed from '../../Pages/DDA_Locations/dda_completed';
 import Dda_pending from '../../Pages/DDA_Locations/dda_pending';
+import Home from '../../Pages/Home/Home.js';
+import DDA_Home from '../../Pages/Home/DDA_Home';
+
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -26,6 +29,17 @@ class Contents extends Component {
         return <Villages history={this.props.history}></Villages>;
       } else if (this.props.role == 4) {
         return <Dda_villages history={this.props.history}></Dda_villages>;
+      }
+    };
+    const renderHome = () => {
+      if (this.props.role == 5) {
+        return <Home history={this.props.history}></Home>;
+      } else if (this.props.role == 4) {
+        return (
+          <DDA_Home
+            loginData={this.props.loginData}
+            history={this.props.history}></DDA_Home>
+        );
       }
     };
     const renderLocation = () => {
@@ -73,6 +87,7 @@ class Contents extends Component {
               children={<route.component history={this.props.history} />}
             />
           ))}
+          <Route path="/" exact children={renderHome}></Route>
           <Route path="/ado" exact children={renderAdo}></Route>
           <Route
             path="/locations/ongoing/:villageId"

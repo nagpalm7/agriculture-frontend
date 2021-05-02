@@ -33,11 +33,6 @@ console.log(role);
 const dashboard_routes = [
   {
     exact: true,
-    path: '/',
-    component: Home,
-  },
-  {
-    exact: true,
     path: '/analysis',
     component: Analysis,
   },
