@@ -4,9 +4,7 @@ import dashboard_routes from '../../routes/dashboard_routes';
 import { Layout } from 'antd';
 import Report from '../../Pages/Report/ReportRender.js';
 import Villages from '../../Pages/Villages/Villages';
-import Dda_villages from '../../Pages/DDA_Villages/dda_village';
 import ADO from '../../Pages/ADO/ADO';
-import DDA_Ado from '../../Pages/DDA_Ado/dda_ado';
 import Pending from '../../Pages/Locations/Pending/pending';
 import Ongoing from '../../Pages/Locations/ongoing';
 import Completed from '../../Pages/Locations/completed';
@@ -75,9 +73,19 @@ class Contents extends Component {
     };
     const renderAdo = () => {
       if (this.props.role == 5) {
-        return <ADO history={this.props.history}></ADO>;
+        return (
+          <ADO
+            history={this.props.history}
+            loginData={this.props.loginData}
+            type="admin_villages"></ADO>
+        );
       } else if (this.props.role == 4) {
-        return <DDA_Ado history={this.props.history}></DDA_Ado>;
+        return (
+          <ADO
+            history={this.props.history}
+            loginData={this.props.loginData}
+            type="dda_villages"></ADO>
+        );
       }
     };
     return (

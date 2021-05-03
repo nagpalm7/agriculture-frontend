@@ -22,7 +22,6 @@ import EditAdo from '../Pages/ADO/Components/EditAdo.js';
 import Block from '../Pages/BlockComponent/Blocks';
 import renderBlockComponet from '../Pages/District/District';
 import EditBlock from '../Pages/BlockComponent/components/EditBlock.js';
-import Dda_villages from '../Pages/DDA_Villages/dda_village';
 import villageUnderDistrict from '../Pages/VillagesUnderDitrict/villageUnderDistrict';
 const role =
   localStorage.getItem('Role') == null

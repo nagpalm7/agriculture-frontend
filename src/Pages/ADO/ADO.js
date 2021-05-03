@@ -25,6 +25,7 @@ class ADO extends Component {
       filters: {
         dda: null,
       },
+      ddaInfo: null,
     };
     this.applyFilter = this.applyFilter.bind(this);
   }
@@ -125,6 +126,9 @@ class ADO extends Component {
     if (district) {
       distId = district.split('_')[1];
     }
+    if (this.props.type == 'dda_villages' && this.state.ddaInfo) {
+      distId = this.state.ddaInfo.district.id;
+    }
     this.fetchADO(1, value, distId);
   };
   onPageChange = (page) => {
@@ -136,6 +140,9 @@ class ADO extends Component {
     let distId;
     if (district) {
       distId = district.split('_')[1];
+    }
+    if (this.props.type == 'dda_villages' && this.state.ddaInfo) {
+      distId = this.state.ddaInfo.district.id;
     }
     this.props.history.push({
       pathname: '/ado/',
@@ -169,6 +176,9 @@ class ADO extends Component {
   fetchADO = (page, search = '', distId) => {
     if (search == 'undefined') {
       search = undefined;
+    }
+    if (this.props.type == 'dda_villages' && this.state.ddaInfo) {
+      distId = this.state.ddaInfo.district.id;
     }
     let url = `/api/users-list/ado/?page=${page}&search=${search}`;
 
@@ -240,8 +250,27 @@ class ADO extends Component {
     });
   };
   componentDidMount() {
-    this.fetchADO(1, this.state.search);
-    document.title = 'AFL - DDA';
+    let ddaInfo = null;
+    if (this.props.loginData) {
+      ddaInfo = this.props.loginData;
+    }
+    if (sessionStorage.getItem('loginData')) {
+      ddaInfo = sessionStorage.getItem('loginData');
+    }
+    if (localStorage.getItem('loginData')) {
+      ddaInfo = localStorage.getItem('loginData');
+    }
+    ddaInfo = JSON.parse(ddaInfo);
+
+    this.setState({ ...this.state, ddaInfo: ddaInfo, loading: true }, () => {
+      if (this.props.type == 'dda_villages') {
+        let dist = ddaInfo.district.id;
+        this.fetchADO(1, this.state.search, dist);
+      } else if (this.props.type == 'admin_villages') {
+        this.fetchADO(1, this.state.search);
+      }
+      document.title = 'AFL - DDA';
+    });
   }
   render() {
     return (
@@ -250,12 +279,16 @@ class ADO extends Component {
           title=" List of ADO"
           addlink="/ado/addAdo"
           filter={() => {
-            return (
-              <ADOFilter
-                applyFilters={this.applyFilter}
-                filters={this.state.filters}
-                removeFilter={this.removeFilter}></ADOFilter>
-            );
+            if (this.props.type == 'dda_villages') {
+              return '';
+            } else if (this.props.type == 'admin_villages') {
+              return (
+                <ADOFilter
+                  applyFilters={this.applyFilter}
+                  filters={this.state.filters}
+                  removeFilter={this.removeFilter}></ADOFilter>
+              );
+            }
           }}
           loading={this.state.loading}
           dataSource={this.state.adoData}
