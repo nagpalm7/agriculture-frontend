@@ -17,6 +17,7 @@ class Villages extends Component {
       totalCount: null,
       villageData: [],
       loading: false,
+      ddaInfo: null,
       filters: {
         district: null,
         ado: null,
@@ -83,6 +84,10 @@ class Villages extends Component {
     if (district) {
       distName = district.split('_')[0];
     }
+
+    if (this.props.type == 'dda_villages' && this.state.ddaInfo) {
+      distName = this.state.ddaInfo.district.district;
+    }
     if (ado) {
       adoId = ado.split('_')[1];
     }
@@ -140,6 +145,10 @@ class Villages extends Component {
     if (ado) {
       adoId = ado.split('_')[1];
     }
+
+    if (this.props.type == 'dda_villages' && this.state.ddaInfo) {
+      distName = this.state.ddaInfo.district.district;
+    }
     this.props.history.push({
       pathname: '/villages/',
       search: `?page=${page}&search=${search}`,
@@ -149,6 +158,9 @@ class Villages extends Component {
 
   fetchVillageList = (page, search = '', district, ado) => {
     var url = `/api/villages-list/?page=${page}&search=${search}`;
+    if (this.props.type == 'dda_villages' && this.state.ddaInfo) {
+      district = this.state.ddaInfo.district.district;
+    }
     if (district) {
       url = url + `&block__district__district=${district}`;
     }
@@ -217,9 +229,27 @@ class Villages extends Component {
     });
   };
   componentDidMount() {
-    this.setState({ ...this.state, loading: true });
-    this.fetchVillageList(1, '');
-    document.title = 'AFL - Villages';
+    let ddaInfo = null;
+    if (this.props.loginData) {
+      ddaInfo = this.props.loginData;
+    }
+    if (sessionStorage.getItem('loginData')) {
+      ddaInfo = sessionStorage.getItem('loginData');
+    }
+    if (localStorage.getItem('loginData')) {
+      ddaInfo = localStorage.getItem('loginData');
+    }
+    ddaInfo = JSON.parse(ddaInfo);
+    console.log(ddaInfo);
+    this.setState({ ...this.state, ddaInfo: ddaInfo, loading: true }, () => {
+      if (this.props.type == 'dda_villages') {
+        let dist = ddaInfo.district.district;
+        this.fetchVillageList(1, '', dist);
+      } else if (this.props.type == 'admin_villages') {
+        this.fetchVillageList(1, '');
+      }
+      document.title = 'AFL - Villages';
+    });
   }
 
   render() {
@@ -231,6 +261,7 @@ class Villages extends Component {
           filter={() => {
             return (
               <VillageFilter
+                type={this.props.type}
                 applyFilters={this.applyFilter}
                 filters={this.state.filters}
                 removeFilter={this.removeFilter}></VillageFilter>

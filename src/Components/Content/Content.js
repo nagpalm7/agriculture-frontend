@@ -26,9 +26,18 @@ class Contents extends Component {
     };
     const renderVillage = () => {
       if (this.props.role == 5) {
-        return <Villages history={this.props.history}></Villages>;
+        return (
+          <Villages
+            type="admin_villages"
+            history={this.props.history}></Villages>
+        );
       } else if (this.props.role == 4) {
-        return <Dda_villages history={this.props.history}></Dda_villages>;
+        return (
+          <Villages
+            loginData={this.props.loginData}
+            type="dda_villages"
+            history={this.props.history}></Villages>
+        );
       }
     };
     const renderHome = () => {

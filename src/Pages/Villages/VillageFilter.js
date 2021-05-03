@@ -192,26 +192,31 @@ class villageFilter extends Component {
               console.log(e);
               this.props.applyFilters(e);
             }}>
-            <Form.Item label="Select District" name="district">
-              <Select showSearch placeholder="Select District">
-                <Option value={undefined}>No District</Option>
-                {!this.state.loading ? (
-                  this.state.district.map((district) => {
-                    return (
-                      <Option
-                        key={district.id}
-                        value={`${district.district}_${district.id}`}>
-                        {district.district}
-                      </Option>
-                    );
-                  })
-                ) : (
-                  <Option style={{ textAlign: 'center' }}>
-                    <Spin spinning={true}></Spin>
-                  </Option>
-                )}
-              </Select>
-            </Form.Item>
+            {this.props.type == 'dda_villages' ? (
+              ''
+            ) : (
+              <Form.Item label="Select District" name="district">
+                <Select showSearch placeholder="Select District">
+                  <Option value={undefined}>No District</Option>
+                  {!this.state.loading ? (
+                    this.state.district.map((district) => {
+                      return (
+                        <Option
+                          key={district.id}
+                          value={`${district.district}_${district.id}`}>
+                          {district.district}
+                        </Option>
+                      );
+                    })
+                  ) : (
+                    <Option style={{ textAlign: 'center' }}>
+                      <Spin spinning={true}></Spin>
+                    </Option>
+                  )}
+                </Select>
+              </Form.Item>
+            )}
+
             <Form.Item label="Select Ado" name="ado">
               <Select
                 showSearch
