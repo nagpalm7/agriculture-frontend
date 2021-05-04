@@ -55,15 +55,31 @@ class Contents extends Component {
 
       if (this.props.role == 5) {
         if (status == 'pending') {
-          return <Pending history={this.props.history}></Pending>;
+          return (
+            <Pending
+              history={this.props.history}
+              type="admin_villages"></Pending>
+          );
         } else if (status == 'ongoing') {
-          return <Ongoing history={this.props.history}></Ongoing>;
+          return (
+            <Ongoing
+              history={this.props.history}
+              type="admin_villages"></Ongoing>
+          );
         } else if (status == 'completed') {
-          return <Completed history={this.props.history}></Completed>;
+          return (
+            <Completed
+              history={this.props.history}
+              type="admin_villages"></Completed>
+          );
         }
       } else if (this.props.role == 4) {
         if (status == 'pending') {
-          return <Dda_pending history={this.props.history}></Dda_pending>;
+          return (
+            <Dda_pending
+              history={this.props.history}
+              loginData={this.props.loginData}></Dda_pending>
+          );
         } else if (status == 'ongoing') {
           return <Dda_ongoing history={this.props.history}></Dda_ongoing>;
         } else if (status == 'completed') {
