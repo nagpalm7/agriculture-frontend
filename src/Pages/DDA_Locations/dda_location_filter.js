@@ -1,32 +1,48 @@
 import React, { Component } from 'react';
-import { Form, Select, Spin, Divider, Button, Modal, Tag } from 'antd';
+import {
+  Form,
+  Select,
+  Spin,
+  Divider,
+  Radio,
+  Switch,
+  Button,
+  Modal,
+  Tag,
+} from 'antd';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import { FilterOutlined, RedditCircleFilled } from '@ant-design/icons';
 import RemoveIco from '../../assets/images/letterX.svg';
-const { Option } = Select;
+
 const layout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 18 },
 };
-var ado_children = [];
-ado_children.push(<Option value={undefined}>No ADO</Option>);
+const { Option } = Select;
 
-class villageFilter extends Component {
+class DDALocFilter extends Component {
   constructor(props) {
     super(props);
+    var villageChildren = [];
+    villageChildren.push(<Option value={undefined}>No Village</Option>);
+
+    var ado_children = [];
+    ado_children.push(<Option value={undefined}>No ADO</Option>);
+
     this.state = {
       loading: false,
-      district: [],
       isModalVisible: false,
-      tags: [],
-      ado_loading: false,
       ado: [],
+      villages: [],
+      vilPage: 1,
+      adoPage: 1,
       ado_children: ado_children,
       isAdoRendered: false,
-      adoPage: 1,
+      vilPage: 1,
+      isVillageRendered: false,
+      villageChildren: villageChildren,
     };
   }
-
   fetchAdoList = (page) => {
     axiosInstance
       .get(`/api/users-list/ado/?page=${page}`)
@@ -49,7 +65,6 @@ class villageFilter extends Component {
           );
         });
         this.setState({ ado_children: ado_children }, () => {
-          console.log(length);
           let next = res.data.next;
           if (next == null) {
             this.setState({ ...this.state, isAdoRendered: true });
@@ -67,6 +82,71 @@ class villageFilter extends Component {
         }
       });
   };
+
+  fetchVillageList = (distId, page) => {
+    this.setState({
+      ...this.state,
+      village_loading: true,
+    });
+    axiosInstance
+      .get(`/api/villages-list/district/${distId}?page=${page}`)
+      .then((res) => {
+        this.setState({
+          ...this.setState,
+
+          village_loading: false,
+        });
+        const villageData = res.data.results.map((item) => {
+          return {
+            village: item.village,
+            id: item.id,
+          };
+        });
+        var villageChildren = [...this.state.villageChildren];
+        var length = villageChildren.length;
+        villageData.map((vill) => {
+          villageChildren.push(
+            <Option key={vill.id} value={vill.village}>
+              {vill.village}
+            </Option>,
+          );
+        });
+
+        this.setState({ villageChildren: villageChildren }, () => {
+          var rendered = false;
+          if (res.data.next == null) {
+            rendered = true;
+          }
+          this.setState({
+            ...this.state,
+            isVillageRendered: rendered,
+            village_loading: false,
+          });
+        });
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, village_loading: false });
+        console.log(err);
+      });
+  };
+
+  onScroll = (event) => {
+    var target = event.target;
+    if (
+      !this.state.village_loading &&
+      !this.state.isVillageRendered &&
+      Math.ceil(target.scrollTop) + target.offsetHeight === target.scrollHeight
+    ) {
+      this.setState({ village_loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        this.fetchVillageList(
+          this.props.ddaInfo.district.id,
+          this.state.vilPage + 1,
+        );
+        this.setState({ ...this.state, vilPage: this.state.vilPage + 1 });
+      });
+    }
+  };
   onAdoScroll = (event) => {
     var target = event.target;
     if (
@@ -81,36 +161,17 @@ class villageFilter extends Component {
       });
     }
   };
-  fetchDistricts = () => {
-    this.setState({
-      ...this.state,
-      loading: true,
-    });
-    axiosInstance
-      .get('/api/district/')
-      .then((res) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-          district: res.data,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-        });
-        console.log(err);
-      });
-  };
   handleCancel = () => {
     this.setState({ isModalVisible: false });
   };
   handleOk = () => {
     this.setState({ isModalVisible: false });
   };
+
   componentDidMount() {
-    this.fetchDistricts();
+    let distId = this.props.ddaInfo.district.id;
+    console.log(distId);
+    this.fetchVillageList(distId, 1);
     this.fetchAdoList(1);
   }
   render() {
@@ -119,6 +180,15 @@ class villageFilter extends Component {
       ? Object.keys(this.props.filters).forEach((key, idx) => {
           if (this.props.filters[key]) {
             var val = this.props.filters[key].split('_')[0];
+            if (key == 'assignment') {
+              if (val == 'a') {
+                val = 'none';
+              } else if (val == 'b') {
+                val = 'assigned';
+              } else {
+                val = 'unassigned';
+              }
+            }
             var str = `${key} : ${val}`;
             tags.push(
               <div className="filter_tag">
@@ -144,6 +214,7 @@ class villageFilter extends Component {
           }}>
           <FilterOutlined />
         </div>
+
         <Modal
           visible={this.state.isModalVisible}
           onOk={this.handleOk}
@@ -166,12 +237,10 @@ class villageFilter extends Component {
               }}>
               Filters Active
             </div>
-            {this.props.filters.district || this.props.filters.ado ? (
-              <div>
-                {tags.map((tag) => {
-                  return tag;
-                })}
-              </div>
+            {this.props.filters.ado ||
+            this.props.filters.village ||
+            this.props.filters.assignment ? (
+              <div>{tags}</div>
             ) : (
               <span className="no_filter_disp">No active filters</span>
             )}
@@ -185,39 +254,31 @@ class villageFilter extends Component {
             Add Filters
           </div>
           <Form
-            name="villageFilter"
-            {...layout}
+            name="Pending Location Filter"
             style={{ marginTop: '10px' }}
+            {...layout}
             onFinish={(e) => {
-              console.log(e);
               this.props.applyFilters(e);
             }}>
-            {this.props.type == 'dda_villages' ? (
-              ''
-            ) : (
-              <Form.Item label="Select District" name="district">
-                <Select showSearch placeholder="Select District">
-                  <Option value={undefined}>No District</Option>
-                  {!this.state.loading ? (
-                    this.state.district.map((district) => {
-                      return (
-                        <Option
-                          key={district.id}
-                          value={`${district.district}_${district.id}`}>
-                          {district.district}
-                        </Option>
-                      );
-                    })
-                  ) : (
-                    <Option style={{ textAlign: 'center' }}>
-                      <Spin spinning={true}></Spin>
-                    </Option>
-                  )}
-                </Select>
-              </Form.Item>
-            )}
-
-            <Form.Item label="Select Ado" name="ado">
+            <Form.Item name="village" label="Select Village">
+              <Select
+                showSearch
+                onPopupScroll={this.onScroll}
+                placeholder="Select Village">
+                {this.state.village_loading == false &&
+                !this.state.isVillageRendered
+                  ? [...this.state.villageChildren]
+                  : this.state.isVillageRendered == true
+                  ? [...this.state.villageChildren]
+                  : [
+                      ...this.state.villageChildren,
+                      <Option key="loading" style={{ textAlign: 'center' }}>
+                        <Spin spinning={true}></Spin>
+                      </Option>,
+                    ]}
+              </Select>
+            </Form.Item>
+            <Form.Item name="ado" label="Select ADO">
               <Select
                 showSearch
                 style={{ borderRadius: '7px', borderColor: '#707070' }}
@@ -235,6 +296,13 @@ class villageFilter extends Component {
                       </Option>,
                     ]}
               </Select>
+            </Form.Item>
+            <Form.Item name="assignment" label="Assignment">
+              <Radio.Group>
+                <Radio value="a">None</Radio>
+                <Radio value="b">Assigned</Radio>
+                <Radio value="c">Unassigned</Radio>
+              </Radio.Group>
             </Form.Item>
             <Form.Item
               wrapperCol={{ span: 24, offset: 0 }}
@@ -266,4 +334,4 @@ class villageFilter extends Component {
     );
   }
 }
-export default villageFilter;
+export default DDALocFilter;

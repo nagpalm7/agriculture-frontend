@@ -11,7 +11,7 @@ export default class App extends React.Component {
     this.state = {
       role: null,
       isLoggedIn: false,
-      ddaId: null,
+      loginData: null,
     };
   }
   /*eslint-disable */
@@ -62,7 +62,13 @@ export default class App extends React.Component {
       };
     });
   };
-
+  setLoginData = (data) => {
+    console.log(data);
+    this.setState({
+      ...this.state,
+      loginData: data,
+    });
+  };
   logout = () => {
     delete localStorage.token;
     delete sessionStorage.token;
@@ -101,6 +107,7 @@ export default class App extends React.Component {
                   <DdaDashboard
                     history={props.history}
                     logout={this.logout}
+                    loginData={this.state.loginData}
                     ddaId={ddaId}
                   />
                 )}
@@ -123,6 +130,7 @@ export default class App extends React.Component {
                   history={props.history}
                   toggleIsLoggedIn={this.toggleIsLoggedIn}
                   setRole={this.setRole}
+                  setLoginData={this.setLoginData}
                 />
               )}
             />

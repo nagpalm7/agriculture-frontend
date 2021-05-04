@@ -4,15 +4,16 @@ import dashboard_routes from '../../routes/dashboard_routes';
 import { Layout } from 'antd';
 import Report from '../../Pages/Report/ReportRender.js';
 import Villages from '../../Pages/Villages/Villages';
-import Dda_villages from '../../Pages/DDA_Villages/dda_village';
 import ADO from '../../Pages/ADO/ADO';
-import DDA_Ado from '../../Pages/DDA_Ado/dda_ado';
 import Pending from '../../Pages/Locations/Pending/pending';
 import Ongoing from '../../Pages/Locations/ongoing';
 import Completed from '../../Pages/Locations/completed';
 import Dda_ongoing from '../../Pages/DDA_Locations/dda_ongoing';
 import Dda_completed from '../../Pages/DDA_Locations/dda_completed';
 import Dda_pending from '../../Pages/DDA_Locations/dda_pending';
+import Home from '../../Pages/Home/Home.js';
+import DDA_Home from '../../Pages/Home/DDA_Home';
+
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -23,9 +24,29 @@ class Contents extends Component {
     };
     const renderVillage = () => {
       if (this.props.role == 5) {
-        return <Villages history={this.props.history}></Villages>;
+        return (
+          <Villages
+            type="admin_villages"
+            history={this.props.history}></Villages>
+        );
       } else if (this.props.role == 4) {
-        return <Dda_villages history={this.props.history}></Dda_villages>;
+        return (
+          <Villages
+            loginData={this.props.loginData}
+            type="dda_villages"
+            history={this.props.history}></Villages>
+        );
+      }
+    };
+    const renderHome = () => {
+      if (this.props.role == 5) {
+        return <Home history={this.props.history}></Home>;
+      } else if (this.props.role == 4) {
+        return (
+          <DDA_Home
+            loginData={this.props.loginData}
+            history={this.props.history}></DDA_Home>
+        );
       }
     };
     const renderLocation = () => {
@@ -34,15 +55,31 @@ class Contents extends Component {
 
       if (this.props.role == 5) {
         if (status == 'pending') {
-          return <Pending history={this.props.history}></Pending>;
+          return (
+            <Pending
+              history={this.props.history}
+              type="admin_villages"></Pending>
+          );
         } else if (status == 'ongoing') {
-          return <Ongoing history={this.props.history}></Ongoing>;
+          return (
+            <Ongoing
+              history={this.props.history}
+              type="admin_villages"></Ongoing>
+          );
         } else if (status == 'completed') {
-          return <Completed history={this.props.history}></Completed>;
+          return (
+            <Completed
+              history={this.props.history}
+              type="admin_villages"></Completed>
+          );
         }
       } else if (this.props.role == 4) {
         if (status == 'pending') {
-          return <Dda_pending history={this.props.history}></Dda_pending>;
+          return (
+            <Dda_pending
+              history={this.props.history}
+              loginData={this.props.loginData}></Dda_pending>
+          );
         } else if (status == 'ongoing') {
           return <Dda_ongoing history={this.props.history}></Dda_ongoing>;
         } else if (status == 'completed') {
@@ -52,9 +89,19 @@ class Contents extends Component {
     };
     const renderAdo = () => {
       if (this.props.role == 5) {
-        return <ADO history={this.props.history}></ADO>;
+        return (
+          <ADO
+            history={this.props.history}
+            loginData={this.props.loginData}
+            type="admin_villages"></ADO>
+        );
       } else if (this.props.role == 4) {
-        return <DDA_Ado history={this.props.history}></DDA_Ado>;
+        return (
+          <ADO
+            history={this.props.history}
+            loginData={this.props.loginData}
+            type="dda_villages"></ADO>
+        );
       }
     };
     return (
@@ -73,6 +120,7 @@ class Contents extends Component {
               children={<route.component history={this.props.history} />}
             />
           ))}
+          <Route path="/" exact children={renderHome}></Route>
           <Route path="/ado" exact children={renderAdo}></Route>
           <Route
             path="/locations/ongoing/:villageId"
