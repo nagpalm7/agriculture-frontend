@@ -36,25 +36,7 @@ class Dda_completed extends Component {
       dataIndex: 'dda',
       key: 'dda',
       render: (dda) => {
-        // let tooltipText = '';
-        // if (dda) {
-        //   tooltipText = () => {
-        //     return (
-        //       <>
-        //         <div className="tooltip-text">
-        //           Name : {dda.user.name}
-        //           <br></br>
-        //           Email : {dda.user.email}
-        //           <br></br>
-        //           District :{' '}
-        //           {dda.district.district ? dda.district.district : 'null'}
-        //           <br></br>
-        //           State : {dda.district.state.state}
-        //         </div>
-        //       </>
-        //     );
-        //   };
-        // }
+       
         return (
           // <Tooltip placement="bottom" title={tooltipText}>
           <span>{dda ? dda.user.name : 'No Data'}</span>
@@ -67,22 +49,7 @@ class Dda_completed extends Component {
       dataIndex: 'ado',
       key: 'ado',
       render: (ado) => {
-        // let tooltipText = '';
-        // if (ado) {
-        //   tooltipText = () => {
-        //     return (
-        //       <>
-        //         <div className="tooltip-text">
-        //           Name : {ado.user.name}
-        //           <br></br>
-        //           Email : {ado.user.email}
-        //           <br></br>
-        //           State : {ado.user.state ? ado.user.state.state : 'null'}
-        //         </div>
-        //       </>
-        //     );
-        //   };
-        // }
+       
         return (
           // <Tooltip placement="bottom" title={tooltipText}>
           <span>{ado ? ado.user.name : 'No Data'}</span>

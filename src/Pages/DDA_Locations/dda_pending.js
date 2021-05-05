@@ -260,6 +260,7 @@ class Dda_pending extends Component {
                   filters={this.state.filters}
                   removeFilter={this.removeFilter}
                   status="Pending"
+                  type="pending_loc"
                   ddaInfo={this.state.ddaInfo}></DDALocFilter>
               );
             }
