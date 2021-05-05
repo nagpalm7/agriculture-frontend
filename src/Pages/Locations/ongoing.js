@@ -117,31 +117,7 @@ class Ongoing extends Component {
       dataIndex: 'dda',
       key: 'dda',
       render: (dda) => {
-        console.log(dda);
-        // let tooltipText = '';
-        // if (dda) {
-        //   tooltipText = () => {
-        //     return (
-        //       <>
-        //         <div className="tooltip-text">
-        //           Name : {dda.user.name}
-        //           <br></br>
-        //           Email : {dda.user.email}
-        //           <br></br>
-        //           District :{' '}
-        //           {dda.district.district ? dda.district.district : 'null'}
-        //           <br></br>
-        //           State : {dda.district.state.state}
-        //         </div>
-        //       </>
-        //     );
-        //   };
-        // }
-        return (
-          // <Tooltip placement="bottom" title={tooltipText}>
-          <span>{dda ? dda.user.name : 'No Data'}</span>
-          // </Tooltip>
-        );
+        return <span>{dda ? dda.user.name : 'No Data'}</span>;
       },
     },
     {

@@ -297,6 +297,8 @@ class DDALocFilter extends Component {
                     ]}
               </Select>
             </Form.Item>
+            {
+              (this.props.type=="pending_loc")?(
             <Form.Item name="assignment" label="Assignment">
               <Radio.Group>
                 <Radio value="a">None</Radio>
@@ -304,6 +306,11 @@ class DDALocFilter extends Component {
                 <Radio value="c">Unassigned</Radio>
               </Radio.Group>
             </Form.Item>
+              ):(
+                ''
+              )
+            }
+            
             <Form.Item
               wrapperCol={{ span: 24, offset: 0 }}
               labelCol={{ span: 0 }}
