@@ -71,7 +71,7 @@ class DDA_Home extends Component {
         <Row style={{ marginBottom: '10px' }}>
           <h2 style={{ fontWeight: 'bold', flex: 1, fontSize: 26 }}>Map</h2>
           {this.state.ddaInfo ? (
-            <Popover placement="bottom" content={popoverContent}>
+            <Popover placement="bottom" content={popoverContent} id="dda_disp_pop">
               <div className="dda_info_disp">
                 <Avatar src={this.state.ddaInfo.user.image} />
                 <span>{this.state.ddaInfo.user.username}</span>

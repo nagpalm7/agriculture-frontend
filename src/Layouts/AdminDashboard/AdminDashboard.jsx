@@ -32,7 +32,7 @@ class AdminDashboard extends Component {
           <MyDrawer type="admin_dashboard" pathname={this.props.history.location.pathname} collapsed={this.state.collapsed} onClose={this.onClose}></MyDrawer> 
           <Layout
             className="site-layout"
-            style={{ backgroundColor: '#f5f3ff',
+            style={{ backgroundColor: '#f5f3ff',overflowY:'auto' 
              }}>
             <Headers
               logout={this.props.logout}
