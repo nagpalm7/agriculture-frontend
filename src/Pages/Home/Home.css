@@ -59,7 +59,7 @@
 .dda_info_disp span {
   margin-left: 5px;
 }
-.ant-popover-inner-content {
+#dda_disp_pop .ant-popover-inner-content {
   overflow: auto;
   width: 260px;
   height: 160px;
@@ -68,7 +68,7 @@
   color: rgba(0, 0, 0, 0.795);
   padding: 10px;
 }
-.ant-popover-inner {
+#dda_disp_pop.ant-popover-inner {
   border-radius: 10px;
   font-size: 15px;
   font-weight: 600;
