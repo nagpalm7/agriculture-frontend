@@ -60,13 +60,23 @@
   margin-left: 5px;
 }
 #dda_disp_pop .ant-popover-inner-content {
-  overflow: auto;
-  width: 260px;
-  height: 160px;
+  overflow: hidden;
+  height: 180px;
+  width: 280px;
 }
 .pop_dda_disp {
+  width: 100%;
+  display: block;
   color: rgba(0, 0, 0, 0.795);
   padding: 10px;
+  padding-left: 10px;
+}
+.pop_ado_disp{
+  width: 100%;
+  display: block;
+  color: rgba(0, 0, 0, 0.795);
+  padding: 10px;
+  
 }
 #dda_disp_pop.ant-popover-inner {
   border-radius: 10px;

@@ -13,7 +13,7 @@ import Dda_completed from '../../Pages/DDA_Locations/dda_completed';
 import Dda_pending from '../../Pages/DDA_Locations/dda_pending';
 import Home from '../../Pages/Home/Home.js';
 import DDA_Home from '../../Pages/Home/DDA_Home';
-
+import ADO_Home from '../../Pages/Home/ADO_Home';
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -46,6 +46,12 @@ class Contents extends Component {
           <DDA_Home
             loginData={this.props.loginData}
             history={this.props.history}></DDA_Home>
+        );
+      } else if (this.props.role == 3) {
+        return (
+          <ADO_Home
+            history={this.props.history}
+            loginData={this.props.loginData}></ADO_Home>
         );
       }
     };
