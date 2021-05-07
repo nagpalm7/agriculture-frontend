@@ -83,6 +83,7 @@ class ADO_Home extends Component {
       this.fetchData();
       this.fetchDataChartData();
     });
+    document.title = 'AFL-Home';
   }
   render() {
     console.log(this.state);

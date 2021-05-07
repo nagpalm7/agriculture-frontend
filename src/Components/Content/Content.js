@@ -14,6 +14,7 @@ import Dda_pending from '../../Pages/DDA_Locations/dda_pending';
 import Home from '../../Pages/Home/Home.js';
 import DDA_Home from '../../Pages/Home/DDA_Home';
 import ADO_Home from '../../Pages/Home/ADO_Home';
+import ADO_Villages from '../../Pages/Villages/AdoVillages.js';
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -35,6 +36,12 @@ class Contents extends Component {
             loginData={this.props.loginData}
             type="dda_villages"
             history={this.props.history}></Villages>
+        );
+      } else if (this.props.role == 3) {
+        return (
+          <ADO_Villages
+            loginData={this.props.loginData}
+            history={this.props.history}></ADO_Villages>
         );
       }
     };

@@ -6,7 +6,7 @@ import edit from '../../assets/images/edit.png';
 import garbage from '../../assets/images/trash-can.png';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, AlertTwoTone } from '@ant-design/icons';
 import VillageFilter from './VillageFilter';
 const { confirm } = Modal;
 
@@ -99,9 +99,10 @@ class Villages extends Component {
     let instance = this;
     confirm({
       title: 'Are you sure delete this village?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <AlertTwoTone />,
       content: villlageName,
       okText: 'Yes',
+      id:  'confirm_modal',
       okType: 'danger',
       cancelText: 'No',
       onOk() {

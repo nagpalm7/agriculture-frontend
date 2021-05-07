@@ -38,3 +38,21 @@
   border: 1px solid skyblue;
   background-color: rgba(135, 207, 235, 0.205);
 }
+.ant-modal-confirm-btns .ant-btn{
+  color: #e03b3b;
+  background-color: #f5f3ff;
+  border-radius: 20px;
+  border: 0px;
+}
+.ant-modal-confirm-btns .ant-btn:hover{
+  color: #e03b3b;
+  background-color: #f5f3ff;
+  border-radius: 20px;
+  border: 0px;
+}
+.ant-modal-confirm-btns .ant-btn.ant-btn-dangerous{
+  color: white;
+  background-color: rgb(224, 59, 59);
+  border-radius: 20px;
+  border: 0px;
+}
