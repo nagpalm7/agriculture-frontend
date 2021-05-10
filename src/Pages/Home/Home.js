@@ -17,6 +17,8 @@ class Home extends Component {
       selectedDist: 'ALL DISTRICTS',
       loading: true,
       times: 1,
+      centerLat: 0,
+      centerLong: 0,
     };
   }
   fetchData = async () => {
@@ -32,6 +34,21 @@ class Home extends Component {
       );
       var toRender = locs.data.slice(0, locs.data.length / 4);
       console.log(locs.data, locs.data.length);
+      let centerLat = 0,
+        centerLong = 0;
+      if (locs.data.length > 0) {
+        locs.data.map((loc) => {
+          centerLat += parseFloat(loc.latitude);
+          centerLong += parseFloat(loc.longitude);
+        });
+      }
+      if (locs.data.length == 0) {
+        centerLat = 30.9002697;
+        centerLong = 75.7165881;
+      } else {
+        centerLat /= parseFloat(locs.data.length);
+        centerLong /= parseFloat(locs.data.length);
+      }
       dists.data.push({ id: -1, district: 'ALL DISTRICTS' });
       this.setState({
         locations: locs.data,
@@ -39,6 +56,8 @@ class Home extends Component {
         districts: dists.data,
         selectedDist: 'ALL DISTRICTS',
         loading: false,
+        centerLat: centerLat,
+        centerLong: centerLong,
       });
     } catch (e) {
       this.setState({
@@ -66,6 +85,21 @@ class Home extends Component {
       url = 'https://api.aflmonitoring.com/api/upload/locations/map/';
       let locs = await axiosInstance.get(url);
       var toRender = locs.data.slice(0, locs.data.length / 4);
+      let centerLat = 0,
+        centerLong = 0;
+      if (locs.data.length > 0) {
+        locs.data.map((loc) => {
+          centerLat += parseFloat(loc.latitude);
+          centerLong += parseFloat(loc.longitude);
+        });
+      }
+      if (locs.data.length == 0) {
+        centerLat = 30.9002697;
+        centerLong = 75.7165881;
+      } else {
+        centerLat /= parseFloat(locs.data.length);
+        centerLong /= parseFloat(locs.data.length);
+      }
       this.setState({
         ...this.state,
         locations: locs.data,
@@ -73,16 +107,36 @@ class Home extends Component {
         loading: false,
         renderLocations: toRender,
         times: 1,
+        centerLat: centerLat,
+        centerLong: centerLong,
       });
     } else {
       url = `https://api.aflmonitoring.com/api/upload/locations/map/?district=${e}`;
       let locs = await axiosInstance.get(url);
+      let centerLat = 0,
+        centerLong = 0;
+      if (locs.data.length > 0) {
+        locs.data.map((loc) => {
+          centerLat += parseFloat(loc.latitude);
+          centerLong += parseFloat(loc.longitude);
+        });
+      }
+      if (locs.data.length == 0) {
+        centerLat = 30.9002697;
+        centerLong = 75.7165881;
+      } else {
+        centerLat /= parseFloat(locs.data.length);
+        centerLong /= parseFloat(locs.data.length);
+      }
+    
       this.setState({
         ...this.state,
         locations: locs.data,
         selectedDist: e,
         loading: false,
         renderLocations: null,
+        centerLat: centerLat,
+        centerLong: centerLong,
       });
     }
     message.info(`Showing data of district ${e}`);
@@ -161,6 +215,8 @@ class Home extends Component {
             <>
               <Col lg={18} sm={24} xs={24}>
                 <Map
+                  centerLong={this.state.centerLong}
+                  centerLat={this.state.centerLat}
                   locations={
                     this.state.selectedDist.toString() == 'ALL DISTRICTS'
                       ? this.state.renderLocations

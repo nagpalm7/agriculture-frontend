@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ChartComponent from './ChartComponent';
 import { axiosInstance } from '../../utils/axiosIntercepter';
+import moment from 'moment';
 import './charts.css';
+const dateFormat = 'YYYY-MM-DD';
 const style = {
   ChartComponent: {
     height: 220,
@@ -29,8 +31,10 @@ class Charts extends Component {
   processData = async (status) => {
     console.log(this.props.selectedDist);
     try {
+      let startDate = '2019-02-01';
+      let EndDate = moment().format(dateFormat);
       let count = await axiosInstance.get(
-        'https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=2019-02-01&end_date=2019-12-12&points=5',
+        `https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=${startDate}&end_date=${EndDate}&points=15`,
       );
       console.log(count);
       this.setState({

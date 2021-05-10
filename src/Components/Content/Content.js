@@ -11,9 +11,12 @@ import Completed from '../../Pages/Locations/completed';
 import Dda_ongoing from '../../Pages/DDA_Locations/dda_ongoing';
 import Dda_completed from '../../Pages/DDA_Locations/dda_completed';
 import Dda_pending from '../../Pages/DDA_Locations/dda_pending';
+import Ado_Pending from '../../Pages/ADO_Locations/ado_pending';
+import ADO_Completed from '../../Pages/ADO_Locations/ado_completed';
 import Home from '../../Pages/Home/Home.js';
 import DDA_Home from '../../Pages/Home/DDA_Home';
-
+import ADO_Home from '../../Pages/Home/ADO_Home';
+import ADO_Villages from '../../Pages/Villages/AdoVillages.js';
 const { Content } = Layout;
 
 class Contents extends Component {
@@ -36,6 +39,12 @@ class Contents extends Component {
             type="dda_villages"
             history={this.props.history}></Villages>
         );
+      } else if (this.props.role == 3) {
+        return (
+          <ADO_Villages
+            loginData={this.props.loginData}
+            history={this.props.history}></ADO_Villages>
+        );
       }
     };
     const renderHome = () => {
@@ -46,6 +55,12 @@ class Contents extends Component {
           <DDA_Home
             loginData={this.props.loginData}
             history={this.props.history}></DDA_Home>
+        );
+      } else if (this.props.role == 3) {
+        return (
+          <ADO_Home
+            history={this.props.history}
+            loginData={this.props.loginData}></ADO_Home>
         );
       }
     };
@@ -84,6 +99,20 @@ class Contents extends Component {
           return <Dda_ongoing history={this.props.history}></Dda_ongoing>;
         } else if (status == 'completed') {
           return <Dda_completed history={this.props.history}></Dda_completed>;
+        }
+      } else {
+        if (status == 'pending') {
+          return (
+            <Ado_Pending
+              history={this.props.history}
+              type="ado_locations"></Ado_Pending>
+          );
+        } else if (status == 'completed') {
+          return (
+            <ADO_Completed
+              history={this.props.history}
+              type="ado_locations"></ADO_Completed>
+          );
         }
       }
     };

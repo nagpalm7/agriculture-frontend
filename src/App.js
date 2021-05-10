@@ -4,7 +4,7 @@ import Login from './Pages/Login/Login';
 import AdminDashboard from './Layouts/AdminDashboard/AdminDashboard';
 import DdaDashboard from './Layouts/DdaDashboard/DdaDashboard';
 import { axiosInstance } from './utils/axiosIntercepter';
-
+import AdoDashboard from './Layouts/AdoDashboard/AdoDashboard';
 export default class App extends React.Component {
   constructor() {
     super();
@@ -116,7 +116,23 @@ export default class App extends React.Component {
           </BrowserRouter>
         );
       } else {
-        return <>help</>;
+        return (
+          <BrowserRouter>
+            <Switch>
+              <Route
+                path="/"
+                render={(props) => (
+                  <AdoDashboard
+                    history={props.history}
+                    logout={this.logout}
+                    loginData={this.state.loginData}
+                    ddaId={ddaId}
+                  />
+                )}
+              />
+            </Switch>
+          </BrowserRouter>
+        );
       }
     } else {
       return (
