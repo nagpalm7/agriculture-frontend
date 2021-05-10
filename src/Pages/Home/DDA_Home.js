@@ -17,6 +17,8 @@ class DDA_Home extends Component {
       loading: true,
       times: 1,
       ddaInfo: null,
+      centerLat: 0,
+      centerLong: 0,
     };
   }
   fetchData = async () => {
@@ -24,10 +26,27 @@ class DDA_Home extends Component {
       let locs = await axiosInstance.get(
         `https://api.aflmonitoring.com/api/upload/locations/map/?district=${this.state.ddaInfo.district.district}`,
       );
+      let centerLat = 0,
+        centerLong = 0;
+      if (locs.data.length > 0) {
+        locs.data.map((loc) => {
+          centerLat += parseFloat(loc.latitude);
+          centerLong += parseFloat(loc.longitude);
+        });
+      }
+      if (locs.data.length == 0) {
+        centerLat = 30.9002697;
+        centerLong = 75.7165881;
+      } else {
+        centerLat /= parseFloat(locs.data.length);
+        centerLong /= parseFloat(locs.data.length);
+      }
       this.setState({
         ...this.state,
         locations: locs.data,
         loading: false,
+        centerLat: centerLat,
+        centerLong: centerLong,
       });
     } catch (e) {
       this.setState({
@@ -89,7 +108,11 @@ class DDA_Home extends Component {
           {!this.state.loading ? (
             <>
               <Col lg={18} sm={24} xs={24}>
-                <Map locations={this.state.locations} />
+                <Map
+                  locations={this.state.locations}
+                  centerLong={this.state.centerLong}
+                  centerLat={this.state.centerLat}
+                />
               </Col>
 
               <Col lg={6} sm={24} xs={24}>

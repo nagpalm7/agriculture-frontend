@@ -37,13 +37,16 @@ const MapView = compose(
   withScriptjs,
   withGoogleMap,
 )((props) => {
-  console.log(props.locations);
-  const loc=props.locations;
- 
+  console.log(props);
+  const loc = props.locations;
+
   return (
     <GoogleMap
-      defaultZoom={7}
-      defaultCenter={{ lat: 30.9002697, lng: 75.7165881 }}>
+      defaultZoom={6}
+      defaultCenter={{
+        lat: props.centerLat,
+        lng: props.centerLong,
+      }}>
       <MarkerClusterer
         imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
         maxZoom={14}>

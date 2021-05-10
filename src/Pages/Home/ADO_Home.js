@@ -21,6 +21,8 @@ class ADO_Home extends Component {
       pendingCount: 0,
       ongoingCount: 0,
       completedCount: 0,
+      centerLat: 0,
+      centerLong: 0,
     };
   }
   fetchDataChartData = async () => {
@@ -53,10 +55,27 @@ class ADO_Home extends Component {
   fetchData = async () => {
     try {
       let locs = await axiosInstance.get(`/api/upload/locations/map`);
+      let centerLat = 0,
+        centerLong = 0;
+      if (locs.data.length > 0) {
+        locs.data.map((loc) => {
+          centerLat += parseFloat(loc.latitude);
+          centerLong += parseFloat(loc.longitude);
+        });
+      }
+      if (locs.data.length == 0) {
+        centerLat = 30.9002697;
+        centerLong = 75.7165881;
+      } else {
+        centerLat /= parseFloat(locs.data.length);
+        centerLong /= parseFloat(locs.data.length);
+      }
       this.setState({
         ...this.state,
         locations: locs.data,
         loading: false,
+        centerLat: centerLat,
+        centerLong: centerLong,
       });
     } catch (e) {
       this.setState({
@@ -121,7 +140,11 @@ class ADO_Home extends Component {
           {!this.state.loading ? (
             <>
               <Col lg={18} sm={24} xs={24}>
-                <Map locations={this.state.locations} />
+                <Map
+                  locations={this.state.locations}
+                  centerLong={this.state.centerLong}
+                  centerLat={this.state.centerLat}
+                />
               </Col>
 
               <Col lg={6} sm={24} xs={24}>

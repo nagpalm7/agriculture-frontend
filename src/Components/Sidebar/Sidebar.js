@@ -214,9 +214,6 @@ class Sidebar extends Component {
               <Menu.Item key="pending">
                 <Link to="/locations/pending">Pending</Link>
               </Menu.Item>
-              <Menu.Item key="ongoing">
-                <Link to="/locations/ongoing">Ongoing</Link>
-              </Menu.Item>
               <Menu.Item key="completed">
                 <Link to="/locations/completed">Completed</Link>
               </Menu.Item>

@@ -89,7 +89,7 @@ class Analysis extends Component {
     console.log(startDate, EndDate);
     try {
       let count = await axiosInstance.get(
-        `https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=${startDate}&end_date=${EndDate}&points=5`,
+        `https://api.aflmonitoring.com/api/countReportBtwDates/?start_date=${startDate}&end_date=${EndDate}&points=10`,
       );
 
       this.setState({
