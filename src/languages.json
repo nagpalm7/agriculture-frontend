@@ -1,0 +1,36 @@
+{
+  "en": {
+    "login": "Login",
+    "afl": "AFL",
+    "monitoring": "Monitoring",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember Me",
+    "forgotPass": "Forgot Password",
+    "home": "Home",
+    "village": "Villages",
+    "dda": "DDA",
+    "ado": "ADO",
+    "locations": "Locations",
+    "pending": "Pending",
+    "ongoing": "Ongoing",
+    "completed": "Completed"
+  },
+  "hi": {
+    "login": "लॉग इन",
+    "afl": "एएफएल",
+    "monitoring": "मॉनटर्इंग",
+    "username": "उपयोगकर्ता नाम",
+    "password": "कुंजिका",
+    "rememberMe": "मुझे याद रखना",
+    "forgotPass": "पासवर्ड भूल गए",
+    "home": "घर",
+    "village": "गाँव",
+    "ado": "एडीओ",
+    "dda": "डीडीए",
+    "locations": "स्थान",
+    "pending": "अनिर्णीत",
+    "ongoing": "चल रही है",
+    "completed": "पूरित"
+  }
+}

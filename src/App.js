@@ -12,6 +12,7 @@ export default class App extends React.Component {
       role: null,
       isLoggedIn: false,
       loginData: null,
+      lang:  'en',
     };
   }
   /*eslint-disable */
@@ -69,6 +70,13 @@ export default class App extends React.Component {
       loginData: data,
     });
   };
+  setLang = (data) => {
+    this.setState({
+      ...this.state,
+      lang: data,
+    });
+    localStorage.setItem('lang', data);
+  };
   logout = () => {
     delete localStorage.token;
     delete sessionStorage.token;
@@ -89,8 +97,11 @@ export default class App extends React.Component {
                 path="/"
                 render={(props) => (
                   <AdminDashboard
+                    setLang={this.setLang}
+                    lang={this.state.lang}
                     history={props.history}
                     logout={this.logout}
+                    loginData={this.state.loginData}
                   />
                 )}
               />
@@ -105,6 +116,8 @@ export default class App extends React.Component {
                 path="/"
                 render={(props) => (
                   <DdaDashboard
+                    setLang={this.setLang}
+                    lang={this.state.lang}
                     history={props.history}
                     logout={this.logout}
                     loginData={this.state.loginData}
@@ -123,6 +136,8 @@ export default class App extends React.Component {
                 path="/"
                 render={(props) => (
                   <AdoDashboard
+                    setLang={this.setLang}
+                    lang={this.state.lang}
                     history={props.history}
                     logout={this.logout}
                     loginData={this.state.loginData}
@@ -146,6 +161,8 @@ export default class App extends React.Component {
                   history={props.history}
                   toggleIsLoggedIn={this.toggleIsLoggedIn}
                   setRole={this.setRole}
+                  setLang={this.setLang}
+                  lang={this.state.lang}
                   setLoginData={this.setLoginData}
                 />
               )}
