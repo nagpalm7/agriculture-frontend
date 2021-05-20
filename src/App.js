@@ -30,9 +30,17 @@ export default class App extends React.Component {
         return config;
       });
     }
+    let lang;
+    if (sessionStorage.getItem('lang')) {
+      lang = sessionStorage.getItem('lang');
+    }
+    if (localStorage.getItem('lang')) {
+      lang = localStorage.getItem('lang');
+    }
     this.setState({
       ...this.state,
       isLoggedIn: !isLoggedIn,
+      lang:lang,
       role:
         localStorage.getItem('Role') == null
           ? parseInt(sessionStorage.getItem('Role'))

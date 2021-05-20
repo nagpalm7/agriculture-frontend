@@ -14,7 +14,15 @@
     "locations": "Locations",
     "pending": "Pending",
     "ongoing": "Ongoing",
-    "completed": "Completed"
+    "completed": "Completed",
+    "comparison": "Comparison",
+    "analysis": "Analysis",
+    "logout": "Log Out",
+    "name": "Name",
+    "email": "Email",
+    "state": "State",
+    "phone": "Phone Number",
+    "district":"District"
   },
   "hi": {
     "login": "लॉग इन",
@@ -31,6 +39,14 @@
     "locations": "स्थान",
     "pending": "अनिर्णीत",
     "ongoing": "चल रही है",
-    "completed": "पूरित"
+    "completed": "पूरित",
+    "comparison": "तुलना",
+    "analysis": "विश्लेषण",
+    "logout": "लॉग आउट",
+    "name": "नाम",
+    "email": "ईमेल",
+    "state": "राज्य",
+    "phone": "फ़ोन नंबर",
+    "district":"जिला"
   }
 }

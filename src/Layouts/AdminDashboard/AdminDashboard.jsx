@@ -32,6 +32,7 @@ class AdminDashboard extends Component {
             collapsed={this.state.collapsed}
             type="admin_dashboard"
             pathname={this.props.history.location.pathname}
+            lang={this.props.lang}
           />
           <MyDrawer
             type="admin_dashboard"
