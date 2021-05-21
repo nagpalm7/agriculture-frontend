@@ -48,8 +48,9 @@ class Contents extends Component {
       }
     };
     const renderHome = () => {
+      console.log(this.props.lang);
       if (this.props.role == 5) {
-        return <Home history={this.props.history}></Home>;
+        return <Home history={this.props.history} lang={this.props.lang}></Home>;
       } else if (this.props.role == 4) {
         return (
           <DDA_Home

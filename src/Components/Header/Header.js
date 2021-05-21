@@ -8,6 +8,8 @@ import {
   Popover,
   Divider,
   Select,
+  Row,
+  Col,
 } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -81,7 +83,7 @@ class Headers extends Component {
     console.log(loginData, lang);
   }
   render() {
-    console.log(this.props.lang);
+    console.log(this.state.loginData);
     return this.state.lang ? (
       <IntlProvider
         locale={this.state.lang}
@@ -102,54 +104,48 @@ class Headers extends Component {
                   style={{ width: '100px', height: '100px' }}
                 />
                 <Divider></Divider>
-                <div>
-                  <span>
-                  <FormattedMessage
-                    id="name"
-                    defaultMessage="some default one"
-                    values={this.state.localeLang}
-                  />
-                  </span>
-                 
-                  - {this.state.loginData.user.name}
-                </div>
-                <div>
-                  <span>
-                  <FormattedMessage
-                    id="email"
-                    defaultMessage="some default one"
-                    values={this.state.localeLang}
-                  />
-                  </span>
-                  {' '}
-                  - {this.state.loginData.user.email}
-                </div>
-                {this.state.loginData.user.phone_number ? (
-                  <div>
-                    <span>
+                <div id="dividing_line"></div>
+                <Row>
+                  <Col md={8} span={8}>
+                    {' '}
+                    <FormattedMessage
+                      id="name"
+                      defaultMessage="some default one"
+                      values={this.state.localeLang}
+                    />
+                  </Col>
+                  <Col md={16} span={16}>{this.state.loginData.user.name}</Col>
+                  <Divider></Divider>
+                  <Col span={8}>
+                    {' '}
+                    <FormattedMessage
+                      id="email"
+                      defaultMessage="some default one"
+                      values={this.state.localeLang}
+                    />
+                  </Col>
+                  <Col span={16} >{this.state.loginData.user.email}</Col>
+                  <Divider></Divider>
+                  <Col span={8}>
+                    {' '}
                     <FormattedMessage
                       id="phone"
                       defaultMessage="some default one"
                       values={this.state.localeLang}
                     />
-                    </span>
+                  </Col>
+                  <Col span={16}>{(this.state.loginData.user.phone_number)?this.state.loginData.user.phone_number:'NA'}</Col>
+                  <Divider></Divider>
+                  <Col span={8}>
                     {' '}
-                    - {this.state.loginData.user.phone_number}
-                  </div>
-                ) : (
-                  <></>
-                )}
-                <div>
-                  <span>
-                  <FormattedMessage
-                    id="state"
-                    defaultMessage="some default one"
-                    values={this.state.localeLang}
-                  />
-                  </span>
-                  {' '} - {' '}
-                  {this.state.loginData.user.state.state}
-                </div>
+                    <FormattedMessage
+                      id="state"
+                      defaultMessage="some default one"
+                      values={this.state.localeLang}
+                    />
+                  </Col>
+                  <Col span={16}>{this.state.loginData.user.state.state}</Col>
+                </Row>
               </div>
             ) : (
               ''

@@ -90,3 +90,17 @@ div.lang_select{
   display: flex;
   flex-direction: row;
 }
+.user_info_wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-around;
+}
+#dividing_line{
+  height: 324px;
+  top:137px;
+  left: 36%;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.103);
+  width: 1px;
+}

@@ -22,7 +22,12 @@
     "email": "Email",
     "state": "State",
     "phone": "Phone Number",
-    "district":"District"
+    "district":"District",
+    "location_add":"Add More Locations",
+    "map":"Map",
+    "currently_render":"Locations Currently Rendered",
+    "unresponsiveText": "Page might go unresponsive until new location are added",
+    "select_district":"Select District"
   },
   "hi": {
     "login": "लॉग इन",
@@ -47,6 +52,11 @@
     "email": "ईमेल",
     "state": "राज्य",
     "phone": "फ़ोन नंबर",
-    "district":"जिला"
+    "district":"जिला",
+    "location_add":"अधिक स्थान जोड़ें",
+    "map":"नक्शा",
+    "currently_render":"वर्तमान में प्रदान किए गए स्थान",
+    "unresponsiveText":"नया स्थान जोड़े जाने तक पृष्ठ अनुत्तरदायी हो सकता है",
+    "select_district":"जिला चुनें"   
   }
 }

@@ -18,12 +18,30 @@ class ChartComponent extends Component {
       return '#069d15';
     }
   }
+  getLable(status,lang){
+    let lable;
+   
+    if(lang=="hi"){
+      if (status == 'pending') {
+        lable='अनिर्णीत';
+      } else if (status == 'ongoing') {
+        lable='चल रही है';
+      } else if (status == 'completed') {
+        lable ='पूरित';
+      }
+    }
+    else{
+      lable=status.toUpperCase();
+    }
+    return lable;
+  }
   render() {
+  
     const chartData = {
       labels: !this.props.loading ? this.props.count.labels : null,
       datasets: [
         {
-          label: this.props.status.toUpperCase(),
+          label: [this.getLable(this.props.status,this.props.lang)],
           data: !this.props.loading ? this.props.count.data : null,
           backgroundColor: ['transparent'],
           borderColor: [this.borderColor(this.props.status)],

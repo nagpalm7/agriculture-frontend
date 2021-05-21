@@ -6,6 +6,8 @@ import Charts from './Charts';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import DropdownMenu from './Dropdown';
 import { Tooltip } from 'antd';
+import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
+import Languages from '../../languages.json';
 
 class Home extends Component {
   constructor(props) {
@@ -128,7 +130,7 @@ class Home extends Component {
         centerLat /= parseFloat(locs.data.length);
         centerLong /= parseFloat(locs.data.length);
       }
-    
+
       this.setState({
         ...this.state,
         locations: locs.data,
@@ -147,27 +149,33 @@ class Home extends Component {
   }
   render() {
     console.log(this.state);
-    return (
-      <div className="home-wrapper">
-        <Row style={{ marginBottom: '10px' }}>
-          <h2 style={{ fontWeight: 'bold', flex: 1, fontSize: 26 }}>Map</h2>
-          <DropdownMenu
-            districts={this.state.districts}
-            handleDistrictChange={this.handleDistrictChange}
-            style={{
-              borderRadius: '20px',
-            }}
-          />
-        </Row>
+    return this.props.lang ? (
+      <IntlProvider
+        locale={this.props.lang}
+        messages={Languages[this.props.lang]}>
+        <div className="home-wrapper">
+          <Row style={{ marginBottom: '10px' }}>
+            <h2 style={{ fontWeight: 'bold', flex: 1, fontSize: 26 }}>
+              {' '}
+              <FormattedMessage id="map" defaultMessage="Map_d" />
+            </h2>
 
-        <Row
-          className={
-            this.state.selectedDist == 'ALL DISTRICTS'
-              ? 'add_more_locs'
-              : 'add_more_locs no_disp'
-          }>
-          <Tooltip
-            title={`Add locations.Page might go unresponsive until new locations are rendered.`}>
+            <DropdownMenu
+              districts={this.state.districts}
+              lang={this.props.lang}
+              handleDistrictChange={this.handleDistrictChange}
+              style={{
+                borderRadius: '20px',
+              }}
+            />
+          </Row>
+
+          <Row
+            className={
+              this.state.selectedDist == 'ALL DISTRICTS'
+                ? 'add_more_locs'
+                : 'add_more_locs no_disp'
+            }>
             <Button
               disabled={!(this.state.times < 4)}
               style={{
@@ -180,60 +188,86 @@ class Home extends Component {
                 borderColor: 'rgb(224, 59, 59)',
               }}
               onClick={() => {
-                var n = this.state.locations.length;
-                var newLocs;
-                var times = this.state.times;
-                if (times == 1) {
-                  newLocs = this.state.locations.slice(n / 4 + 1, n / 2);
+                let text;
+                if (this.props.lang == 'hi') {
+                  text = 'नया स्थान जोड़े जाने तक पृष्ठ अनुत्तरदायी हो सकता है';
+                } else {
+                  text =
+                    'Page might go unresponsive until new location are added';
                 }
-                if (times == 2) {
-                  newLocs = this.state.locations.slice(n / 2 + 1, (3 * n) / 4);
-                }
-                if (times == 3) {
-                  newLocs = this.state.locations.slice((3 * n) / 4, n);
-                }
-                var upLocs = [...this.state.renderLocations, ...newLocs];
-                this.setState({
-                  ...this.state,
-                  renderLocations: upLocs,
-                  times: this.state.times + 1,
-                });
-              }}>
-              Add More Locations
-            </Button>
-          </Tooltip>
-
-          <div className="count_displayer">
-            * Locations currently rendered -{' '}
-            {this.state.renderLocations
-              ? this.state.renderLocations.length
-              : '0'}
-          </div>
-        </Row>
-        <Row justify="center" className="map_wrapper">
-          {!this.state.loading ? (
-            <>
-              <Col lg={18} sm={24} xs={24}>
-                <Map
-                  centerLong={this.state.centerLong}
-                  centerLat={this.state.centerLat}
-                  locations={
-                    this.state.selectedDist.toString() == 'ALL DISTRICTS'
-                      ? this.state.renderLocations
-                      : this.state.locations
+                message.warn(text);
+                setTimeout(() => {
+                  var n = this.state.locations.length;
+                  var newLocs;
+                  var times = this.state.times;
+                  if (times == 1) {
+                    newLocs = this.state.locations.slice(n / 4 + 1, n / 2);
                   }
-                />
-              </Col>
+                  if (times == 2) {
+                    newLocs = this.state.locations.slice(
+                      n / 2 + 1,
+                      (3 * n) / 4,
+                    );
+                  }
+                  if (times == 3) {
+                    newLocs = this.state.locations.slice((3 * n) / 4, n);
+                  }
+                  var upLocs = [...this.state.renderLocations, ...newLocs];
+                  this.setState({
+                    ...this.state,
+                    renderLocations: upLocs,
+                    times: this.state.times + 1,
+                  });
+                }, 100);
+              }}>
+              <FormattedMessage
+                id="location_add"
+                defaultMessage="some default one"
+                values={this.props.localeLang}
+              />
+            </Button>
 
-              <Col lg={6} sm={24} xs={24}>
-                <Charts selectedDist={this.state.selectedDist} />
-              </Col>
-            </>
-          ) : (
-            <Spin />
-          )}
-        </Row>
-      </div>
+            <div className="count_displayer">
+              <FormattedMessage
+                id="currently_render"
+                defaultMessage="Locations Currently Rendered"
+              />{' '}
+              -{' '}
+              {this.state.renderLocations
+                ? this.state.renderLocations.length
+                : '0'}
+            </div>
+          </Row>
+          <Row justify="center" className="map_wrapper">
+            {!this.state.loading ? (
+              <>
+                <Col lg={18} sm={24} xs={24}>
+                  <Map
+                    centerLong={this.state.centerLong}
+                    centerLat={this.state.centerLat}
+                    locations={
+                      this.state.selectedDist.toString() == 'ALL DISTRICTS'
+                        ? this.state.renderLocations
+                        : this.state.locations
+                    }
+                  />
+                </Col>
+
+                <Col lg={6} sm={24} xs={24}>
+                  <Charts
+                    lang={this.props.lang}
+                    selectedDist={this.state.selectedDist}
+                  />
+                </Col>
+              </>
+            ) : (
+              <Spin />
+            )}
+          </Row>
+        </div>
+      </IntlProvider>
+    ) : (
+      ''
     );
   }
 }

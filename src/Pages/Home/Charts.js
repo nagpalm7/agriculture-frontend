@@ -155,6 +155,7 @@ class Charts extends Component {
         <div>
           <ChartComponent
             status="pending"
+            lang={this.props.lang}
             processData={this.processData}
             count={this.state.pending_chart_data}
             loading={this.state.loading}
@@ -165,6 +166,7 @@ class Charts extends Component {
         <div>
           <ChartComponent
             status="ongoing"
+            lang={this.props.lang}
             processData={this.processData}
             count={this.state.ongoing_chart_data}
             loading={this.state.loading}
@@ -174,6 +176,7 @@ class Charts extends Component {
         <div>
           <ChartComponent
             status="completed"
+            lang={this.props.lang}
             processData={this.processData}
             count={this.state.completed_chart_data}
             loading={this.state.loading}
