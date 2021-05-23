@@ -198,6 +198,7 @@ class Login extends Component {
                     color: '#ffffff',
                     fontWeight: '500',
                   }}>
+                    {' '}
                   <FormattedMessage
                   id="login"
                   defaultMessage="some default one"

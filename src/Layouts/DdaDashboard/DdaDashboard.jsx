@@ -27,7 +27,7 @@ class DdaDashboard extends Component {
     console.log(this.props.loginData);
     return (<div>
     <Layout style={{ height: '100vh' }}>
-      <Sidebar collapsed={this.state.collapsed} type="dda_dashboard" pathname={this.props.history.location.pathname}/>
+      <Sidebar collapsed={this.state.collapsed}  lang={this.props.lang} type="dda_dashboard" pathname={this.props.history.location.pathname}/>
       <MyDrawer type="dda_dashboard" pathname={this.props.history.location.pathname} collapsed={this.state.collapsed} onClose={this.onClose}></MyDrawer> 
       <Layout
         className="site-layout"
@@ -36,8 +36,11 @@ class DdaDashboard extends Component {
           logout={this.props.logout}
           toggle={this.toggle}
           collapsed={this.state.collapsed}
+          oginData={this.props.loginData}
+          lang={this.props.lang}
+          setLang={this.props.setLang}
         />
-        <Contents loginData={this.props.loginData} history={this.props.history} role={4}/>
+        <Contents loginData={this.props.loginData}  lang={this.props.lang} history={this.props.history} role={4}/>
       </Layout>
     </Layout>
   </div>);

@@ -91,6 +91,8 @@ export default class App extends React.Component {
     delete localStorage.Role;
     delete sessionStorage.Role;
     delete localStorage.dda_id;
+    delete sessionStorage.loginData;
+    delete localStorage.loginData;
     delete sessionStorage.dda_id;
     this.toggleIsLoggedIn();
   };
