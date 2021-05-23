@@ -5,7 +5,11 @@ import Charts from './Charts';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import DropdownMenu from './Dropdown';
 import { Tooltip, Popover } from 'antd';
+import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
+import Languages from '../../languages.json';
 import './Home.css';
+
+
 class DDA_Home extends Component {
   constructor(props) {
     super(props);
@@ -74,34 +78,13 @@ class DDA_Home extends Component {
     });
   }
   render() {
-    const popoverContent = this.state.ddaInfo ? (
-      <div className="pop_dda_disp">
-        <div>Name : {this.state.ddaInfo.user.name}</div>
-        <div>Email : {this.state.ddaInfo.user.email}</div>
-        <div>Phone No : {this.state.ddaInfo.user.phone_number}</div>
-        <div>District : {this.state.ddaInfo.district.district}</div>
-        <div>State : {this.state.ddaInfo.user.state.state}</div>
-      </div>
-    ) : (
-      ''
-    );
+    console.log(this.state.ddaInfo);
+   
     return (
       <div className="home-wrapper">
         <Row style={{ marginBottom: '10px' }}>
           <h2 style={{ fontWeight: 'bold', flex: 1, fontSize: 26 }}>Map</h2>
-          {this.state.ddaInfo ? (
-            <Popover
-              placement="bottom"
-              content={popoverContent}
-              id="dda_disp_pop">
-              <div className="dda_info_disp">
-                <Avatar src={this.state.ddaInfo.user.image} />
-                <span>{this.state.ddaInfo.user.username}</span>
-              </div>
-            </Popover>
-          ) : (
-            ''
-          )}
+          
         </Row>
 
         <Row justify="center" className="map_wrapper">

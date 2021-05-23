@@ -45,12 +45,16 @@ class AdoDashboard extends Component {
               logout={this.props.logout}
               toggle={this.toggle}
               collapsed={this.state.collapsed}
+              loginData={this.props.loginData}
+              lang={this.props.lang}
+              setLang={this.props.setLang}
             />
             <Contents
               history={this.props.history}
               style={{ overflowY: 'scroll' }}
               role={3}
               loginData={this.props.loginData}
+              lang={this.props.lang}
             />
           </Layout>
         </Layout>

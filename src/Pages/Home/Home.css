@@ -27,19 +27,23 @@
   align-content: center;
 }
 .count_displayer {
-  font-size: 16px;
+  background-color:  rgba(224, 59, 59, 0.925);
+  color: rgb(245, 243, 255);
+  margin-bottom: 5px;
+  border-radius: 10px;
   font-weight: 600;
-  margin-bottom: 10px;
-  color: #e03b3bdc;
+  border-color: rgb(224, 59, 59);
+  padding: 6px;
+  margin-left: 7px;
 }
 .add_more_locs.no_disp {
   display: none;
 }
 .add_more_locs {
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: center;
+  align-items: baseline;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 .add_more_locs button {
   width: 150px;
