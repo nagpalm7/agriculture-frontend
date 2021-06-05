@@ -8,6 +8,8 @@ import { axiosInstance } from '../../utils/axiosIntercepter';
 import MainContent from '../../Components/MainContent/MainContent';
 import { ExclamationCircleOutlined, AlertTwoTone } from '@ant-design/icons';
 import VillageFilter from './VillageFilter';
+import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
+import Languages from '../../languages.json';
 const { confirm } = Modal;
 
 class Villages extends Component {
@@ -26,27 +28,57 @@ class Villages extends Component {
   }
   columns = [
     {
-      title: 'VILLAGES',
+      title: (
+        <FormattedMessage
+          id="village"
+          defaultMessage="some default one"
+          values={this.props.lang}
+        />
+      ),
       dataIndex: 'village',
       key: 'name',
     },
     {
-      title: 'VILLAGE CODE',
+      title: (
+        <FormattedMessage
+          id="village_code"
+          defaultMessage="some default one"
+          values={this.props.lang}
+        />
+      ),
       dataIndex: 'village_code',
       key: 'village_code',
     },
     {
-      title: 'VILLAGE SUBCODE',
+      title: (
+        <FormattedMessage
+          id="village_subcode"
+          defaultMessage="some default one"
+          values={this.props.lang}
+        />
+      ),
       dataIndex: 'village_subcode',
       key: 'village_subcode',
     },
     {
-      title: 'BLOCK',
+      title: (
+        <FormattedMessage
+          id="block"
+          defaultMessage="some default one"
+          values={this.props.lang}
+        />
+      ),
       dataIndex: 'block',
       key: 'block',
     },
     {
-      title: 'ADO',
+      title: (
+        <FormattedMessage
+          id="ado"
+          defaultMessage="some default one"
+          values={this.props.lang}
+        />
+      ),
       dataIndex: 'ado',
       key: 'ado',
       render: (ado) => {
@@ -54,7 +86,7 @@ class Villages extends Component {
       },
     },
     {
-      title: 'OPTIONS',
+      title: <FormattedMessage id="option" defaultMessage="some default one" />,
       key: 'operation',
       render: (text, record) => {
         return (
@@ -102,7 +134,7 @@ class Villages extends Component {
       icon: <AlertTwoTone />,
       content: villlageName,
       okText: 'Yes',
-      id:  'confirm_modal',
+      id: 'confirm_modal',
       okType: 'danger',
       cancelText: 'No',
       onOk() {
@@ -255,9 +287,18 @@ class Villages extends Component {
 
   render() {
     return (
-      <>
+      <IntlProvider
+        locale={this.props.lang}
+        messages={Languages[this.props.lang]}>
         <MainContent
-          title="Villages"
+          title={
+            <FormattedMessage
+              id="village"
+              defaultMessage="some default one"
+              values={this.props.lang}
+            />
+          }
+          lang={this.props.lang}
           addlink="/villages/add"
           filter={() => {
             return (
@@ -275,7 +316,7 @@ class Villages extends Component {
           onPageChange={this.onPageChange}
           onSearch={this.onSearch}
         />
-      </>
+      </IntlProvider>
     );
   }
 }

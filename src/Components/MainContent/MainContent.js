@@ -10,6 +10,8 @@ import cloud_logo from '../../assets/images/cloud.png';
 import search_solid from '../../assets/images/search-solid.svg';
 import { Progress } from 'antd';
 import LocationReport from './LocationReportModal';
+import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
+import Languages from '../../languages.json';
 import {
   SearchOutlined,
   FilterOutlined,
@@ -185,93 +187,10 @@ class MainContent extends Component {
     } = this.props;
     const searchClass = this.state.isFocused ? 'focused' : 'notFocused';
     return (
+      <IntlProvider
+      locale={this.props.lang}
+      messages={Languages[this.props.lang]}>
       <div style={{ backgroundColor: '#fff', borderRadius: 'inherit' }}>
-        {/* <PageHeader
-          className="site-page-header"
-          ghost={false}
-          title={title}
-          subTitle=""
-          style={{ borderRadius: '20px' }}
-          extra={[
-
-            !this.props.isLocation ? (
-              !this.props.isVillageUnderDistrict ? (
-                <Link to={addlink} key="1" >
-                  <MyButton
-                    text="Add"
-                    className="filled"
-                    style={{
-                      color: '#e03b3b',
-                      backgroundColor: '#f5f3ff',
-                      border: '0px',
-                    }}
-                  />
-                </Link>
-              ) : null
-            ) : (
-              <LocationReport status={this.props.locStatus}></LocationReport>
-            ),
-            !this.props.isVillageUnderDistrict ? (
-              <MyButton
-                key="2"
-                text="Add Bulk"
-                className="filled"
-                style={{
-                  color: '#e03b3b',
-                  backgroundColor: '#f5f3ff',
-                  border: '0px',
-                }}
-                onClick={this.showModal}
-              />
-            ) : null,
-            // <SearchOutlined />,
-            !this.props.isBlock ? (
-              //New Search Bar
-              <div className={`search-wrapper ${searchClass}`}>
-                <input
-                  type="text"
-                  id="fname"
-                  name="fname"
-                  placeholder="Search .."
-                  onChange={(e) => {
-                    this.setState({
-                      ...this.state,
-                      searchValue: e.target.value,
-                    });
-                  }}
-                  onKeyDown={this._handleKeyDown}
-                  onBlur={() => {
-                    this.setState({
-                      ...this.state,
-                      isFocused: false,
-                    });
-                  }}
-                  onFocus={() => {
-                    this.setState({
-                      ...this.state,
-                      isFocused: true,
-                    });
-                  }}
-                  className="search-Input"></input>
-                <div className="search_options">
-                
-                  <FilterComponent filter={this.props.filter}></FilterComponent>
-                  <div
-                    style={{ display: 'inline-block', marginLeft: '3px' }}
-                    className="search-button"
-                    onClick={() => {
-                      onSearch(this.state.searchValue);
-                    }}>
-                    <SearchOutlined />
-                  </div>
-                </div>
-              </div>
-            ) : null,
-          ]}>
-          <div className="small_size">
-            <SearchOutlined />
-          </div>
-        </PageHeader> */}
         <Row className="header_wrapper">
           <Col xs={24} sm={24} lg={4} md={3} style={{ marginBottom: '5px' }}>
             <span className="header_title">{title}</span>
@@ -285,7 +204,11 @@ class MainContent extends Component {
                 !this.props.isVillageUnderDistrict ? (
                   <Link to={addlink} key="1">
                     <MyButton
-                      text="Add"
+                      text={ <FormattedMessage
+                        id="add"
+                        defaultMessage="some default one"
+                        values={this.props.lang}
+                      />}
                       className="filled"
                       style={{
                         color: '#e03b3b',
@@ -305,7 +228,11 @@ class MainContent extends Component {
               {!this.props.isVillageUnderDistrict ? (
                 <MyButton
                   key="2"
-                  text="Add Bulk"
+                  text={<FormattedMessage
+                    id="add_bulk"
+                    defaultMessage="some default one"
+                    values={this.props.lang}
+                  />}
                   className="filled"
                   style={{
                     color: '#e03b3b',
@@ -356,7 +283,7 @@ class MainContent extends Component {
                       type="text"
                       id="fname"
                       name="fname"
-                      placeholder="Search .."
+                      placeholder={(this.props.lang=="hi")?("खोजें .."):("Search ..")}
                       onChange={(e) => {
                         this.setState({
                           ...this.state,
@@ -403,7 +330,11 @@ class MainContent extends Component {
           </Col>
         </Row>
         <Modal
-          title="You can upload a CSV file"
+          title={<FormattedMessage
+            id="uploadText"
+            defaultMessage="some default one"
+            values={this.props.lang}
+          />}
           centered
           visible={this.state.visible}
           onOk={this.handleOk}
@@ -424,7 +355,11 @@ class MainContent extends Component {
                 <div>
                   <img src={cloud_logo} />
                   <span>
-                    {this.state.isUploaded != null ? text() : 'Upload'}
+                    {this.state.isUploaded != null ? text() : <FormattedMessage
+            id="upload"
+            defaultMessage="some default one"
+            values={this.props.lang}
+          />}
                   </span>
                   <Progress
                     type="circle"
@@ -445,7 +380,11 @@ class MainContent extends Component {
                   backgroundColor: 'white',
                   border: '0px',
                 }}>
-                Cancel
+                <FormattedMessage
+            id="cancel"
+            defaultMessage="some default one"
+            values={this.props.lang}
+          />
               </Button>
             </div>,
             <div className="new_locations">
@@ -454,7 +393,11 @@ class MainContent extends Component {
                 : ''}
             </div>,
           ]}>
-          <p>click on upload button or drag & drop</p>
+          <p><FormattedMessage
+            id="uploadLowerText"
+            defaultMessage="some default one"
+            values={this.props.lang}
+          /></p>
           <input
             type="file"
             id="myfile"
@@ -476,7 +419,11 @@ class MainContent extends Component {
               border: '0px',
               width: '200px',
             }}>
-            Select File
+            <FormattedMessage
+            id="selectFile"
+            defaultMessage="some default one"
+            values={this.props.lang}
+          />
           </Button>
           <div className="file_name">{this.state.file_name}</div>
           <div className="err_mess">{err_text()}</div>
@@ -491,6 +438,7 @@ class MainContent extends Component {
           onPageChange={onPageChange}
         />
       </div>
+      </IntlProvider>
     );
   }
 }

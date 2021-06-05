@@ -9,8 +9,11 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import cross from '../../assets/images/cross-remove-sign.png';
 import BlockInfo from './components/blockInfo';
-const { confirm } = Modal;
+import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
+import Languages from '../../languages.json';
 
+const { confirm } = Modal;
+let lang;
 class District extends Component {
   constructor() {
     super();
@@ -22,32 +25,41 @@ class District extends Component {
       block_data: [],
     };
   }
-
   columns = [
     {
-      title: 'DISTRICTS',
+      title: (
+        <FormattedMessage id="districts" defaultMessage="some default one" />
+      ),
       dataIndex: 'district',
       key: 'district',
     },
     {
-      title: 'DISTRICT CODE',
+      title: (
+        <FormattedMessage
+          id="district_code"
+          defaultMessage="some default one"
+        />
+      ),
       dataIndex: 'district_code',
       key: 'district_code',
     },
     {
-      title: 'HAS BLOCK',
+      title: (
+        <FormattedMessage id="has_block" defaultMessage="some default one" />
+      ),
       dataIndex: '',
       key: '',
       render: (district) => {
         return (
           <BlockInfo
             district_id={district.id}
+            lang={lang}
             has_blocks={district.has_blocks}></BlockInfo>
         );
       },
     },
     {
-      title: 'OPTIONS',
+      title: <FormattedMessage id="option" defaultMessage="some default one" />,
       key: 'option',
       render: (text, record) => (
         <Space size="large">
@@ -173,10 +185,20 @@ class District extends Component {
     this.props.history.push(`/district/village/${record.id}`);
   };
   render() {
-    return (
-      <>
+    lang=this.props.lang;
+    return this.props.lang ? (
+      <IntlProvider
+        locale={this.props.lang}
+        messages={Languages[this.props.lang]}>
         <MainContent
-          title="District"
+          lang={this.props.lang}
+          title={
+            <FormattedMessage
+              id="district"
+              defaultMessage="some default one"
+              values={this.props.lang}
+            />
+          }
           addlink="/district/add"
           loading={this.state.loading}
           dataSource={this.state.districtData}
@@ -186,7 +208,9 @@ class District extends Component {
           onSearch={this.onSearch}
           onRowClick={this.onRowClick}
         />
-      </>
+      </IntlProvider>
+    ) : (
+      ''
     );
   }
 }

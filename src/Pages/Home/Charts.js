@@ -28,8 +28,8 @@ class Charts extends Component {
       completed_chart_data: { labels: [], data: [] },
     };
   }
-  processData = async (status) => {
-    console.log(this.props.selectedDist);
+  processData = async (status,selectedDist) => {
+    console.log(selectedDist);
     try {
       let startDate = '2019-02-01';
       let EndDate = moment().format(dateFormat);
@@ -42,7 +42,7 @@ class Charts extends Component {
         loading: false,
       });
       if (status == 'pending') {
-        if (this.props.selectedDist == 'ALL DISTRICTS') {
+        if (selectedDist == 'ALL DISTRICTS') {
           count.data.pending_count.map((value) => {
             this.setState((prevState) => ({
               pending_chart_data: {
@@ -75,7 +75,7 @@ class Charts extends Component {
           }
         }
       } else if (status == 'ongoing') {
-        if (this.props.selectedDist == 'ALL DISTRICTS') {
+        if (selectedDist == 'ALL DISTRICTS') {
           count.data.ongoing_count.map((value) => {
             this.setState((prevState) => ({
               ongoing_chart_data: {
@@ -108,7 +108,7 @@ class Charts extends Component {
           }
         }
       } else if (status == 'completed') {
-        if (this.props.selectedDist == 'ALL DISTRICTS') {
+        if (selectedDist == 'ALL DISTRICTS') {
           count.data.completed_count.map((value) => {
             this.setState((prevState) => ({
               completed_chart_data: {
@@ -159,6 +159,8 @@ class Charts extends Component {
             processData={this.processData}
             count={this.state.pending_chart_data}
             loading={this.state.loading}
+            selectedDist={this.props.selectedDist}
+
             allFlag={
               this.props.selectedDist == 'ALL DISTRICTS' ? true : false
             }></ChartComponent>
@@ -170,6 +172,7 @@ class Charts extends Component {
             processData={this.processData}
             count={this.state.ongoing_chart_data}
             loading={this.state.loading}
+            selectedDist={this.props.selectedDist}
             allFlag={this.props.selectedDist == 'ALL DISTRICTS' ? true : false}
           />
         </div>
@@ -179,6 +182,8 @@ class Charts extends Component {
             lang={this.props.lang}
             processData={this.processData}
             count={this.state.completed_chart_data}
+            selectedDist={this.props.selectedDist}
+
             loading={this.state.loading}
             allFlag={this.props.selectedDist == 'ALL DISTRICTS' ? true : false}
           />

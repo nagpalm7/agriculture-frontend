@@ -29,6 +29,7 @@ class Contents extends Component {
       if (this.props.role == 5) {
         return (
           <Villages
+            lang={this.props.lang}
             type="admin_villages"
             history={this.props.history}></Villages>
         );
@@ -37,11 +38,13 @@ class Contents extends Component {
           <Villages
             loginData={this.props.loginData}
             type="dda_villages"
+            lang={this.props.lang}
             history={this.props.history}></Villages>
         );
       } else if (this.props.role == 3) {
         return (
           <ADO_Villages
+          lang={this.props.lang}
             loginData={this.props.loginData}
             history={this.props.history}></ADO_Villages>
         );
@@ -55,13 +58,15 @@ class Contents extends Component {
         return (
           <DDA_Home
             loginData={this.props.loginData}
-            history={this.props.history}></DDA_Home>
+            history={this.props.history}
+            lang={this.props.lang}></DDA_Home>
         );
       } else if (this.props.role == 3) {
         return (
           <ADO_Home
             history={this.props.history}
-            loginData={this.props.loginData}></ADO_Home>
+            loginData={this.props.loginData}
+            lang={this.props.lang}></ADO_Home>
         );
       }
     };
@@ -73,18 +78,21 @@ class Contents extends Component {
         if (status == 'pending') {
           return (
             <Pending
+            lang={this.props.lang}
               history={this.props.history}
               type="admin_villages"></Pending>
           );
         } else if (status == 'ongoing') {
           return (
             <Ongoing
+            lang={this.props.lang}
               history={this.props.history}
               type="admin_villages"></Ongoing>
           );
         } else if (status == 'completed') {
           return (
             <Completed
+            lang={this.props.lang}
               history={this.props.history}
               type="admin_villages"></Completed>
           );
@@ -93,24 +101,27 @@ class Contents extends Component {
         if (status == 'pending') {
           return (
             <Dda_pending
+            lang={this.props.lang}
               history={this.props.history}
               loginData={this.props.loginData}></Dda_pending>
           );
         } else if (status == 'ongoing') {
-          return <Dda_ongoing history={this.props.history}></Dda_ongoing>;
+          return <Dda_ongoing lang={this.props.lang} history={this.props.history}></Dda_ongoing>;
         } else if (status == 'completed') {
-          return <Dda_completed history={this.props.history}></Dda_completed>;
+          return <Dda_completed lang={this.props.lang} history={this.props.history}></Dda_completed>;
         }
       } else {
         if (status == 'pending') {
           return (
             <Ado_Pending
+            lang={this.props.lang}
               history={this.props.history}
               type="ado_locations"></Ado_Pending>
           );
         } else if (status == 'completed') {
           return (
             <ADO_Completed
+            lang={this.props.lang}
               history={this.props.history}
               type="ado_locations"></ADO_Completed>
           );
@@ -121,6 +132,7 @@ class Contents extends Component {
       if (this.props.role == 5) {
         return (
           <ADO
+          lang={this.props.lang}
             history={this.props.history}
             loginData={this.props.loginData}
             type="admin_villages"></ADO>
@@ -128,6 +140,7 @@ class Contents extends Component {
       } else if (this.props.role == 4) {
         return (
           <ADO
+          lang={this.props.lang}
             history={this.props.history}
             loginData={this.props.loginData}
             type="dda_villages"></ADO>
@@ -147,22 +160,23 @@ class Contents extends Component {
               key={index}
               path={route.path}
               exact={route.exact}
-              children={<route.component history={this.props.history} />}
+              children={<route.component lang={this.props.lang} history={this.props.history} />}
             />
           ))}
-          <Route path="/" exact children={renderHome}></Route>
-          <Route path="/ado" exact children={renderAdo}></Route>
+          <Route path="/" exact lang={this.props.lang} children={renderHome}></Route>
+          <Route path="/ado" lang={this.props.lang} exact children={renderAdo}></Route>
           <Route
             path="/locations/ongoing/:villageId"
             exact
             component={renderReport}></Route>
-          <Route path="/villages" exact children={renderVillage}></Route>
+          <Route path="/villages" exact lang={this.props.lang} children={renderVillage}></Route>
           <Route
             path="/locations/ongoing"
             exact
+            lang={this.props.lang}
             children={renderLocation}></Route>
-          <Route path="/locations/pending" children={renderLocation}></Route>
-          <Route path="/locations/completed" children={renderLocation}></Route>
+          <Route path="/locations/pending" lang={this.props.lang} children={renderLocation}></Route>
+          <Route path="/locations/completed" lang={this.props.lang} children={renderLocation}></Route>
           <Redirect from="/" to="/" />
         </Switch>
       </Content>
