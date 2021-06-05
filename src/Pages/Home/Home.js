@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React,{ReactDOM, Component } from 'react';
 import { Row, Col, Spin, message, Select, Button, Divider } from 'antd';
 import './Home.css';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -13,7 +13,7 @@ import Languages from '../../languages.json';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXV2cmFqMW1hbm4iLCJhIjoiY2twaTB4MGZnMGlrYzJ2bzhzbDl6eHozNSJ9.TYOI0lrKgV6zmZRsBG1_qQ';
-
+let map; 
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -26,10 +26,15 @@ class Home extends Component {
       centerLat: 30.9002697,
       centerLong: 75.7165881,
       zoom: 6,
+      features:null,
     };
     this.mapContainer = React.createRef();
   }
-  setMapBox = (features, lat, lng) => {
+  updateMapBox=(features,lng,lat)=>{
+    map.removeLayer('clusters');
+    map.removeLayer('cluster-count');
+    map.removeLayer('unclustered-point');
+    map.removeSource('earthquakes');
 
     let geoData = {
       type: 'FeatureCollection',
@@ -41,21 +46,91 @@ class Home extends Component {
       },
       features: features,
     };
+    map.addSource('earthquakes',{
+      type: 'geojson',
+      data: geoData,
+      cluster: true,
+      clusterMaxZoom: 14,
+      clusterRadius: 50,
+    })
+    console.log(map.getSource('earthquakes'));
+    map.addLayer({
+      id: 'clusters',
+      type: 'circle',
+      source: 'earthquakes',
+      filter: ['has', 'point_count'],
+      paint: {
+        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+        // with three steps to implement three types of circles:
+        //   * Blue, 20px circles when point count is less than 100
+        //   * Yellow, 30px circles when point count is between 100 and 750
+        //   * Pink, 40px circles when point count is greater than or equal to 750
+        'circle-color': [
+          'step',
+          ['get', 'point_count'],
+          '#51bbd6',
+          100,
+          '#f1f075',
+          750,
+          '#f28cb1',
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,
+          100,
+          30,
+          750,
+          40,
+        ],
+      },
+    });
+
+    map.addLayer({
+      id: 'cluster-count',
+      type: 'symbol',
+      source: 'earthquakes',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12,
+      },
+    });
+
+    map.addLayer({
+      id: 'unclustered-point',
+      type: 'circle',
+      source: 'earthquakes',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#11b4da',
+        'circle-radius': 4,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff',
+      },
+    });
+  }
+  setMapBoxMount = () => {
+    let geoData = {
+      type: 'FeatureCollection',
+      crs: {
+        type: 'name',
+        properties: {
+          name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
+        },
+      },
+      features: this.state.features,
+    };
     let node = this.mapContainer.current;
-  
-    const map = new mapboxgl.Map({
+
+    map = new mapboxgl.Map({
       container: node,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
+      center: [this.state.centerLong, this.state.centerLat],
       zoom: this.state.zoom,
     });
-    map.on('move', () => {
-      this.setState({
-        lng: map.getCenter().lng.toFixed(4),
-        lat: map.getCenter().lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2),
-      });
-    });
+
     map.on('load', function () {
       map.addSource('earthquakes', {
         type: 'geojson',
@@ -166,7 +241,6 @@ class Home extends Component {
     this.setState({
       ...this.state,
       locations: geoData,
-      loading: false,
     });
   };
   fetchData = async () => {
@@ -207,14 +281,16 @@ class Home extends Component {
         centerLat /= parseFloat(locs.data.length);
         centerLong /= parseFloat(locs.data.length);
       }
-      this.setMapBox(features, centerLat, centerLong);
       this.setState({
         locations: features,
+        features:features,
         districts: dists.data,
         selectedDist: 'ALL DISTRICTS',
         loading: false,
         centerLat: centerLat,
         centerLong: centerLong,
+      },()=>{
+        this.setMapBoxMount();
       });
     } catch (e) {
       this.setState({
@@ -266,13 +342,14 @@ class Home extends Component {
       this.setState({
         ...this.state,
         locations: features,
+        features:features,
         selectedDist: e,
         loading: false,
         times: 1,
         centerLat: centerLat,
         centerLong: centerLong,
       },()=>{
-        this.setMapBox(features, centerLat, centerLong);
+        this.updateMapBox(features,centerLat,centerLong);
       });
     } else {
       url = `https://api.aflmonitoring.com/api/upload/locations/map/?district=${e}`;
@@ -302,6 +379,8 @@ class Home extends Component {
         centerLat /= parseFloat(locs.data.length);
         centerLong /= parseFloat(locs.data.length);
       }
+      this.updateMapBox(features,centerLat,centerLong);
+
       this.setState({
         ...this.state,
         locations: features,
@@ -309,9 +388,6 @@ class Home extends Component {
         loading: false,
         centerLat: centerLat,
         centerLong: centerLong,
-      },()=>{
-        this.setMapBox(features, centerLat, centerLong);
-
       });
     }
     message.info(`Showing data of district ${e}`);
