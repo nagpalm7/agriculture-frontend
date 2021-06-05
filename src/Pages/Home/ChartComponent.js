@@ -6,8 +6,9 @@ class ChartComponent extends Component {
     super(props);
   }
   componentDidMount() {
+    console.log(this.props.selectedDist);
     const { processData } = this.props;
-    processData(this.props.status);
+    processData(this.props.status,this.props.selectedDist);
   }
   borderColor(status) {
     if (status == 'pending') {

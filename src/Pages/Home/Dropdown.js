@@ -6,7 +6,6 @@ import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
 import Languages from '../../languages.json';
 const { Option } = Select;
 const MenuOptions = (districts) => {
-  console.log(districts);
   return districts
     ? districts.map((district) => {
         return <Option value={district.district}>{district.district}</Option>;
