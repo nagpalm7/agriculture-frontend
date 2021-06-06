@@ -82,7 +82,7 @@ class Sidebar extends Component {
               <Menu.Item
                 key="home"
                 icon={<HomeFilled />}
-                style={{ marginBottom: '20px', padding: '0px' }}>
+                style={{ marginBottom: '20px' }}>
                 <Link to="/">
                   {' '}
                   <FormattedMessage
@@ -218,7 +218,7 @@ class Sidebar extends Component {
             <Menu.Item
               key="home"
               icon={<HomeFilled />}
-              style={{ marginBottom: '20px', padding: '0px' }}>
+              style={{ marginBottom: '20px',borderRadius: '0px' }}>
               <Link to="/">Home</Link>
             </Menu.Item>
             <Menu.Item

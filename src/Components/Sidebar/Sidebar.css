@@ -12,8 +12,7 @@
   box-shadow: 7px 3px 4px -6px rgba(0, 0, 0, 0.144);
 }
 
-.side-menu-style {
-  padding: 20px 30px;
+ul.side-menu-style {
   text-align: left;
   margin-top: 80px;
   font-weight: 520;
