@@ -178,6 +178,7 @@ class DDA extends Component {
         <MainContent
           title="Dda"
           addlink="/dda/add"
+          lang={this.props.lang}
           loading={this.state.loading}
           dataSource={this.state.ddaData}
           columns={this.columns}

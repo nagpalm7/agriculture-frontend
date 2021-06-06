@@ -206,7 +206,7 @@ class MainContent extends Component {
                     <MyButton
                       text={ <FormattedMessage
                         id="add"
-                        defaultMessage="some default one"
+                        defaultMessage="Add"
                         values={this.props.lang}
                       />}
                       className="filled"
@@ -230,7 +230,7 @@ class MainContent extends Component {
                   key="2"
                   text={<FormattedMessage
                     id="add_bulk"
-                    defaultMessage="some default one"
+                    defaultMessage="Add Bulk"
                     values={this.props.lang}
                   />}
                   className="filled"

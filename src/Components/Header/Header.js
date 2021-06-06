@@ -35,8 +35,10 @@ class Headers extends Component {
       lang: null,
       isModalVisible: false,
       isPopOverVisible: false,
+      isLangModalVisible:false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.setLangModalVisible=this.setLangModalVisible.bind(this);
   }
   hide = () => {
     this.setState({
@@ -51,6 +53,13 @@ class Headers extends Component {
     this.setState({
       ...this.state,
       isModalVisible: !this.state.isModalVisible,
+    });
+  }
+ 
+  setLangModalVisible(){
+    this.setState({
+      ...this.state,
+      isLangModalVisible: !this.state.isLangModalVisible,
     });
   }
   componentDidMount() {
@@ -92,10 +101,31 @@ class Headers extends Component {
           className="site-layout-background"
           style={{ padding: '0 20px', background: '#fff', overflowX: 'auto' }}>
           <Modal
+            visible={this.state.isLangModalVisible}
+            onOk={this.setLangModalVisible}
+            onCancel={this.setLangModalVisible}
+            footer={[]} 
+      >
+        <div style={{paddingTop:'20px'}}>
+        <span>Select Language :</span>{' '}
+            <Select
+              style={{ width: '100px' }}
+              defaultValue={this.state.lang}
+              onChange={(e) => {
+                console.log(e);
+                this.setState({ ...this.state, lang: e });
+                this.props.setLang(e);
+              }}>
+              <Option value="hi">हिंदी</Option>
+              <Option value="en">English</Option>
+            </Select> 
+        </div>
+            
+          </Modal>
+          <Modal
             visible={this.state.isModalVisible}
             onOk={this.setModalVisible}
             onCancel={this.setModalVisible}
-            style={{ width: '80vw' }}
             footer={[]}>
             {this.state.loginData ? (
               <div className="pop_dda_disp">
@@ -114,7 +144,9 @@ class Headers extends Component {
                       values={this.state.localeLang}
                     />
                   </Col>
-                  <Col md={16} span={16}>{this.state.loginData.user.name}</Col>
+                  <Col md={16} span={16}>
+                    {this.state.loginData.user.name}
+                  </Col>
                   <Divider></Divider>
                   <Col span={8}>
                     {' '}
@@ -124,7 +156,7 @@ class Headers extends Component {
                       values={this.state.localeLang}
                     />
                   </Col>
-                  <Col span={16} >{this.state.loginData.user.email}</Col>
+                  <Col span={16}>{this.state.loginData.user.email}</Col>
                   <Divider></Divider>
                   <Col span={8}>
                     {' '}
@@ -134,7 +166,11 @@ class Headers extends Component {
                       values={this.state.localeLang}
                     />
                   </Col>
-                  <Col span={16}>{(this.state.loginData.user.phone_number)?this.state.loginData.user.phone_number:'NA'}</Col>
+                  <Col span={16}>
+                    {this.state.loginData.user.phone_number
+                      ? this.state.loginData.user.phone_number
+                      : 'NA'}
+                  </Col>
                   <Divider></Divider>
                   <Col span={8}>
                     {' '}
@@ -163,7 +199,12 @@ class Headers extends Component {
               )}
             </div>
             <div className="afl_name">AFL Monitoring</div>
-            <PopOver logout={this.props.logout}></PopOver>
+            <PopOver
+              logout={this.props.logout}
+              hide={this.hide}
+              setModalVisible={this.setModalVisible}
+              loginData={this.state.loginData}
+              setLangModalVisible={this.setLangModalVisible}></PopOver>
             <div className="largeScreenIcons">
               <Space>
                 <Link to="/comparison">
