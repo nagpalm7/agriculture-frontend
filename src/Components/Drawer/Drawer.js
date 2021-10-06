@@ -51,7 +51,7 @@ class MyDrawer extends Component {
                 key="home"
                 icon={<HomeFilled />}
                 style={{ marginBottom: '20px', padding: '0px' }}>
-                <Link to="/">Home</Link>
+                <Link to="/">Homee</Link>
               </Menu.Item>
               <Menu.Item
                 key="district"
