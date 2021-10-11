@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="104" height="31" viewBox="0 0 104 31">
+  <g id="Group_105" data-name="Group 105" transform="translate(-67 -226)">
+    <text id="District" transform="translate(99 251)" fill="#ef4e4e" font-size="23" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">District</tspan></text>
+    <path id="Icon_material-map" data-name="Icon material-map" d="M21.354,3.125l-.167.031L15.625,5.313,9.375,3.125,3.5,5.1a.525.525,0,0,0-.375.5v15.75a.516.516,0,0,0,.521.521l.167-.031,5.563-2.156,6.25,2.188L21.5,19.9a.525.525,0,0,0,.375-.5V3.646A.516.516,0,0,0,21.354,3.125ZM15.625,19.792l-6.25-2.2V5.208l6.25,2.2Z" transform="translate(63.875 230.517)" fill="#ef4e4e"/>
+  </g>
+</svg>

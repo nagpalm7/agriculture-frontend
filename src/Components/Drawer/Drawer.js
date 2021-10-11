@@ -10,6 +10,8 @@ import {
   VideoCameraFilled,
 } from '@ant-design/icons';
 import './Drawer.css';
+
+import {FaGithub} from  "react-icons/fa";
 const { SubMenu } = Menu;
 
 class MyDrawer extends Component {
@@ -51,11 +53,11 @@ class MyDrawer extends Component {
                 key="home"
                 icon={<HomeFilled />}
                 style={{ marginBottom: '20px', padding: '0px' }}>
-                <Link to="/">Homee</Link>
+                <Link to="/">Home</Link>
               </Menu.Item>
               <Menu.Item
                 key="district"
-                icon={<VideoCameraFilled />}
+                icon={<FaGithub />}
                 style={{ borderRadius: '0px', marginBottom: '20px' }}>
                 <Link to="/district">District</Link>
               </Menu.Item>
