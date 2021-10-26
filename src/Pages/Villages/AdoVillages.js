@@ -59,9 +59,9 @@ class ADO_Villages extends Component {
       render: (text, record) => {
         return (
           <Space size="large">
-            <Link to={`/villages/edit/${record.id}`}>
+            {/*<Link to={`/villages/edit/${record.id}`}>
               <img src={edit} alt="edit" className="icons" />
-            </Link>
+        </Link>*/}
             <img
               src={garbage}
               className="icons"

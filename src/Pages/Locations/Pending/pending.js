@@ -29,18 +29,14 @@ class Pending extends Component {
     };
   }
   columns = [
+    
     {
-      title: 'STATE',
-      dataIndex: 'state',
-      key: 'state',
-    },
-    {
-      title: 'BLOCK',
+      title: 'Block',
       dataIndex: 'block',
       key: 'block',
     },
     {
-      title: 'VILLAGE',
+      title: 'Village',
       dataIndex: 'village_name',
       key: 'village_name',
       render: (vill) => {
@@ -64,12 +60,12 @@ class Pending extends Component {
       },
     },
     {
-      title: 'DATE',
+      title: 'Date',
       dataIndex: 'acq_date',
       key: 'acq_date',
     },
     {
-      title: 'OPTIONS',
+      title: 'Edit',
       key: 'operation',
       render: (text, record) => {
         return (
@@ -77,12 +73,7 @@ class Pending extends Component {
             <Link to={`/locations/pending/edit/${record.id}`}>
               <img src={pencil} alt="edit" className="icons" />
             </Link>
-            <img
-              src={delete_logo}
-              className="icons"
-              alt="delete"
-              onClick={() => this.showDeleteConfirm(record.village, record.id)}
-            />
+           
           </Space>
         );
       },

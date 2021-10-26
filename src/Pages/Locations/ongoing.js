@@ -94,18 +94,14 @@ class Ongoing extends Component {
   };
 
   columns = [
+   
     {
-      title: 'STATE',
-      dataIndex: 'state',
-      key: 'state',
-    },
-    {
-      title: 'BLOCK',
+      title: 'Block',
       dataIndex: 'block',
       key: 'block',
     },
     {
-      title: 'VILLAGE',
+      title: 'Village',
       dataIndex: 'village_name',
       key: 'village_name',
       render: (vill) => {
@@ -149,12 +145,12 @@ class Ongoing extends Component {
       },
     },
     {
-      title: 'DATE',
+      title: 'Date',
       dataIndex: 'acq_date',
       key: 'acq_date',
     },
     {
-      title: 'STATUS',
+      title: 'Status',
       dataIndex: 'id',
       key: 'id',
       render: (loc_id) => {

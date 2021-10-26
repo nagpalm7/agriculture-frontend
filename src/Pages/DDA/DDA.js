@@ -27,12 +27,12 @@ class DDA extends Component {
       key: 'dda',
     },
     {
-      title: 'DISTRICT',
+      title: 'District',
       dataIndex: 'district',
       key: 'district',
     },
     {
-      title: 'PHONE',
+      title: 'Phone',
       dataIndex: 'phone',
       key: 'phone',
       render: (phone) => {
@@ -44,12 +44,12 @@ class DDA extends Component {
       },
     },
     {
-      title: 'EMAIL',
+      title: 'Email',
       key: 'email',
       dataIndex: 'email',
     },
     {
-      title: 'OPTIONS',
+      title: 'Options',
       key: 'option',
       render: (text, record) => {
         return (
@@ -70,6 +70,7 @@ class DDA extends Component {
   ];
 
   onSearch = (value) => {
+    console.log("bhavya");
     this.fetchDdaList(1, value);
     this.props.history.push({
       pathname: '/dda/',

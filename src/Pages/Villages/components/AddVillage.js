@@ -227,7 +227,13 @@ class AddVillages extends Component {
             <h3>
               <b>Ado</b>
             </h3>
-            <Form.Item name="adolist" style={{ marginBottom: '16px' }}>
+            <Form.Item name="adolist" style={{ marginBottom: '16px' }}
+            rules={[
+                {
+                  required: true,
+                  message: 'Please provide Ado name!',
+                },
+              ]}>
               <Select
                 showSearch
                 style={{ borderRadius: '7px', borderColor: '#707070' }}

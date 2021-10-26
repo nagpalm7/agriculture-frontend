@@ -10,6 +10,9 @@ import {
   VideoCameraFilled,
 } from '@ant-design/icons';
 import './Drawer.css';
+import {MdHolidayVillage} from  "react-icons/md";
+import {ImHome } from "react-icons/im";
+import {ImLocation } from "react-icons/im";
 
 import {FaGithub} from  "react-icons/fa";
 const { SubMenu } = Menu;
@@ -52,18 +55,18 @@ class MyDrawer extends Component {
               <Menu.Item
                 key="home"
                 icon={<HomeFilled />}
-                style={{ marginBottom: '20px', padding: '0px' }}>
+                style={{ marginBottom: '20px', padding: '0px', borderRadius: '0px',}}>
                 <Link to="/">Home</Link>
               </Menu.Item>
               <Menu.Item
                 key="district"
-                icon={<FaGithub />}
+                icon={<ImHome/>}
                 style={{ borderRadius: '0px', marginBottom: '20px' }}>
                 <Link to="/district">District</Link>
               </Menu.Item>
               <Menu.Item
                 key="villages"
-                icon={<UploadOutlined />}
+                icon={<MdHolidayVillage />}
                 style={{ borderRadius: '0px', marginBottom: '20px' }}>
                 <Link to="/villages">Villages</Link>
               </Menu.Item>
@@ -75,7 +78,7 @@ class MyDrawer extends Component {
               </Menu.Item>
               <Menu.Item
                 key="ado"
-                icon={<UserOutlined />}
+                icon={<ImLocation />}
                 style={{ borderRadius: '0px', marginBottom: '20px' }}>
                 <Link to="/ado">ADO</Link>
               </Menu.Item>
