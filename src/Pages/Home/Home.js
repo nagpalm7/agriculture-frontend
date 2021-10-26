@@ -394,7 +394,7 @@ class Home extends Component {
   };
   componentDidMount() {
     this.fetchData();
-    document.title = 'ALF - Home';
+    document.title = 'AFL - Home';
   }
   render() {
     return this.props.lang ? (

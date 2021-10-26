@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spin } from 'antd';
+import { Spin , message  } from 'antd';
 import { Line } from 'react-chartjs-2';
 import { axiosInstance } from '../../utils/axiosIntercepter';
 import './Analysis.css';
@@ -158,7 +158,8 @@ class Analysis extends Component {
   }
   handleOk = () => {
     this.setState({ loading: true });
-    this.fetchData('custom');
+    
+   
   };
 
   handleCancel = () => {
@@ -256,7 +257,14 @@ class Analysis extends Component {
                   }}
                   type="primary"
                   loading={this.state.loading}
-                  onClick={this.handleOk}>
+                  
+                  onClick={() => {
+                    if (this.state.start_date && this.state.end_date) {
+                      this.fetchData('custom');
+                    } else {
+                      message.warning('Please Choose Start and end dates!');
+                    }
+                  }}>
                   Submit
                 </Button>
               </div>,

@@ -332,7 +332,7 @@ class MainContent extends Component {
         <Modal
           title={<FormattedMessage
             id="uploadText"
-            defaultMessage="some default one"
+            defaultMessage="You can upload a CSV file"
             values={this.props.lang}
           />}
           centered
@@ -357,7 +357,7 @@ class MainContent extends Component {
                   <span>
                     {this.state.isUploaded != null ? text() : <FormattedMessage
             id="upload"
-            defaultMessage="some default one"
+            defaultMessage="upload"
             values={this.props.lang}
           />}
                   </span>
@@ -381,8 +381,8 @@ class MainContent extends Component {
                   border: '0px',
                 }}>
                 <FormattedMessage
-            id="cancel"
-            defaultMessage="some default one"
+            id="cencel"
+            defaultMessage="cancel"
             values={this.props.lang}
           />
               </Button>
@@ -395,12 +395,13 @@ class MainContent extends Component {
           ]}>
           <p><FormattedMessage
             id="uploadLowerText"
-            defaultMessage="some default one"
+            defaultMessage="click on upload button"
             values={this.props.lang}
           /></p>
           <input
             type="file"
             id="myfile"
+           
             style={{ display: 'none' }}
             ref={(inputFile) => (this.inputFile = inputFile)}
             name="myfile"
@@ -421,7 +422,7 @@ class MainContent extends Component {
             }}>
             <FormattedMessage
             id="selectFile"
-            defaultMessage="some default one"
+            defaultMessage="Select File"
             values={this.props.lang}
           />
           </Button>

@@ -119,26 +119,26 @@ class Report extends Component {
                   {/* {this.state.location_report.location.ado
                     ? this.state.location_report.location.ado.user.name
                     : 'No Info'} */}
-                |
+              <h1>  View Report</h1>
                 {/* {this.state.location_report.location.dda
                     ? this.state.location_report.location.dda.user.name
                     : 'No Info'} */}
                 {/* Submitted by DDA1011-DDA | Under Sh.Subhash | ADO */}
-                {/* </div> */} */
+                {/* </div> */} 
                 <Divider style={{ background: 'rgba(0, 0, 0, 0.467)' }} />
                 <div className="ado_details">
                   <h3>ADO Appointed</h3>
                   <div className="ado_about">
-                    <div>Name: Yuvraj Mann</div>
-                    <div>Email: yuvrajmann@gmail.com</div>
-                    <div>Phone: 100</div>
+                    <div>Name: Bhavya Nayyer</div>
+                    <div>Email: abc@gmail.com</div>
+                    <div>Phone: 000</div>
                   </div>
                 </div>
                 <div className="dda_details">
                   <h3>DDA Appointed</h3>
                   <div className="dda_about">
-                    <div>Name: Yuvraj Mann</div>
-                    <div>Email: yuvrajmann@gmail.com</div>
+                    <div>Name: Prateek Gupta</div>
+                    <div>Email: pr@gmail.com</div>
                     <div>Phone: 100</div>
                   </div>
                 </div>
@@ -152,7 +152,7 @@ class Report extends Component {
                       paddingLeft: '35px',
                       color: '#e03b3b',
                     }}>
-                    Edit
+                   
                   </Button>
                 </div>
               </Col>

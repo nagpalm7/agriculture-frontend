@@ -7,11 +7,17 @@ import {
   DownOutlined,
   TeamOutlined,
   VideoCameraFilled,
+  CompassOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
 import { IntlProvider, FormattedMessage, FormattedDate } from 'react-intl';
 import Languages from '../../languages.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {GiHutsVillage} from  "react-icons/gi";
+import {MdHolidayVillage} from  "react-icons/md";
+import {ImHome } from "react-icons/im";
+import {ImLocation } from "react-icons/im";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -94,7 +100,7 @@ class Sidebar extends Component {
               </Menu.Item>
               <Menu.Item
                 key="district"
-                icon={<VideoCameraFilled />}
+                icon={<ImHome/>}
                 style={{ borderRadius: '0px', marginBottom: '20px' }}>
                 <Link to="/district">
                   {' '}
@@ -107,7 +113,7 @@ class Sidebar extends Component {
               </Menu.Item>
               <Menu.Item
                 key="villages"
-                icon={<UploadOutlined />}
+                icon ={<MdHolidayVillage />}
                 style={{ borderRadius: '0px', marginBottom: '20px' }}>
                 <Link to="/villages">
                   <FormattedMessage
@@ -143,7 +149,7 @@ class Sidebar extends Component {
               </Menu.Item>
               <SubMenu
                 inlineCollapsed={true}
-                icon={<UserOutlined />}
+                icon={<ImLocation />}
                 title={<FormattedMessage
                   id="locations"
                   defaultMessage="some default one"

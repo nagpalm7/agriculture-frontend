@@ -62,7 +62,8 @@ class Login extends Component {
               sessionStorage.setItem('loginData', logData);
               sessionStorage.setItem('lang',this.state.localeLang);
             }
-            message.success('Login Successfull');
+            message.success('Login Successful');
+           // console.log('hi');
             this.props.toggleIsLoggedIn();
             this.props.setRole(role);
             this.props.setLoginData(res.data);

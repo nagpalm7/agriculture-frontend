@@ -48,7 +48,7 @@ class ADO extends Component {
       },
     },
     {
-      title: 'VILLAGES',
+      title: 'Villages',
       dataIndex: 'village_ado',
       key: 'village_ado',
       render: (villages) => {
@@ -76,7 +76,7 @@ class ADO extends Component {
       },
     },
     {
-      title: 'PHONE',
+      title: 'Phone',
       dataIndex: 'user',
       key: 'user',
       render: (user) => {
@@ -88,7 +88,7 @@ class ADO extends Component {
       },
     },
     {
-      title: 'EMAIL',
+      title: 'Email',
       key: 'user',
       dataIndex: 'user',
       render: (user) => {
@@ -96,7 +96,7 @@ class ADO extends Component {
       },
     },
     {
-      title: 'OPTIONS',
+      title: 'Options',
       key: 'user',
       dataIndex: 'user',
       render: (user) => {

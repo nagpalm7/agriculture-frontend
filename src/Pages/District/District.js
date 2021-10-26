@@ -77,6 +77,7 @@ class District extends Component {
     },
   ];
   onSearch = (value) => {
+    console.log("bhavya");
     this.fetchDistrictList(1, value);
     this.props.history.push({
       pathname: '/district/',
@@ -133,12 +134,27 @@ class District extends Component {
       },
     });
   };
-  fetchBlockData = (district_id) => {
+  fetchBlockData = (page,search = '') => {
     this.setState({ ...this.state, loading: true });
     axiosInstance
-      .get(`api/blocks-list/district/${district_id}/`)
+      .get(`api/blocks-list/district/?page=${page}&search=${search}`)
       .then((res) => {
-        return res.data;
+        console.log(res.data);
+        const ddaData = res.data.results.map((item) => {
+          return {
+            id: item.user.id,
+            
+            district: item.district.district,
+            
+           
+          };
+        });
+        this.setState({
+          ...this.state,
+          ddaData: ddaData,
+          loading: false,
+          totalCount: res.data.count,
+        });
       })
       .catch((err) => {
         this.setState({
@@ -147,6 +163,8 @@ class District extends Component {
         });
         if (err.response) {
           console.log(err.response);
+        } else {
+          console.log(err.message);
         }
       });
   };

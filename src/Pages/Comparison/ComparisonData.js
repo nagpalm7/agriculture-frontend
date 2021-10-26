@@ -58,8 +58,8 @@ class ComparisonData extends Component {
       ...this.state,
       NasaLinks: null,
       isModalOpen: false,
-      startDate: null,
-      endDate: null,
+     // startDate: "",
+     // endDate: "",
     });
   };
   handleCancel = () => {
@@ -67,8 +67,8 @@ class ComparisonData extends Component {
       ...this.state,
       links: null,
       isModalOpen: false,
-      startDate: null,
-      endDate: null,
+      //startDate: "",
+      //endDate: "",
     });
   };
   handleOpen = () => {
@@ -98,7 +98,7 @@ class ComparisonData extends Component {
         </Button>
         <Modal
           visible={this.state.isModalOpen}
-          onOk={this.handleOk}
+          //onOk={this.handleOk}
           onCancel={this.handleCancel}
           onOk={this.handleOk}
           footer={[

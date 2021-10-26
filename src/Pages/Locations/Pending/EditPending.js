@@ -34,6 +34,8 @@ class EditPending extends Component {
       children: children,
       isRendered: false,
       loading: false,
+      adoData: [],
+      children: children,
       page: 1,
       btnLoading: false,
       districtSlelectId: null,
@@ -57,9 +59,43 @@ class EditPending extends Component {
       });
     }
   };
+  fetchAdo = (page) => {
+    axiosInstance
+      .get(`/api/users-list/ado/?page=${page}`)
+      .then((res) => {
+        this.setState({ ...this.state, formLoading: false });
+        const adoData = res.data.results.map((item) => {
+          return {
+            ado: item.user.username,
+            id: item.user.id,
+          };
+        });
+        var children = [...this.state.children];
+        var length = children.length;
+
+        adoData.map((ado) => {
+          children.push(<Option key={ado.id}>{ado.ado}</Option>);
+        });
+        this.setState({ children: children }, () => {
+          if (length == res.data.count - 5) {
+            this.setState({ ...this.state, isRendered: true });
+          }
+
+          this.setState({ loading: false });
+        });
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, formLoading: false });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  };
   componentDidMount() {
     this.fetchLocationInfo();
-
+    this.fetchAdo(1);
     this.fetchDistrictData();
   }
   fetchDistrictData = () => {
@@ -175,12 +211,12 @@ class EditPending extends Component {
   };
   handleEditPending = (event) => {
     this.setState({ ...this.state, btnLoading: true });
-    const { district, village } = event;
+    const { district, village , adolist } = event;
+    console.log( adolist);
     let locationId = this.props.history.location.pathname.split('/')[4];
     axiosInstance
-      .put(`api/location/${locationId}/`, {
-        district_name: district,
-        village_name: village,
+      .put(`api/update/location/${locationId}`, {
+        ado : adolist,
       })
       .then((res) => {
         console.log(res);
@@ -236,65 +272,34 @@ class EditPending extends Component {
               style={{ width: '100%' }}
               ref={this.formRef}
               onFinish={this.handleEditPending}>
-              <Form.Item
-                name="district"
-                label="District"
-                style={{ marginBottom: '25px' }}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please provide district name!',
-                  },
-                ]}>
+             
+              <Form.Item  label=" Ado" name="adolist" style={{ marginBottom: '25px' }}
+            rules={[
+                {
+                  required: true,
+                  message: 'Please provide Ado name!',
+                },
+              ]}>
                 <Select
-                  showSearch
-                  placeholder="Select District"
-                  optionFilterProp="children"
-                  onChange={this.handleDistrictSelect}>
-                  {this.state.districtData
-                    ? this.state.districtData.map((item) => {
-                        return (
-                          <Option value={item.district_id}>
-                            {item.district_name}
-                          </Option>
-                        );
-                      })
-                    : null}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Village"
-                name="village"
-                style={{ marginBottom: '25px' }}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please provide district name!',
-                  },
-                ]}>
-                <Select
-                  showSearch
-                  placeholder="Select Village"
-                  optionFilterProp="children"
-                  onPopupScroll={this.onScroll}>
-                  {/* {this.state.villageData
-                    ? this.state.villageData.map((item) => {
-                        return (
-                          <Option value={item.village_id}>
-                            {item.village_name}
-                          </Option>
-                        );
-                      })
-                    : null} */}
-                  {!this.state.loading && !this.state.isRendered
-                    ? this.state.children
-                    : this.state.isRendered == true
-                    ? [...this.state.children]
-                    : [
-                        ...this.state.children,
-                        <Option key="loading">Loading...</Option>,
-                      ]}
-                </Select>
+                showSearch
+                style={{ borderRadius: '7px', borderColor: '#707070' }}
+                optionFilterProp="children"
+                onChange={this.handleChange}
+                onPopupScroll={this.onScroll}>
+                {!this.state.loading && !this.state.isRendered
+                  ? this.state.children
+                  : this.state.isRendered == true
+                  ? [
+                      ...this.state.children,
+                      <Option key="loaded">-------------------</Option>,
+                    ]
+                  : [
+                      ...this.state.children,
+                      <Option key="loading" style={{ textAlign: 'center' }}>
+                        <Spin spinning={true}></Spin>
+                      </Option>,
+                    ]}
+              </Select>
               </Form.Item>
               <Form.Item
                 style={{

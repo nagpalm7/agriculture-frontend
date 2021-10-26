@@ -47,7 +47,7 @@ class Block extends Component {
     confirm({
       title: 'Are you sure delete this block?',
       icon: <ExclamationCircleOutlined />,
-      content: block_code,
+      //content: block_code,
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
@@ -57,7 +57,7 @@ class Block extends Component {
           .delete(`api/block/${block_code}/`)
           .then((res) => {
             console.log(res);
-            message.success('District deleted successfully');
+            message.success('Block deleted successfully');
             instance.fetchBlockList();
           })
           .catch((err) => {

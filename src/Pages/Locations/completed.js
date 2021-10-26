@@ -17,17 +17,17 @@ class Completed extends Component {
 
   columns = [
     {
-      title: 'STATE',
+      title: 'State',
       dataIndex: 'state',
       key: 'state',
     },
     {
-      title: 'BLOCK',
+      title: 'Block',
       dataIndex: 'district',
       key: 'block',
     },
     {
-      title: 'VILLAGE',
+      title: 'Village',
       dataIndex: 'village_name',
       key: 'village_name',
     },
@@ -91,12 +91,12 @@ class Completed extends Component {
       },
     },
     {
-      title: 'DATE',
+      title: 'Date',
       dataIndex: 'acq_date',
       key: 'acq_date',
     },
     {
-      title: 'STATUS',
+      title: 'Status',
       render: () => {
         return (
           <Link to="/locations/ongoing/1601">
