@@ -390,7 +390,7 @@ class Home extends Component {
         centerLong: centerLong,
       });
     }
-    message.info(`Showing data of district ${e}`);
+    message.success(`Showing data of district ${e}`);
   };
   componentDidMount() {
     this.fetchData();
