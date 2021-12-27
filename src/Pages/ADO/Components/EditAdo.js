@@ -79,13 +79,13 @@ class EditAdo extends Component {
       .then((res) => {
         console.log(res);
         this.setState({ ...this.state, btnLoading: false });
-        message.success('Dda updated successfully');
+        message.success('Ado updated successfully');
         this.props.history.goBack();
       })
       .catch((err) => {
         this.setState({ ...this.state, btnLoading: false });
         if (err.response) {
-          message.error('Unable to update district');
+          message.error('Unable to update Ado');
           console.log(err.response);
         } else {
           message.error(err.message);

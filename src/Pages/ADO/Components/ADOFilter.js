@@ -34,6 +34,60 @@ class ADOFilter extends Component {
   handleOk = () => {
     this.setState({ isModalVisible: false });
   };
+  fetchAdoList = (page) => {
+    axiosInstance
+      .get(`/api/users-list/ado/?page=${page}`)
+      .then((res) => {
+        this.setState({ ...this.state, ado_loading: false });
+        const adoData = res.data.results.map((item) => {
+          return {
+            ado: item.user.username,
+            id: item.id,
+          };
+        });
+        var ado_children = [...this.state.ado_children];
+        var length = ado_children.length;
+
+        adoData.map((ado) => {
+          ado_children.push(
+            <Option key={ado.id} value={`${ado.ado}_${ado.id}`}>
+              {ado.ado}
+            </Option>,
+          );
+        });
+        this.setState({ ado_children: ado_children }, () => {
+          console.log(length);
+          let next = res.data.next;
+          if (next == null) {
+            this.setState({ ...this.state, isAdoRendered: true });
+          }
+
+          this.setState({ ado_loading: false });
+        });
+      })
+      .catch((err) => {
+        this.setState({ ...this.state, ado_loading: false });
+        if (err.response) {
+          console.log(err.response);
+        } else {
+          console.log(err.message);
+        }
+      });
+  };
+  onAdoScroll = (event) => {
+    var target = event.target;
+    if (
+      !this.state.ado_loading &&
+      !this.state.isAdoRendered &&
+      Math.ceil(target.scrollTop) + target.offsetHeight === target.scrollHeight
+    ) {
+      this.setState({ ado_loading: true }, () => {
+        target.scrollTo(0, target.scrollHeight);
+        this.fetchAdoList(this.state.adoPage + 1);
+        this.setState({ ...this.state, adoPage: this.state.adoPage + 1 });
+      });
+    }
+  };
   fetchDistricts = () => {
     this.setState({
       ...this.state,
@@ -58,6 +112,7 @@ class ADOFilter extends Component {
   };
   componentDidMount() {
     this.fetchDistricts();
+    this.fetchAdoList(1);
   }
 
   render() {

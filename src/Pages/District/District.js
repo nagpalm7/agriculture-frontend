@@ -81,7 +81,7 @@ class District extends Component {
     this.fetchDistrictList(1, value);
     this.props.history.push({
       pathname: '/district/',
-      search: `?page=${1}&search=${value}`,
+      search: `api/district-list/?search=${value}`,
      
     });
    

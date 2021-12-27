@@ -255,7 +255,7 @@ class AddDda extends Component {
     axiosInstance
       .post('/api/user/', {
         name: dda_name,
-        phone: dda_phone,
+        phone: dda_name,
         email: dda_email,
         username: dda_username,
         password: dda_password,
@@ -333,7 +333,13 @@ class AddDda extends Component {
             <h3>
               <b>Phone</b>
             </h3>
-            <Form.Item name="dda_phone" style={{ marginBottom: '10px' }}>
+            <Form.Item name="dda_phone" style={{ marginBottom: '10px' }}
+            rules={[
+                {
+                  required: true,
+                  message: 'Please provide Phone No!',
+                },
+              ]}>
               <Input placeholder="Phone Number" />
             </Form.Item>
             <h3>

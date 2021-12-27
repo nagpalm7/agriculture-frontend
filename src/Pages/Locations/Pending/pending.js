@@ -78,6 +78,8 @@ class Pending extends Component {
         );
       },
     },
+   
+
   ];
 
   onSearch = (value) => {

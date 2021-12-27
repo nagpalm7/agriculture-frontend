@@ -13,7 +13,7 @@ class BlockInfo extends Component {
   render() {
     const district_id = this.props.district_id;
     const has_blocks = this.props.has_blocks;
-    if (has_blocks == false) {
+    if (has_blocks == true) {
       return (
         <span style={{ paddingLeft: '40px' }}>
           <img src={cross} width={10}></img>
