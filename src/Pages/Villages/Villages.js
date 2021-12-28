@@ -138,12 +138,12 @@ class Villages extends Component {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        console.log('OK');
+        //console.log('OK');
         axiosInstance
           .delete(`/api/village/${villageId}/`)
           .then((res) => {
             console.log(res);
-            message.success('Village deleted successfully');
+            message.success('Village deleted succesfully');
             if (currentPage === undefined) {
               instance.fetchVillageList(1);
             } else {

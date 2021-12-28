@@ -357,7 +357,7 @@ class MainContent extends Component {
                   <span>
                     {this.state.isUploaded != null ? text() : <FormattedMessage
             id="upload"
-            defaultMessage="upload"
+            defaultMessage="Upload"
             values={this.props.lang}
           />}
                   </span>
@@ -382,7 +382,7 @@ class MainContent extends Component {
                 }}>
                 <FormattedMessage
             id="cencel"
-            defaultMessage="cancel"
+            defaultMessage="Cancel"
             values={this.props.lang}
           />
               </Button>

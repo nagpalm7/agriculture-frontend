@@ -25,6 +25,7 @@ class DDA extends Component {
       title: 'DDA',
       dataIndex: 'dda',
       key: 'dda',
+     
     },
     {
       title: 'District',

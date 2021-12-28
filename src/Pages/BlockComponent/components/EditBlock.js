@@ -67,7 +67,7 @@ class EditBlock extends Component {
       .then((res) => {
         console.log(res);
         this.setState({ ...this.state, btnLoading: false });
-        message.success('Block updated successfully');
+        message.success('Block updated sucessfully');
         this.props.history.goBack();
       })
       .catch((err) => {

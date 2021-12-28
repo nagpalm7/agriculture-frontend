@@ -70,7 +70,7 @@ class ADO_Villages extends Component {
             />
           </Space>
         );
-      },
+      }
     },
   ];
 

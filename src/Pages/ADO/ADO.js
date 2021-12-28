@@ -117,12 +117,23 @@ class ADO extends Component {
     },
   ];
   onSearch = (value) => {
+    let currentPage = this.props.history.location.search.split('=')[1];
+    let instance = this;
     this.props.history.push({
       pathname: '/ado/',
       search: `?page=${1}&search=${value}`,
     });
     const { district } = this.state.filters;
     let distId;
+    if(this.props.length==0)
+    {
+      if (currentPage === undefined) {
+        instance.fetchADO(1);
+      } else {
+        instance.fetchADO(currentPage);
+      }
+
+    }
     if (district) {
       distId = district.split('_')[1];
     }

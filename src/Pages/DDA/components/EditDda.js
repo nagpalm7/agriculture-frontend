@@ -164,7 +164,13 @@ class EditDda extends Component {
               <Form.Item
                 label="Phone Number"
                 name="dda_phone"
-                style={{ marginBottom: '25px' }}>
+                style={{ marginBottom: '25px' }}
+                   rules={[
+                  {
+                    required: true,
+                    message: 'Please provide phone number!',
+                  },
+                ]}>
                 <Input placeholder="Phone Number" />
               </Form.Item>
 

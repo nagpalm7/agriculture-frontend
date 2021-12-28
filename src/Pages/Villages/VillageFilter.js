@@ -191,6 +191,7 @@ class villageFilter extends Component {
             onFinish={(e) => {
               console.log(e);
               this.props.applyFilters(e);
+            this.handleOk();
             }}>
             {this.props.type == 'dda_villages' ? (
               ''
