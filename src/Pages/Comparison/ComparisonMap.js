@@ -42,7 +42,7 @@ const RenderMarkers = (markers) => {
 const Com_Map = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyAWt5MijImFgX6usJpYghouh-YhQ6WYuEQ&v=3.exp&libraries=geometry,drawing,places',
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyCRkZFl43s87wDjVv5IXYam1HQSImQ7CQE&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `100%` }} />,
     mapElement: <div style={{ height: `100%`, minHeight: 500 }} />,
